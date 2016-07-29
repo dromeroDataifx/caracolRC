@@ -1,0 +1,5 @@
+; $Id$
+name = Composicion Accionaria
+description = Importar composicion accionaria desde archivo
+package = Valorem
+core = "7.x"

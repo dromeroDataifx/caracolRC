@@ -1,0 +1,156 @@
+<?php
+/**
+ * @file
+ * Enables users to select a city step by step
+ */
+
+define('CITIES_VOCABULARY_NAME', 'department_city');
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function select_city_widget_field_widget_info() {
+  return array(
+    'select_city_field_widget' => array(
+      'label' => t('Select city widget'),
+      'field types' => array('taxonomy_term_reference'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function select_city_widget_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  switch ($instance['widget']['type']) {
+    case 'select_city_field_widget':       
+      $vocabulary = taxonomy_vocabulary_machine_name_load($field['settings']['allowed_values'][0]['vocabulary']);
+      $tree = taxonomy_get_tree($vocabulary->vid, 0, 1);
+      $options = array();
+      foreach ($tree as $term) {
+        $options[$term->tid] = $term->name;
+      }
+      if(!isset($form_state['values']['profile_periodista']['field_departamento_y_ciudad'])){
+        if (isset($items[$delta]['tid'])) {
+          $city_parents = taxonomy_get_parents($items[$delta]['tid']);
+           
+          if ($city_parents) {
+            $city_parent = current($city_parents);
+            $city_options = select_city_field_widget_get_state_cities($city_parent->tid);
+          }
+        }
+      }else{
+        $city_parent = $form_state['values']['profile_periodista']['field_departamento_y_ciudad'][und][0]['state'];
+        $city_options = select_city_field_widget_get_state_cities($city_parent);
+
+      }      
+
+      $form_state['element'] = $element;
+
+            
+      $form_state['field_name'] = $element['#field_name'];
+      $element['state'] = array(
+        '#type' => 'select',        
+        '#options' => $options,
+        '#default_value' => (isset($city_parent)) ? $city_parent->tid : 0,
+        '#title' => t('Department:'),
+        '#prefix' => '<div' . drupal_attributes(array('id' => 'select-city-field-widget-wrapper')) . '>',
+        '#empty_value' => 0,  
+        '#required' => TRUE,  
+        '#element_validate' => array('_widget_validate'),  
+        '#ajax' => array(
+          'wrapper' => 'select-city-field-widget-wrapper',
+          'callback' =>'select_city_field_widget_city_update',
+        ),
+      );
+      $element['tid'] = array(
+        '#type' => 'select',
+        '#options' => (isset($city_options)) ? $city_options : array(),
+        '#default_value' => isset($items[$delta]['tid']) ? $items[$delta]['tid'] : 0,       
+        '#title' => t('City:'),
+        '#empty_value' => 0,
+        '#required' => TRUE,    
+        '#element_validate' => array('_widget_validate'), 
+        '#suffix' => '</div>',
+      );
+      break;
+  }
+  return $element;
+}
+
+
+function _widget_validate($element , &$form_state) {
+ 
+  /*if ($form_state['values']['profile_periodista']['field_departamento_y_ciudad']['und'][0]['state'] == 0){
+    form_set_error('', t('The Department field is required.'));
+
+  }
+
+  if ($form_state['values']['profile_periodista']['field_departamento_y_ciudad']['und'][0]['tid'] == 0){
+    form_set_error('', t('The City field is required'));
+
+  }*/
+}
+
+
+
+function select_city_field_widget_city_update(&$form, &$form_state, $items, $delta) {
+  $values = (object) $form_state['values'];
+  $field_name = $form_state['field_name'];
+  $state = $values->profile_periodista['field_departamento_y_ciudad']['und'][0]['state'];   
+  $options = select_city_field_widget_get_state_cities($state);
+  $field_store_city = $form['profile_periodista'][$field_name];
+  $field_store_city[LANGUAGE_NONE][0]['tid']['#options'] = $options;
+ 
+
+  return  $field_store_city;
+}
+
+/**
+ * Returns the cities of a given state.
+ */
+function select_city_field_widget_get_state_cities($tid) {
+  $cities = taxonomy_get_children($tid);
+  $options = array();
+  $options[0] = t('-Select-');
+  foreach ($cities as $city) {
+    $options[$city->tid] = $city->name;
+  }
+  return $options;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function select_city_field_widget_field_formatter_info() {
+  return array(
+    'select_city_field_widget_simple_city_department_text' => array(
+      'label' => t('simple city department text'),
+      'field types' => array('taxonomy_term_reference'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function select_city_field_widget_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'select_city_field_widget_simple_city_department_text':
+      $string_to_display = '';
+      $city_term = taxonomy_term_load($items[0]['tid']);
+      $city_parents = taxonomy_get_parents($items[0]['tid']);
+      if ($city_parents) {
+        $city_parent = current($city_parents);
+        $string_to_display = $city_term->name . ' - ' . $city_parent->name;
+      }
+      $element[0]['string-to-display'] = array(
+        '#type' => 'html_tag',
+        '#tag' => 'p',
+        '#value' => $string_to_display,
+      );
+      break;
+  }
+  return $element;
+}

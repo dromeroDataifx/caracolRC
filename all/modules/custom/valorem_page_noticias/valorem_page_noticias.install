@@ -1,0 +1,37 @@
+<?php
+/*
+function valorem_page_noticias_schema()
+{ 
+  $schema = array();
+  $schema ['noticias'] = array(
+    'fields' => array(
+      'not_id' => array(
+        'type' => 'serial', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'not_fecha' => array(
+        'type' => 'varchar', 
+        'length' => 20, 
+        'not null' => TRUE,
+      ),
+      'not_title' => array(
+        'type' => 'varchar', 
+        'length' => 100, 
+        'not null' => TRUE, 
+      ),
+      'not_body' => array(
+        'type' => 'varchar', 
+        'length' => 200, 
+        'not null' => TRUE,
+      ),                       
+    ),      
+  ); 
+  return $schema;
+}
+function valorem_page_noticias_install() {
+
+}
+function valorem_page_noticias_uninstall() {
+  drupal_uninstall_schema('valorem_page_noticias');
+}*/

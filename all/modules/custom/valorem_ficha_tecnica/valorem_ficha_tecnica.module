@@ -1,0 +1,174 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ */
+function valorem_ficha_tecnica_menu() {
+  $items = array();
+  
+  $items['admin/config/user-interface/ficha_tecnica'] = array(
+    'title' => t('Ficha Tecnica'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('valorem_ficha_tecnica_form'),
+    'access callback' => TRUE,
+    'weight' => 12,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+function valorem_ficha_tecnica_form($form, &$form_state) {
+	$form = array();
+	$form['ficha_nombre'] = array(
+		'#title' => 'Nombre',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_nombre', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['ficha_fecha_inscripcion'] = array(
+		'#title' => 'Fecha Inscripción',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_fecha_inscripcion', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['ficha_tipo_emisor'] = array(
+		'#title' => 'Tipo Emisor',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_tipo_emisor', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['ficha_cantidad_acciones'] = array(
+		'#title' => 'Cantidad de acciones',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_cantidad_acciones', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['ficha_industria'] = array(
+		'#title' => 'Industria',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_industria', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['ficha_decretado'] = array(
+		'#title' => 'Decretado',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_decretado', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['ficha_forma_pago'] = array(
+		'#title' => 'Forma de pago',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_forma_pago', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['ficha_periodo_exdividendo'] = array(
+		'#title' => 'Periodo Exdividendo',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('ficha_periodo_exdividendo', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Guardar')
+	);
+		
+	return $form;
+}
+
+function valorem_ficha_tecnica_form_submit($form, &$form_state) {
+	variable_set('ficha_nombre', isset ($form_state['values']['ficha_nombre']) ? $form_state['values']['ficha_nombre'] : ''); 
+	variable_set('ficha_fecha_inscripcion', isset ($form_state['values']['ficha_fecha_inscripcion']) ? $form_state['values']['ficha_fecha_inscripcion'] : ''); 
+	variable_set('ficha_tipo_emisor', isset ($form_state['values']['ficha_tipo_emisor']) ? $form_state['values']['ficha_tipo_emisor'] : ''); 
+	variable_set('ficha_cantidad_acciones', isset ($form_state['values']['ficha_cantidad_acciones']) ? $form_state['values']['ficha_cantidad_acciones'] : ''); 
+	variable_set('ficha_industria', isset ($form_state['values']['ficha_industria']) ? $form_state['values']['ficha_industria'] : ''); 
+	variable_set('ficha_decretado', isset ($form_state['values']['ficha_decretado']) ? $form_state['values']['ficha_decretado'] : ''); 
+	variable_set('ficha_forma_pago', isset ($form_state['values']['ficha_forma_pago']) ? $form_state['values']['ficha_forma_pago'] : '');
+	variable_set('ficha_periodo_exdividendo', isset ($form_state['values']['ficha_periodo_exdividendo']) ? $form_state['values']['ficha_periodo_exdividendo'] : '');
+}
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_ficha_tecnica_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Ficha técnica')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+ function valorem_ficha_tecnica_block_view($delta = '') {
+   $block = array();
+   $block['subject'] = t('FICHA TÉCNICA');
+   $block['content'] =  ficha_tecnica_page();
+   return $block;
+ }
+ 
+ function ficha_tecnica_page() {
+	 return ficha_tecnica_tabla();
+ }
+
+function ficha_tecnica_tabla() {
+	//dpm($ficha_tecnica);
+  return '<p>' .   t(variable_get('ficha_descripcion', '')) . '</p>
+    <table class="views-table cols-2">
+      <tr class="even views-row-first">
+        <td class="title">' . t('Fecha Inscripción') . '</td>
+        <td class="valor">' . variable_get('ficha_fecha_inscripcion', '') . '</td>
+      </tr>
+      <tr class="odd">
+        <td class="title">' . t('Nombre') . '</td>
+        <td class="valor">' . variable_get('ficha_nombre', '') . '</td>
+      </tr>
+      <tr class="even">
+        <td class="title">' . t('Tipo Emisor') . '</td>
+        <td class="valor">' . t(variable_get('ficha_tipo_emisor', '')) . '</td>
+      </tr>
+      <tr class="odd">
+        <td class="title">' . t('Cantidad de acciones') . '</td>
+        <td class="valor">' . variable_get('ficha_cantidad_acciones', '') . '</td>
+      </tr>
+      <tr class="even odd views-row-last">
+        <td class="title">' . t('Industria') . '</td>
+        <td class="valor">' . t(variable_get('ficha_industria', '')) . '</td>
+      </tr>
+    </table><h5>' . t('Dividendos') . '</h5>
+    <table class="views-table cols-2">
+      <tr class="even views-row-first >
+        <td  width="100%"><p>' . variable_get('temporal', '') . '</p></td>
+      </tr>
+      <tr class="even odd views-row-last">
+        <td class="title">' . t('Decretado') . '</td>
+        <td class="valor">' . t(variable_get('ficha_decretado', '')) . '</td>
+      </tr>
+      <tr class="even odd views-row-last">
+        <td class="title">' . t('Forma de Pago') . '</td>
+        <td class="valor">' . t(variable_get('ficha_forma_pago', '')) . '</td>
+      </tr>
+      <tr class="even odd views-row-last">
+        <td class="title">' . t('Periodo exdividendo') . '</td> 
+        <td class="valor">' . t(variable_get('ficha_periodo_exdividendo', '')) . '</td>
+      </tr>
+    </table>';		
+}
+
+

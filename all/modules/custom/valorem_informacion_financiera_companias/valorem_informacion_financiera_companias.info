@@ -1,0 +1,5 @@
+; $Id$
+name = Validar Informacion Financiera de Companias 
+description = Valida la informacion Financiera de las Companias
+package = Valorem
+core = "7.x"

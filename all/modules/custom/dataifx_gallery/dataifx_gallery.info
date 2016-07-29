@@ -1,0 +1,19 @@
+name = DataiFX Galery
+description = Integrate dataifx_gallery 
+package = Data iFX
+core = 7.x
+dependencies[] = image
+dependencies[] = libraries (>1.0)
+
+scripts[] = js/dataifx_gallery.js
+stylesheets[all][] = css/dataifx_gallery.css
+
+; General Files
+files[] = dataifx_gallery.module
+files[] = dataifx_gallery.views.inc
+
+; Plugin Files
+files[] = plugins/dataifx_gallery_style_plugin.inc
+
+; Theme Files
+files[] = themes/dataifx_gallery.theme.inc

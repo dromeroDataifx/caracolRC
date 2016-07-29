@@ -1,0 +1,154 @@
+<?php
+
+function valorem_organigrama_permission() {
+  return array(
+    'organigrama_valorem' => array(
+      'title' => t('Organigrama'),
+      'description' => t('Perform Organigrama'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function valorem_organigrama_menu() {
+  $items = array();
+  $items['organigrama_valorem'] = array(
+    'title' => 'organigrama',
+    'page callback' => 'organigrama_page',
+    'access arguments' => array('organigrama_valorem'),
+  );
+  return $items;
+}
+
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_organigrama_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Organigrama')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_organigrama_block_view($delta = '') {
+  $block = array();
+  $block['subject'] = "ORGANIGRAMA";
+  $block['content'] =  organigrama_bloque();
+  //'<iframe src = "?q=organigrama_valorem" class= "organigrama" height="220px" width="100%" scrolling="no"></iframe>';
+  return $block;
+}
+
+function organigrama_bloque() {
+	drupal_add_js(drupal_get_path('module', 'valorem_organigrama') . '/js/valorem_organigrama.js');
+	drupal_add_js(drupal_get_path('module', 'valorem_organigrama') . '/js/jquery.jOrgChart.js');
+	drupal_add_js(drupal_get_path('module', 'valorem_organigrama') . '/js/prettify.js');
+	//drupal_add_css(drupal_get_path('module', 'valorem_organigrama') . '/css/custom.css');
+	drupal_add_css(drupal_get_path('module', 'valorem_organigrama') . '/css/prettify.css');
+	drupal_add_css(drupal_get_path('module', 'valorem_organigrama') . '/css/jquery.jOrgChart.css');
+	//drupal_add_css(drupal_get_path('module', 'valorem_organigrama') . '/css/bootstrap.min.css');
+	$res = '<ul id="org" style="display:none">
+		<li>JUNTA DIRECTIVA
+			<ul>
+				<li>PRESIDENTE
+   				<ul>
+   					<li>VICEPRESIDENCIA PLANEACIÓN
+   						<ul>
+   							<li>TECNOLOGÍA INFORMÁTICA</li>
+   							<li>PLANTACIÓN Y EVALUACIÓN PORTAFIO</li>
+   						</ul>		
+   					</li>
+   					<li>VICEPRESIDENCIA JURIDICA
+   						<ul>
+   							<li>ASUNTOS PENSIONALES</li>
+   							<li>ABOGADOS</li>
+   						</ul>
+   					</li>
+   					<li>DIVISION TESORERIA</li>
+   					<li>VICEPRESIDENCIA FINANCIERA Y ADMINISTRATIVA
+   						<ul>
+   							<li>IMPUESTOS</li>
+   							<li>CONTABILIDAD</li>
+   							<li>PERSONAL APOYO SERVICIOS GERENCIALES</li>
+   						</ul>		
+   					</li>
+   				</ul> <!-- empleado fin -->
+				</li>
+			</ul> <!-- gerente fin -->
+		</li>
+	</ul>			
+	<div id="chart" class="orgChart"></div>';
+	
+	return $res;
+}
+ 
+function organigrama_page() {
+	drupal_add_js(drupal_get_path('module', 'valorem_organigrama') . '/js/valorem_organigrama.js', array('scope' => 'footer'));
+  $organigrama = taxonomy_get_tree(4);
+  $i = 0;
+  drupal_add_js('http://www.google.com/jsapi', 'external');
+  $res = '
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages: ["orgchart"]});
+    </script>
+    <script type="text/javascript">
+    function drawVisualizationOR() {
+      var data = new google.visualization.DataTable();
+      data.addColumn("string", "Name");
+      data.addColumn("string", "Manager");
+      data.addColumn("string", "ToolTip");
+      data.addRows('.count($organigrama).');
+      ';
+      foreach ($organigrama as $key => $value) {
+        if ($value->parents[0] == 0) {
+          $res .= '
+            data.setCell('.$i.', 0, "'.$value->name.'");
+            data.setCell('.$i.', 2, "'.$value->description.'");';
+          } else {
+            $padre = taxonomy_term_load($value->parents[0]); 
+            $res .= '
+              data.setCell('.$i.', 0, "'.$value->name.'");
+              data.setCell('.$i.', 1, "'.$padre->name.'");
+              data.setCell('.$i.', 2, "'.$value->description.'");
+            ';
+          }
+        $i++;
+      }
+    $res .= '
+      new google.visualization.OrgChart(document.getElementById("visualization4")).
+      draw(data, {allowHtml: true, allowCollapse: false});
+    }       
+    jQuery(document).ready(function() {       
+      google.setOnLoadCallback(drawVisualizationOR);  
+    });
+			
+    </script>
+    <div id="visualization4"></div>';
+    //<div id = "texto_organigrama"></div>';
+    //, size: "small"
+    
+    
+  return $res;
+}
+
+function valorem_organigrama_css_alter(&$css) {
+  if (current_path() == 'organigrama_valorem') { 
+    foreach ($css as $key => $value) {
+      if ($key != 'sites/all/themes/theme_valorem/css/styles-valorem.css') {
+        unset($css[$key]);
+      }
+    }
+  }
+}
+
+function valorem_organigrama_js_alter(&$javascript) {
+  if (current_path() == 'organigrama_valorem') {
+    unset($javascript['sites/all/modules/contrib/admin_menu/admin_menu.js']['data']);
+  }
+}

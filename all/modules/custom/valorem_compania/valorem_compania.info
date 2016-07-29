@@ -1,0 +1,5 @@
+; $Id$
+name = Compania 
+description = Compania (misión, visión, valores)
+package = Valorem
+core = "7.x"

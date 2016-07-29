@@ -1,0 +1,4 @@
+name = Update Profile First Time
+description = When updating profile first time send welcome mail
+core = 7.x
+package = Caracol

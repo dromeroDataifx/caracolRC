@@ -1,0 +1,778 @@
+<?php
+
+/**
+* Implements hook_init().
+*/
+function valorem_portafolio_companias_init() {
+	drupal_add_library('system', 'drupal.ajax');
+	
+	if (current_path() == 'node/' . _valorem_portafolio_compania_compania_nodo_portafoliocompanias() || current_path() == 'node/32') {
+		drupal_add_css(drupal_get_path('module', 'valorem_portafolio_companias') . '/css/style.css');
+		drupal_add_js(drupal_get_path('module', 'valorem_portafolio_companias') . '/lib/jquery-1.4.2.min.js');
+		drupal_add_js(drupal_get_path('module', 'valorem_portafolio_companias') . '/lib/jquery.jcarousel.min.js');	
+		drupal_add_js(drupal_get_path('module', 'valorem_portafolio_companias') . '/js/valorem_portafolio_companias.js');
+		//drupal_add_js(drupal_get_path('module', 'valorem_portafolio_companias') . '/js/jquery.cycle.all.min.js');
+	}
+}
+/**
+* Implements hook_block_info
+*/
+function valorem_portafolio_companias_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Portafolio 1')
+  );
+  $blocks['info2'] = array(
+    'info' => t('Portafolio 2')
+  );
+	$blocks['info3'] = array(
+    'info' => t('Portafolio 3')
+  );
+	$blocks['info4'] = array(
+    'info' => t('Portafolio 4')
+  );
+	$blocks['info5'] = array(
+    'info' => t('Portafolio 5')
+  ); 
+  return $blocks;
+}
+
+/**
+* Implements hook_block_view
+*/
+function valorem_portafolio_companias_block_view($delta) {
+  $block = array();
+  switch ($delta) {
+    case 'info':
+      //$block['subject'] = '<h2 class = "block-title"><p class = "title">PORTAFOLIO DE COMPANIAS</p></h2>';
+      $block['content'] = '<div class = "block-valorem-portafolio-companias-info">
+      	<h2 class = "block-title"><p class = "title">' . t('PORTAFOLIO DE COMPANIAS') . '</p></h2>
+      	<div class = view-filters>' . _valorem_portafolio_compania_sector_form() . '</div>' 
+      	.	'<div class ="view-content">' ._valorem_portafolio_compania_sectores(). '</div></div>';
+      break;
+    case 'info2':
+      $block['subject'] = '<p class = "title">' . t('SELECCIONE LA COMPANIA') . '</p>'. drupal_render(_valorem_portafolio_compania_companias());
+      $block['content'] = '<h7>Descripción</h7><div>'._valorem_portafolio_compania_companias_content().'</div>';
+      break;
+		case 'info3':
+      $block['subject'] = '';
+      $block['content'] = _valorem_portafolio_compania_graficas();
+      break;
+		case 'info4':
+      //$block['subject'] = '';
+      $block['content'] = '<div class = "block-valorem-portafolio-companias-info">
+      	<h2 class = "block-title"><p class = "title">' . t('PORTAFOLIO DE COMPANIAS') . '</p></h2>
+      	<div class = view-filters>' . _valorem_portafolio_compania_sector_form2() . '</div>' 
+        . '<div class ="view-content">' ._valorem_portafolio_compania_sectores2(). '</div></div>';
+		  break;
+			case 'info5':
+      //$block['subject'] = '';
+      $block['content'] = '<div class = "block-valorem-portafolio-companias-info">
+      	<h2 class = "block-title"><p class = "title">' . t('PORTAFOLIO DE COMPANIAS') . '</p></h2>
+      	<div class = view-filters>' . ajax_example_render_link() . '</div></div>
+      	<div class ="view-content">' ._valorem_portafolio_compania_logos(0). '</div>';
+		  break;
+    default:
+      # code...
+      break;
+  }
+	return $block;
+}
+
+function _valorem_portafolio_compania_sectores() {
+	if (isset($_GET['tid'])) {
+		return _valorem_portafolio_compania_imagenes_companias($_GET['tid']);
+	} else {
+		return '<div class = "view-empty">' . t('Valórem es una Sociedad anónima cuyas acciones están inscritas en la Bolsa de Valores de Colombia, administrada bajo la filosofía de un Fondo de Inversión.') .'<br>' . '
+      ' . t('La compañía gestiona activamente un portafolio de inversiones de compañías en Colombia y en el exterior, siendo un vehículo clave para la atracción de inversión extranjera en Colombia.') . '</div>';	
+	}
+	//return drupal_get_form('_valorem_portafolio_compania_sector_form');
+}
+
+function _valorem_portafolio_compania_imagenes_companias($tid) {
+
+	$posicionIngles = strpos(request_uri(),'en-gb');
+	$idioma = 'es';
+    if ($posicionIngles>=0 && is_numeric($posicionIngles) ) {
+      $idioma = 'en-gb';
+    } else {
+	  $idioma = 'es';
+    }
+	
+	$query = db_select('field_data_field_sector', 'n');
+	$query->join('node', 'no', 'n.entity_id = no.nid') ;
+    $query->fields('n', array('entity_id'));
+    $query->condition('bundle', 'compania','=');
+    $query->condition('field_sector_tid', $tid,'=');
+	$query->condition('no.language', $idioma,'=');
+    $res = $query->execute();
+
+	
+	$fid = array();
+  foreach ($res as $key => $empresa) {
+		//dpm($value->entity_id);
+		$res2 = db_select('field_data_field_logo', 'n')
+    ->fields('n', array('field_logo_fid'))
+    ->condition('bundle', 'compania','=')
+    ->condition('entity_id', $empresa->entity_id,'=')
+    ->execute()
+		->fetchAssoc();
+		$fid[] = $res2['field_logo_fid'];
+	}
+	$imagenes = file_load_multiple($fid);
+	global $base_url;
+	$count = count($imagenes);
+	$logos = '<div id="mycarousel" class="jcarousel-skin-tango numero_imagenes-4"><table><tr>';
+	
+	$i = 1;
+    foreach ($imagenes as $key => $value) {
+
+	if($i%4==1 && $i>1) {
+		$logos .= '</tr></table><table><tr>';
+	}
+
+
+  		/*$entity_id = db_select('field_data_field_logo', 'n')
+      ->fields('n', array('entity_id'))
+      ->condition('bundle', 'compania','=')
+      ->condition('field_logo_fid', $value->fid,'=')
+      ->execute()
+  		->fetchAssoc();*/
+		
+		$query = db_select('field_data_field_logo', 'n');
+		$query->join('node', 'no', 'n.entity_id = no.nid') ;
+        $query->fields('n', array('entity_id'));
+        $query->condition('bundle', 'compania','=');
+        $query->condition('field_logo_fid', $value->fid,'=');
+		$query->condition('no.language', $idioma,'=');
+        $res = $query->execute()->fetchAssoc();
+  				
+     	if ($key == $_GET['tid']) {
+				$tid = 'active';
+			}
+      $logos .= '<td><a href = "'.$base_url.'/?q='.$idioma.'/'.current_path().'&tid='.$_GET['tid'].'&nid='.$res["entity_id"].'">'.
+      theme('image_style', array('style_name' => 'image_compania', 'path' => $value->filename)) .'</a></td>';
+	$i++;
+  }
+	return $logos . '</tr></table></div>';
+}
+
+function _valorem_portafolio_compania_sector_form() {
+
+	$posicionIngles = strpos(request_uri(),'en-gb');
+	$idioma = 'es';
+    if ($posicionIngles>=0 && is_numeric($posicionIngles) ) {
+      $idioma = 'en-gb';
+    } else {
+	  $idioma = 'es';
+    }
+
+	$sector = _valorem_portafolio_compania_sector();
+	$res = '<div><label>' . t('Seleccione Sector') . '</label>';
+	global $base_url;
+	$i = 1;
+	foreach ($sector as $key => $value) {
+		$tid = '';
+		if (isset ($_GET['tid'])) {
+			if ($key == $_GET['tid']) {
+				$tid = 'active';
+			}	
+		}
+		if ($i == 1) {
+			$res .= '<div class ="flecha ' . $key . ' first"><a href = "
+	  	'.$base_url.'/?q=' . $idioma . '/'.current_path().'&tid='.$key.'&nid='.(isset($_GET['nid']) ? $_GET['nid'] : _valorem_portafolio_compania_compania_nodo_inicial()) . '" class = "'.$tid.'">
+      ' . $value . '</a></div>';
+		}
+		if ($i != 1 && $i != count($sector)) {
+			$res .= '<div class ="flecha ' . $key . '"><a href = "
+	  	'.$base_url.'/?q=' . $idioma . '/'.current_path().'&tid='.$key.'&nid='.(isset($_GET['nid']) ? $_GET['nid'] : _valorem_portafolio_compania_compania_nodo_inicial()) . '" class = "'.$tid.'">
+      ' . $value . '</a></div>';
+		}
+		if ($i == count($sector)) {
+			$res .= '<div class ="flecha ' . $key . ' last"><a href = "
+	  	'.$base_url.'/?q=' . $idioma . '/'.current_path().'&tid='.$key.'&nid='.(isset($_GET['nid']) ? $_GET['nid'] : _valorem_portafolio_compania_compania_nodo_inicial()) . '" class = "'.$tid.'">
+      ' . $value . '</a></div>';
+		}
+		$i++;
+	}
+	return $res . '</div>';
+}
+
+// ***********   Arrelo de sectores  ***************
+	
+function _valorem_portafolio_compania_sector() {
+	$sector_data = taxonomy_get_tree(3);
+	$sector = array();
+	//$sector['select'] = '...';
+	foreach ($sector_data as $key => $value) {
+		$sector[$value->tid] = t($value->name);
+	}
+	return $sector;
+}
+
+// **********  informacion de companias   ***************
+
+function _valorem_portafolio_compania_companias() {
+	if (isset ($_GET['tid'])) {
+		$tid = isset ($_GET['tid']);
+		return drupal_get_form('_valorem_portafolio_compania_compania_form');
+	} else {
+		return drupal_get_form('_valorem_portafolio_compania_compania_form');
+	}
+	return 'entro';
+}
+
+function _valorem_portafolio_compania_compania_nodo_inicial() {
+
+	$idioma = strpos(request_uri(),'en-gb');
+	if ($idioma>=0 && is_numeric($idioma) ) {
+		$idioma = 'en-gb';
+	} else {
+		$idioma = 'es';
+	}
+
+	$nodoInicial = array('es'=>46,'en-gb'=>229);
+	
+	return $nodoInicial[$idioma];
+
+}
+
+function _valorem_portafolio_compania_compania_nodo_portafoliocompanias() {
+
+	$idioma = strpos(request_uri(),'en-gb');
+	if ($idioma>=0 && is_numeric($idioma) ) {
+		$idioma = 'en-gb';
+	} else {
+		$idioma = 'es';
+	}
+
+	$nodoInicial = array('es'=>33,'en-gb'=>186);
+	
+	return $nodoInicial[$idioma];
+
+}
+
+function _valorem_portafolio_compania_compania_form($form, &$form_state) {
+	
+	
+	
+	
+	$compania = _valorem_portafolio_compania_compania();
+		$form = array();
+		$form['compania'] = array(
+      '#type' => 'select',
+      '#options' => $compania,
+      '#default_value' => isset($_GET['nid']) ? $_GET['nid'] : _valorem_portafolio_compania_compania_nodo_inicial(),
+    );
+		$form['submit'] = array(
+			'#type' => 'submit', 
+			'#value' => t('Consultar')
+		);	
+	return $form;
+}
+
+function _valorem_portafolio_compania_compania() {
+
+	//Determinamos idioma del portal
+	
+	$posicionIngles = strpos(request_uri(),'en-gb');
+	$idioma = 'es';
+    if ($posicionIngles>=0 && is_numeric($posicionIngles) ) {
+      $idioma = 'en-gb';
+    } else {
+	  $idioma = 'es';
+    }
+
+
+	$result = db_query(
+			"SELECT nid, title FROM node WHERE type = 'compania' AND status =1 AND language='" . $idioma . "'");
+	$compania = array();
+	$compania['select'] = '...';
+	foreach ($result as $key => $value) {
+		$compania[$value->nid] = $value->title;
+	}
+	return $compania;
+}
+
+function _valorem_portafolio_compania_compania_form_submit($form, &$form_state) {
+
+	
+$posicionIngles = strpos(request_uri(),'en-gb');
+	$idioma = 'es';
+    if ($posicionIngles>=0 && is_numeric($posicionIngles) ) {
+      $idioma = 'en-gb';
+    } else {
+	  $idioma = 'es';
+    }
+
+	$nid = $form_state['values']['compania'];
+	$res = db_query("
+		SELECT field_sector_tid FROM field_data_field_sector WHERE entity_type = 'node' AND entity_id =". $nid);
+	$tid = isset ($_GET['tid']) ? $_GET['tid'] : '';
+	foreach ($res as $key => $value) {
+		$tid = $value->field_sector_tid;	
+	}
+	$form_state['redirect'] = array( 'node/' . _valorem_portafolio_compania_compania_nodo_portafoliocompanias(), array(
+	'query' => array('tid'=>$tid, 'nid'=>$nid)));
+}
+
+function _valorem_portafolio_compania_companias_content() {
+
+	if (isset($_GET['nid'])) {
+		$res2 = db_select('field_data_field_logo', 'n')
+	    ->fields('n', array('field_logo_fid'))
+	    ->condition('bundle', 'compania','=')
+	    ->condition('entity_id', $_GET['nid'],'=')
+	    ->execute()
+			->fetchAssoc();
+		$nodo = node_load($_GET['nid']);
+		if ($nodo != NULL) {
+			$contenido = isset($nodo->body['und'][0]['safe_value']) ? $nodo->body['und'][0]['safe_value'] : NULL;
+			$img = file_load($res2['field_logo_fid']);
+			return '<div class ="imagen_compania"><a href = "'. $nodo->field_link['und'][0]['value'] .'" target = "_blank">'.theme('image_style', array('style_name' => 'image_compania', 'path' => $img->filename)). 
+			'</a></div><div class ="contenido_compania">'.$contenido.'</div>';			
+		}
+		return '';
+	} else {
+     $res2 = db_select('field_data_field_logo', 'n')
+      ->fields('n', array('field_logo_fid'))
+      ->condition('bundle', 'compania','=')
+      ->condition('entity_id', _valorem_portafolio_compania_compania_nodo_inicial(),'=')
+      ->execute()
+      ->fetchAssoc();
+     $nodo = node_load(_valorem_portafolio_compania_compania_nodo_inicial());
+     if ($nodo != NULL) {
+      $contenido = isset($nodo->body['und'][0]['safe_value']) ? $nodo->body['und'][0]['safe_value'] : NULL;
+      $img = file_load($res2['field_logo_fid']);
+      return '<div class ="imagen_compania"><a href = "'. $nodo->field_link['und'][0]['value'] .'" target = "_blank">'.theme('image_style', array('style_name' => 'image_compania', 'path' => $img->filename)). 
+      '</a></div><div class ="contenido_compania">'.$contenido.'</div>';      
+    }
+    return '';
+  }
+
+}
+
+// ***********   Graficas   *************
+
+function _valorem_portafolio_compania_graficas() {
+	if (isset ($_GET['nid'])) {
+
+	if ($_GET['nid'] != NULL) {
+			$nodo = node_load($_GET['nid']);
+			$vid = $nodo->vid;
+
+      return valores_graficas($vid);
+		}		
+	} else {
+
+      $nodo = node_load(_valorem_portafolio_compania_compania_nodo_inicial());
+      $vid = $nodo->vid;
+      return valores_graficas($vid);
+  }
+
+	return 'Selecciones Empresa';
+}
+
+function valores_graficas($vid) {
+
+
+
+  $cache_balance_general = cache_get('graficas'.$vid, 'cache');
+  if ($cache_balance_general && false) {
+    $graficas = $cache_balance_general->data;
+  } else {
+
+    $valores =_valorem_portafolio_compania_graficas_array($vid);
+    $graficas = _valorem_portafolio_compania_graficas_show(isset ($valores['ventas']) ? $valores['ventas'] : NULL, t('ACTIVOS (cifras en miles de millones)')) .
+     _valorem_portafolio_compania_graficas_show(isset ($valores['financiera']) ? $valores['financiera'] : NULL, t('DEUDA FINANCIERA (cifras en miles de millones)')) . '<div style="clear:both;"></div>' .
+     _valorem_portafolio_compania_graficas_show(isset ($valores['uneta']) ? $valores['uneta'] : NULL, t('VENTAS (cifras en miles de millones)')) . 
+     _valorem_portafolio_compania_graficas_show(isset ($valores['ebitda']) ? $valores['ebitda'] : NULL, t('EBITDA (cifras en miles de millones)'));
+    //cache_set('graficas'.$vid, $graficas, 'cache');
+  }
+  return $graficas;
+}
+
+function _valorem_portafolio_compania_graficas_show($valores, $title) {
+
+	if ($valores != NULL) {
+	  $grafica_negativa = false;
+	  $valores_abs = array();
+	  foreach($valores as $key => $valor) {
+	  
+		$valores_abs[] = abs( $valor );
+		$grafica_negativa = ( $valor < 0 )?true:$grafica_negativa;
+	  }
+	
+	  $max = max($valores_abs);
+	  $altototal = 128; $current_bar = 0;
+	  
+	  if($grafica_negativa) {
+		$max = $max * 0.2 + $max;
+	    $altototal = $altototal / 2;
+	  }
+	  
+	  $grafica = '<div class = "block-inner grafica ' .  str_replace(' ', '_', strtolower($title)) . '"><h2 class="block-title"> ' . $title . '</h2><div class="container"><div class="barras">';
+	  $barra_valores_html = '';
+	  
+	  foreach ($valores as $key => $value) {
+			$current_bar++;
+			$alto = abs($value)/$max;
+			$styleheight = ($altototal*$alto==0)?1:$altototal*$alto;
+	    $grafica .= '<div class="' . ( ($value<0)?'espacionegativo':'' ) . ' barra barra-' . $current_bar . ' ' . $key . '" style="height: '.$styleheight.'px;margin-top:' . (1-$alto) * $altototal .'px"></div>'; 
+
+	    $decimals = 0;
+	    if(is_numeric( $value ) && floor( $value ) != $value) {
+	    	$decimals = 2;
+	    }
+
+			$barra_valores_html .= '<div class="valor">' . number_format ($value, $decimals) . '<p>' . $key. '</div>';
+	  }
+	  
+	  if($grafica_negativa) {
+	  
+		  $grafica .= '</div><div class="graficanegativa">';//Cerramos los valores positivos y abrimos los negativos
+		  $current_bar = 0;
+		  foreach ($valores as $key => $value) {
+			$current_bar++;
+			$alto = abs($value)/$max;
+			$styleheight = ($altototal*$alto==0)?1:$altototal*$alto;
+			$grafica .= '<div class="' . ( ($value<0)?'espacionegativo':'espaciopositivo' ) . ' barra barra-' . $current_bar . ' ' . $key . '" style="height: '.$styleheight.'px;"></div>'; 
+		  }
+
+
+		  $grafica .= '<div class="espaciopositivo barra barra-' . $current_bar . ' ' . $key . '" style="width:1px;height: '.$altototal.'px;"></div>'; 
+	  
+	  }
+	  
+	  $barra_valores_html = '</div><div class="barra-valores">' . $barra_valores_html . '</div>'; 
+	  
+	  $grafica .= $barra_valores_html . '</div></div>';
+		return $grafica;
+	} else {
+		return '';
+	}
+}
+
+// Crear arreglo con valores de la Grafica
+function _valorem_portafolio_compania_graficas_array($vid) {
+	$nodo = node_load($vid);
+
+	/*global $user;
+	if($user-uid == 1) {
+		var_dump($vid);
+	}*/
+
+	//$vid = $nodo->tnid;
+	$res = db_select('field_data_field_compania', 'n')
+    ->fields('n')
+    ->condition('bundle', 'informacion_financiera_compania','=')
+    ->condition('field_compania_target_id', $vid,'=')
+    ->execute();
+
+
+    //->fetchAssoc();
+    //variablesDEUDA FINANCIERA
+    $reporte_ventas = $reporte_ebitda = $reporte_uneta = $reporte_dfinanciera = 0;
+    $entity_id = 0;
+		$ano = 0;
+		$reporte_ano_tid = 0;
+		$valores = array();
+
+		
+
+	foreach ($res as $key => $value) { 
+
+		
+
+		$entity_id =$value->entity_id;
+		// ano
+		$reporte_ano_tid = db_select('field_data_field_ano', 'n')
+	    ->fields('n', array('field_ano_tid'))
+	    ->condition('bundle', 'informacion_financiera_compania','=')
+	    ->condition('entity_id', $entity_id,'=')
+	    ->execute()
+			->fetchAssoc();
+		$ano = db_select('taxonomy_term_data', 'n')
+	    ->fields('n', array('name'))
+	    ->condition('vid', 8,'=')
+	    ->condition('tid', $reporte_ano_tid['field_ano_tid'],'=')
+	    ->execute()
+			->fetchAssoc();
+		// ventas
+		$reporte_ventas = db_select('field_data_field_reporte_ventas', 'n')
+	    ->fields('n', array('field_reporte_ventas_value'))
+	    ->condition('bundle', 'informacion_financiera_compania','=')
+	    ->condition('entity_id', $entity_id,'=')
+	    ->execute()
+			->fetchAssoc();
+		// ebitda			
+		$reporte_ebitda = db_select('field_data_field_reporte_ebitda', 'n')
+	    ->fields('n', array('field_reporte_ebitda_value'))
+	    ->condition('bundle', 'informacion_financiera_compania','=')
+	    ->condition('entity_id', $entity_id,'=')
+	    ->execute()
+			->fetchAssoc();
+		//unidad neta	
+		$reporte_uneta = db_select('field_data_field_reporte_unidad', 'n')
+	    ->fields('n', array('field_reporte_unidad_value'))
+	    ->condition('bundle', 'informacion_financiera_compania','=')
+	    ->condition('entity_id', $entity_id,'=')
+	    ->execute()
+			->fetchAssoc();
+		//deuda financiera
+		$reporte_dfinanciera = db_select('field_data_field_reporte_deuda_financiera', 'n')
+	    ->fields('n', array('field_reporte_deuda_financiera_value'))
+	    ->condition('bundle', 'informacion_financiera_compania','=')
+	    ->condition('entity_id', $entity_id,'=')
+	    ->execute()
+			->fetchAssoc();
+			
+		$valores['ventas'][$ano['name']] = $reporte_ventas['field_reporte_ventas_value'];
+		$valores['ebitda'][$ano['name']] = $reporte_ebitda['field_reporte_ebitda_value'];
+		$valores['uneta'][$ano['name']] = $reporte_uneta['field_reporte_unidad_value'];
+		$valores['financiera'][$ano['name']] = $reporte_dfinanciera['field_reporte_deuda_financiera_value'];
+	}
+
+	return $valores;
+}
+
+
+
+function _valorem_portafolio_compania_sector_form2() {
+	$sector = _valorem_portafolio_compania_sector();
+	$res = '<div><label>' . t('Seleccione Sector') . '</label>';
+	global $base_url;var_dump('-----');var_dump($sector);
+	$i = 1;
+	foreach ($sector as $key => $value) {
+		$tid = '';
+		if (isset ($_GET['tid'])) {
+			if ($key == $_GET['tid']) {
+				$tid = 'active';
+			}	
+		}
+		if ($i == 1) {
+			$res .= '<div class ="flecha first"><a rel="content-' . $key . '" href = "
+	  	'.$base_url.'/?q='.current_path().'&tid='.$key.'&nid='.(isset($_GET['nid']) ? $_GET['nid'] : _valorem_portafolio_compania_compania_nodo_inicial()) . '" class = "'.$tid.'">
+      ' . $value . '</a></div>';
+		}
+		if ($i != 1 && $i != count($sector)) {
+			$res .= '<div class ="flecha ' . $key . '"><a rel="content-' . $key . '" href = "
+	  	'.$base_url.'/?q='.current_path().'&tid='.$key.'&nid='.(isset($_GET['nid']) ? $_GET['nid'] : _valorem_portafolio_compania_compania_nodo_inicial()) . '" class = "'.$tid.'">
+      ' . $value . '</a></div>';
+		}
+		if ($i == count($sector)) {
+			$res .= '<div class ="flecha ' . $key . ' last"><a rel="content-' . $key . '" href = "
+	  	'.$base_url.'/?q='.current_path().'&tid='.$key.'&nid='.(isset($_GET['nid']) ? $_GET['nid'] : _valorem_portafolio_compania_compania_nodo_inicial()) . '" class = "'.$tid.'">
+      ' . $value . '</a></div>';
+		}
+		$i++;
+	}
+	return $res . '</div>';
+}
+
+
+function _valorem_portafolio_compania_sectores2() {
+	return '<div class = "view-empty pri texto_inicial">' . t('Valórem es una Sociedad anónima cuyas acciones están inscritas en la Bolsa de Valores de Colombia, administrada bajo la filosofía de un Fondo de Inversión.') . '<br>
+      ' . t('La compañía gestiona activamente un portafolio de inversiones de compañías en Colombia y en el exterior, siendo un vehículo clave para la atracción de inversión extranjera en Colombia.') . '</div>' . 
+      _valorem_portafolio_compania_imagenes_companias2();
+}
+
+function _valorem_portafolio_compania_imagenes_companias2() {
+	global $base_url;	
+	$res = db_select('field_data_field_sector', 'n')
+    ->fields('n', array('entity_id', 'field_sector_tid'))
+    ->condition('bundle', 'compania','=')
+    //->condition('field_sector_tid', $tid,'=')
+    ->execute();
+	
+	$ima_sector = array();
+	foreach ($res as $key => $value) {
+		//dpm($value);
+		$res2 = db_select('field_data_field_logo', 'n')
+    ->fields('n', array('field_logo_fid'))
+    ->condition('bundle', 'compania','=')
+    ->condition('entity_id', $value->entity_id,'=')
+    ->execute()
+		->fetchAssoc();
+		//dpm($res2);
+		//dpm($value->field_sector_tid);
+		$ima_sector[$value->field_sector_tid][] = $res2['field_logo_fid'];
+	}
+
+	$ima = '<div><center>';
+	$i = 1;
+	foreach ($ima_sector as $key => $fids) {
+		if (count($fids) > 1) {
+			foreach ($fids as $key2 => $res) {
+				$name = file_load(''.$res);
+				$link = db_query('SELECT field_link_value FROM field_data_field_logo a, field_data_field_link b 
+					WHERE a.entity_id = b.entity_id AND field_logo_fid ='. $name->fid);
+				$link = $link->fetchAssoc();
+				if ($i != 1) {		
+					$ima .= '<a href = "'.$link['field_link_value'].'" target = "_blank"><div class = "content content-'.$key.' imagen">'.theme('image_style', array('style_name' => 'image_compania', 'path' => $name->filename)) .'</div></a>';	
+				}	
+				else {
+					$ima .= '<a href = "'.$link['field_link_value'].'" target = "_blank" style="width: 200px; float: left;"><div class = "content content-'.$key.' imagen">'.theme('image_style', array('style_name' => 'image_compania', 'path' => $name->filename)) .'</div></a>';
+				}
+				$i++;
+			}
+		}
+		else {
+			$name = file_load($fids[0]);
+			$link = db_query('SELECT field_link_value FROM field_data_field_logo a, field_data_field_link b 
+				WHERE a.entity_id = b.entity_id AND field_logo_fid ='. $name->fid);
+			$link = $link->fetchAssoc();
+			$ima .= '<a href = "'.$link['field_link_value'].'" target = "_blank"><div class = "content content-'.$key.' imagen">'.theme('image_style', array('style_name' => 'image_compania', 'path' => $name->filename)) .'</div></a>';
+		}	
+		$i = 1;
+	}
+	$ima .= '</center></div>';
+	return $ima;
+}
+
+
+function ajax_example_render_link() {
+  //drupal_add_library('system', 'drupal.ajax');
+  $output = '';
+	$link = _valorem_portafolio_companias_sectores();
+  $output .= "<div>$link</div>";
+  return $output;
+}
+
+function valorem_portafolio_companias_menu(){
+	$items['ajax_link_callback'] = array(
+    'page callback' => 'ajax_link_response',
+    'access callback' => 'user_access',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    
+  );
+	return $items;
+}
+
+function ajax_link_response($type = 'ajax', $tid) {
+  if ($type == 'ajax') {
+    $output = t(""._valorem_portafolio_compania_logos($tid));
+    $commands = array();
+		//$commands[] = ajax_command_append('#dos', $output);
+    $commands[] = ajax_command_html('#dos', $output);
+    $page = array('#type' => 'ajax', '#commands' => $commands);
+    ajax_deliver($page);
+  }
+  else {
+    $output = t("This is some content delivered via a page load.");
+    return $output;
+  }
+}
+
+function _valorem_portafolio_companias_sectores() {
+	$sector = _valorem_portafolio_compania_sector();
+	$res = '<div><label>' . t('Seleccione Sector') . '</label>';
+	global $base_url;
+	$i = 1;
+	foreach ($sector as $key => $value) {
+		$tid = '';
+		if (isset ($_GET['tid'])) {
+			if ($key == $_GET['tid']) {
+				$tid = 'active';
+			}	
+		}
+		if ($i == 1) {
+			$res .= '<div class ="flecha ' . $key . ' first">' . l(t($value), 'ajax_link_callback/nojs/' . $key, array(
+  		'attributes' => array('class' => array('use-ajax')))) . '</div>';
+		}
+		if ($i != 1 && $i != count($sector)) {
+			$res .= '<div class ="flecha ' . $key . '">' . l(t($value), 'ajax_link_callback/nojs/' . $key, array(
+  		'attributes' => array('class' => array('use-ajax')))) . '</div>';
+		}
+		if ($i == count($sector)) {
+			$res .= '<div class ="flecha ' . $key . ' last">' . l(t($value), 'ajax_link_callback/nojs/' . $key, array(
+  	'attributes' => array('class' => array('use-ajax')))) . '</div>';
+		}
+		$i++;
+	}
+	return $res . '</div>';
+}
+
+function _valorem_portafolio_compania_logos($tid) {
+	
+	if ($tid == 0) {
+		return '<div id="dos"><div class = "view-empty pri texto_inicial">' . t('Valórem es una Sociedad anónima cuyas acciones están inscritas en la Bolsa de Valores de Colombia, administrada bajo la filosofía de un Fondo de Inversión.') . '<br>
+      ' . t('La compañía gestiona activamente un portafolio de inversiones de compañías en Colombia y en el exterior, siendo un vehículo clave para la atracción de inversión extranjera en Colombia.') . '</div></div>';
+	} else {
+		//*********************//
+		$res = db_select('field_data_field_sector', 'n')
+    ->fields('n', array('entity_id'))
+    ->condition('bundle', 'compania','=')
+    ->condition('field_sector_tid', $tid,'=')
+    ->execute();
+		$fid = array();
+	  foreach ($res as $key => $value) {
+			//dpm($value->entity_id);
+			$res2 = db_select('field_data_field_logo', 'n')
+	    ->fields('n', array('field_logo_fid'))
+	    ->condition('bundle', 'compania','=')
+	    ->condition('entity_id', $value->entity_id,'=')
+	    ->execute()
+			->fetchAssoc();
+			$fid[] = $res2['field_logo_fid'];
+		}
+		$imagenes = file_load_multiple($fid);
+		$head = '<script type="text/javascript">
+/**
+ * We use the initCallback callback
+ * to assign functionality to the controls
+ */
+function mycarousel_initCallback(carousel) {
+    jQuery(".jcarousel-control a").bind("click", function() {
+        carousel.scroll(jQuery.jcarousel.intval(jQuery(this).text()));
+        return false;
+    });
+};
+
+jQuery(document).ready(function() {
+
+    jQuery("#mycarousel").jcarousel({
+        scroll: 1,
+        initCallback: mycarousel_initCallback,
+    });
+});
+
+</script>';
+		global $base_url;
+		$count = count($imagenes);
+		$logos = '<div id="wrap">
+			<div id="mycarousel" class="jcarousel-skin-tango dsfsdffd numero_imagenes-'.$count.'"><table><tr>';
+		$control = '';
+		//$control = '<div class="jcarousel-control">';		
+		
+		$i = 1;
+    foreach ($imagenes as $key => $value) {
+
+			
+			
+
+
+			$name = file_load($value->fid);
+			$link = db_query('SELECT field_link_value FROM field_data_field_logo a, field_data_field_link b 
+				WHERE a.entity_id = b.entity_id AND field_logo_fid ='. $name->fid);
+			$link = $link->fetchAssoc();
+  		$entity_id = db_select('field_data_field_logo', 'n')
+      ->fields('n', array('entity_id'))
+      ->condition('bundle', 'compania','=')
+      ->condition('field_logo_fid', $value->fid,'=')
+      ->execute()
+  		->fetchAssoc();
+      /*$logos .= '<li>'. 
+        theme('image_style', array('style_name' => 'image_compania', 'path' => $value->filename)) . '</li>';*/
+			/*$logos .= '<li><img width="75" height="75" src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" alt="" /></li>';*/
+			$logos .= '<td><a href = "'.$link['field_link_value'].'" target = "_blank">'.
+        theme('image_style', array('style_name' => 'image_compania', 'path' => $value->filename)) . '</a></td>';
+			//$control .= '<a href="#">' . $i . '</a>';			
+			$i++;
+		}
+	}
+	$control .= '</div>';
+	return $head . '' . $logos . '</tr></table>' . $control . '</div></div>';
+}
+

@@ -1,0 +1,10 @@
+name = Logged User
+description = Show some blocks for logged users
+dependencies[] = block
+package = Data iFX
+core = 7.x
+configure = admin/config/user-interface/logged_user
+
+version = "7.x-1.0alpha"
+core = "7.x"
+project = "Data iFX"

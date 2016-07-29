@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_grafica_composicion_accionaria_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Composición accionaria')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_grafica_composicion_accionaria_block_view($delta = '') {
+  $block = array();
+  $block['subject'] = t("COMPOSICIÓN ACCIONARIA");
+  $block['content'] =  grafica_composicion_accionaria_page();
+  return $block;
+}
+ 
+function grafica_composicion_accionaria_page() {
+  $composicion_accionaria = t('NO EXISTE INFORMACIÓN EN EL SISTEMA');
+  $i = 0;
+  $yy = date('Y');
+  $mm = date('m');
+  $dd = date('d');
+
+  $resultado = db_query(
+    'SELECT a.acc_accionista, b.par_saldo, b.par_porcentaje
+    FROM valorem_accionistas a, valorem_participacion b
+    WHERE a.acc_cuenta = b.par_cuenta
+    ORDER BY b.par_saldo DESC 
+    LIMIT 0 , 19'
+  );
+
+  if ($resultado != NULL) {
+    $res = '';
+    $sum = 0;
+    $i = 0;
+    foreach ($resultado as $key => $value) {
+      $res .= 'data.setValue(' . $i . ', 0, "' . $value->acc_accionista . '");';
+      $res .= 'data.setValue(' . $i . ', 1, ' . $value->par_porcentaje . ');';
+      $sum += $value->par_porcentaje;
+      $i++;
+    }
+    $res .= 'data.setValue(' . $i . ', 0, "otros");';
+    $otros = 99.9 - $sum;
+    $res .= 'data.setValue(' . $i . ', 1,' . $otros . ');';
+    $i++;
+
+    $url = '';
+    
+    $nid = 0;
+    $results = db_query("SELECT nid FROM node WHERE type = 'pdf_composici_n_accionaria' ORDER BY created DESC LIMIT 0,1");
+    foreach ($results as $result) {
+      $nid = $result->nid;        
+    }
+
+    if($nid!=0) {
+      $nodo = node_load($nid);
+      $url = file_create_url($nodo->field_accionistas_pdf['und'][0]['uri']);
+    }
+
+
+
+
+    return construccion_grafico($res, $i) . '<div class="descarga_accionistas_footer"><a href="'.$url.'" target="_blank" class="descarga_accionistas_enlace">' . t('Haga click para el listado de los primeros 20 accionistas') . '</a></div>';
+  } 
+  else {
+    return 'Sin nada';
+  }
+}
+
+
+function construccion_grafico($valores, $i) {
+  drupal_add_js('http://www.google.com/jsapi', 'external');
+  $resultado =  $query = db_select('file_managed', 'fd')
+     ->fields('fd')
+     ->condition('filemime', 'composicion_accionaria/xlsx' , '=')
+		 ->orderBy('timestamp', 'ASC')
+		 //->limit(1)
+     ->execute();
+ 	foreach ($resultado as $key => $value) {
+	  $fid = $value->fid;
+  }
+  $file = file_load($fid);
+  return '
+    <script type="text/javascript">
+			if (navigator.appName == "Microsoft Internet Explorer") {
+				var tresD = false;
+			} else {
+				var tresD = true;
+			}
+      function drawVisualizationCA() {
+          var data = new google.visualization.DataTable();
+          data.addColumn("string", "Year");
+          data.addColumn("number", "Acciones");
+          data.addRows(' . $i . ');
+          ' . $valores . '
+          new google.visualization.PieChart(document.getElementById("visualizations")).
+     draw(data, {
+       width:300, 
+       height:195,
+ 			 chartArea:{left:10,top:10,width:"120%",height:"120%"},      
+       is3D:tresD,
+       tooltipText:"percentage",
+       tooltipTextStyle:{color: "#4D4D4D", fontName: "Arial", fontSize: 11},
+       tooltipWidth:100,
+       colors:["#FFE79C", "#72C8F7", "#F7931E", "#45B26E", "#00529C", "#C29A16", "#C1272D"],
+       
+       legend:"none",
+      pieSliceTextStyle:{color: "#333333", fontName: "Arial", fontSize: 14 }
+       
+     });
+   
+    }
+			jQuery(document).ready(function() {
+				google.load("visualization", "1", {packages: ["corechart"]});
+    		google.setOnLoadCallback(drawVisualizationCA);				
+			});
+      
+    </script>
+    <div id="visualizations"></div><div class = "linea_azul"></div>
+  ';
+	//"#FFE79C", "#72C8F7", "#F7931E", "#45B26E", "#00529C", "#C29A16", "#C1272D", "#E6F0FF","#FFE79C"
+	//<div class = "ver_mas"><a href="' . file_create_url($file->uri) . '">descargar</a></div>
+}

@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_formulario_contacto_block_info() {
+    $blocks = array();
+    $blocks['info'] = array(
+        'info' => t('Formulario Contacto')
+    );
+    return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_formulario_contacto_block_view($delta = '') {
+
+    $block = array();
+    $block['subject'] = t('FORMULARIO DE CONTACTO');
+    $block['content'] = valorem_formulario_contacto_page();
+
+    return $block;
+}
+
+function valorem_formulario_contacto_page() {
+    $form = node_view(node_load(62));
+    $form['webform']['#form']['#action'] = url('node/43', array('query' => array('email' => 'email')));
+    if (isset($_GET['sid'])) {
+        drupal_set_message(t('correo enviado correctamente'));
+    }
+
+    //node_save($form);
+    return valorem_formulario_contacto_formulario($form['webform']['#form']);
+}
+
+function valorem_formulario_contacto_formulario($form) {
+    return "<div class=\"header-form\">".t('Gracias por ingresar a nuestra página. Si tiene alguna inquietud o sugerencia con gusto la atenderemos.')."</div>".'<div>' . render($form) . '</div>';
+}
+
+function valorem_formulario_contacto_form_alter(&$form_state, &$form, $form_id) {
+
+    if ($form_id == 'webform_client_form_62') {
+        foreach ($form_state["submitted"] as $key => $campo) {
+            if (ISSET($campo["#title"])) {
+                $form_state["submitted"][$key]["#title"] = t($form_state["submitted"][$key]["#title"]);
+            }
+        }
+    }
+}

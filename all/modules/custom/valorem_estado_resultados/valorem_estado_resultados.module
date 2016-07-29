@@ -1,0 +1,267 @@
+<?php
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_estado_resultados_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Estado de Resultado')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_estado_resultados_block_view($delta) {
+  $block = array();
+  switch ($delta) {
+    case 'info':
+      $block['subject'] = '<p class = "title">' . t('ESTADO DE RESULTADOS') . '</p>'. drupal_render(drupal_get_form('valorem_estado_resultados_form'));
+      $block['content'] = '<div class = "nota-junta-up">' . l('super', 'http://superfinanciera.gov.co/web_valores/?MIval=Fechas_inf_fin&Tipo=066&Codigo=017&dibujo=simevcab.gif&titulo=Entidades%20Encontradas', array(
+      	'attributes' => array(
+      		'class' => 'super', 
+      		'target'=>'_blank'
+      	)
+			)) . '  <div class = "millones">' . t('(Millones de pesos)') . '</div></div>' . valorem_estado_resultados_listado();
+      break;
+    default:
+      # code...
+      break;
+  }
+  
+  return $block;
+}
+
+/**
+ *  function  balance_general_page autocomplete
+ */
+function valorem_estado_resultados_listado() {
+	$id_anterior = 0;
+	$id_actual = 0;
+	if (isset ($_GET['id_periodo1']) && isset ($_GET['id_periodo2'])) {
+		return construir_consulta2($_GET['id_periodo1'], $_GET['id_periodo2']);
+	} else {
+		$trimestre_actual = trimestre_actual();
+		$ids = explode(',', $trimestre_actual);
+		$id_anterior = $ids[0];
+		$id_actual = isset($ids[1]) ? $ids[1] : 0;
+		return construir_consulta2($id_actual, $id_anterior);
+	}
+}
+
+function construir_consulta2($id_actual, $id_anterior) {
+	$respuesta = array();
+	$respuesta = '<div class = "balance_general table-type-A column_count_3">';
+	$respuesta .= '<div class = "title">
+		<div class = "column_1">Nombre</div>
+		<div class = "column_2">'.formato_fecha($id_actual).'</div>
+		<div class = "column_3">'.formato_fecha($id_anterior).'</div>
+		</div>';
+	$respuesta .= balance_general_respuesta2('Ingresos Operacionales', '41', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2_otros2('Ventas y/o Prest Servicios Nacionales', array('4150', '4155'), $id_actual, $id_anterior);
+	//$respuesta .= balance_general_respuesta2('Ventas y/o Prest Servicios Extranjeros', '11', $id_actual, $id_anterior);
+	//$respuesta .= balance_general_respuesta2('Otros Ingresos Operacionales', '11', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Menos Costo de Ventas', '6', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Costos de Ventas y Prest Servicios', '6150', $id_actual, $id_anterior);
+	$respuesta .= balance_general_utilidad_bruta('UTILIDAD BRUTA', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2_otros2('Menos Gastos Operacionales', array('51', '52'), $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Gastos de Administracion', '51', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Gastos de Ventas', '52', $id_actual, $id_anterior);
+	$respuesta .= balance_general_utilidad_operacional('UTILIDAD OPERACIONAL', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Ingresos no Operacionales', '42', $id_actual, $id_anterior);
+	//$respuesta .= balance_general_respuesta2('Otras Ventas', '11', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Financieros', '4210', $id_actual, $id_anterior);
+	//$respuesta .= balance_general_respuesta2('Dividendos y Participaciones', '11', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2_otros2('Otros Ingresos no Operacionales', array('4240','4245','4250','4255','4265','4295'), $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Menos Gastos no Operacionales', '53', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Financieros', '5305', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2_otros2('Otros Gastos no Operacionales', array('5310', '5315', '5395'), $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Correccion Monetaria', '47', $id_actual, $id_anterior);
+	//$respuesta .= balance_general_respuesta2('UTILIDAD ANTES DE IMPUESTOS', '11', $id_actual, $id_anterior);
+	$respuesta .= valorem_general_utilidad_antes_impuestos('UTILIDAD ANTES DE IMPUESTOS', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('Menos Impuestos de Renta y Complementarios', '54', $id_actual, $id_anterior);
+	$respuesta .= balance_general_respuesta2('GANANCIAS Y PERDIDAS', '59', $id_actual, $id_anterior); 
+	
+	$respuesta .= '</div>';
+	
+	return $respuesta;
+}
+
+function valorem_general_utilidad_antes_impuestos($name, $id_actual, $id_anterior) {
+	$res = '';
+	$res .= '
+				<div class = "codigo nivel_3">
+				<div class = "column_1 ">' . $name . '</div>
+				<div class = "column_2 ">'.formato_millones2(valorem_general_operacion_utilidad_antes_impuestos($id_actual)).'</div>
+				<div class = "column_3 ">'.formato_millones2(valorem_general_operacion_utilidad_antes_impuestos($id_anterior)).'</div>
+				</div>';
+		return $res;
+	//Igual a la cuenta 400000 menos 600000 menos 510000 menos  520000 menos 530000 MAS  470000
+}
+
+function valorem_general_operacion_utilidad_antes_impuestos($fecha) {
+	$ubruta_act_4 = balance_general_query2($fecha, '4');
+	$ubruta_act_6 = balance_general_query2($fecha, '6');
+	$ubruta_ant_51 = balance_general_query2($fecha, '51');
+	$ubruta_ant_52 = balance_general_query2($fecha, '52');
+	$ubruta_ant_53 = balance_general_query2($fecha, '53');
+	$ubruta_ant_47 = balance_general_query2($fecha, '47');
+	return $ubruta_act_4-$ubruta_act_6-$ubruta_ant_51-$ubruta_ant_52-$ubruta_ant_53+$ubruta_ant_47;
+}
+
+function balance_general_respuesta2_otros2($name, $cod, $id_actual, $id_anterior) {
+	$sum_actual = 0; 
+	$sum_anterior = 0; 
+	foreach ($cod as $key => $value) {
+		$sum_actual = $sum_actual + round(balance_general_query2($id_actual, $value));
+		$sum_anterior = $sum_anterior + round(balance_general_query2($id_anterior, $value));
+	}
+	$res = '';	
+	$res .= '
+				<div class = "codigo nivel_3">
+				<div class = "column_1 ">' . $name . '</div>
+				<div class = "column_2 ">'.formato_millones2($sum_actual).'</div>
+				<div class = "column_3 ">'.formato_millones2($sum_anterior).'</div>
+				</div>';
+	return $res;
+}
+
+function balance_general_utilidad_bruta($name, $id_actual, $id_anterior) {
+	$ubruta_act_41 = balance_general_query2($id_actual, '41');
+	$ubruta_act_6 = balance_general_query2($id_actual, '6');
+	$ubruta_ant_41 = balance_general_query2($id_anterior, '41');
+	$ubruta_ant_6 = balance_general_query2($id_anterior, '6');
+	$res = '';
+	$res .= '
+				<div class = "codigo nivel_3">
+				<div class = "column_1 ">' . $name . '</div>
+				<div class = "column_2 ">'.formato_millones2($ubruta_act_41-$ubruta_act_6).'</div>
+				<div class = "column_3 ">'.formato_millones2($ubruta_ant_41-$ubruta_ant_6).'</div>
+				</div>';
+		return $res;
+}
+
+function balance_general_utilidad_operacional($name, $id_actual, $id_anterior) {
+	$res = '';
+	$res .= '
+				<div class = "codigo nivel_3">
+				<div class = "column_1 ">' . $name . '</div>
+				<div class = "column_2 ">'.formato_millones2(balance_general_operacion_utilidad_operacional($id_actual)).'</div>
+				<div class = "column_3 ">'.formato_millones2(balance_general_operacion_utilidad_operacional($id_anterior)).'</div>
+				</div>';
+		return $res;
+}
+
+function balance_general_operacion_utilidad_operacional($fecha) {
+	return balance_general_query2($fecha, '41')-balance_general_query2($fecha, '6')-
+	balance_general_query($fecha, '51')-balance_general_query2($fecha, '52');
+
+}
+
+function balance_general_respuesta2($name, $cod, $id_actual, $id_anterior) {
+	$res = '';
+	
+	$valor_actual = balance_general_query2($id_actual, $cod);
+	$valor_anterior = balance_general_query2($id_anterior, $cod);
+	if ($valor_actual == 0 && $valor_anterior == 0) 
+		return '';
+		
+	$res .= '
+				<div class = "codigo nivel_3">
+				<div class = "column_1 ">' . $name . '</div>
+				<div class = "column_2 ">'.formato_millones2($valor_actual).'</div>
+				<div class = "column_3 ">'.formato_millones2($valor_anterior).'</div>
+				</div>';
+		return $res;
+}
+
+function balance_general_query2($fecha, $cod) {
+	$query = db_query('
+		SELECT est_valor_reportado, field_codigo_puc_value 
+		FROM estados_financieros, field_data_field_codigo_puc 
+		WHERE est_entity_id = entity_id AND est_id_fecha = ' . $fecha . ' AND field_codigo_puc_value = '.$cod);
+	if ($query != NULL) {
+		$query = $query->fetchAssoc();
+		return $query['est_valor_reportado'];
+	} else {
+		return .00;
+	}
+}
+
+/*
+*	 function form
+*/
+function valorem_estado_resultados_form($form, &$form_state) {
+	$trimestre_actual2 = trimestre_actual();
+	$ids = explode(',', $trimestre_actual2);
+	$id_anterior = $ids[0];
+	$id_actual = isset($ids[1]) ? $ids[1] : 0;
+	$form['periodo1'] = array(
+    //'#title' => t('Periodo'),
+    '#type' => 'select',
+    '#options' => periodos3(),
+    '#default_value' => isset ($_GET['id_periodo1']) ? $_GET['id_periodo1'] : $id_actual,
+    '#weight' => -4,
+  );
+	$form['periodo2'] = array(
+    //'#title' => t('Periodo'),
+    '#type' => 'select',
+    '#options' => periodos3(),
+    '#default_value' => isset ($_GET['id_periodo2']) ? $_GET['id_periodo2'] : $id_anterior,
+    '#weight' => -3,
+  );
+	$form['submit'] = array(
+			'#type' => 'submit', 
+			'#value' => t('Consultar')
+	);
+  return $form;
+}
+
+function valorem_estado_resultados_form_validate($form, &$form_state) {
+	$actual = $form_state['values']['periodo1'];
+	$anterior = $form_state['values']['periodo2'];
+	if (($actual == 'Periodo') && ($anterior == 'Periodo')) {
+		form_set_error('periodo1', 'Seleccione Periodo');
+		form_set_error('periodo2', 'Seleccione Periodo');
+	} else {
+		if (($actual == 'Periodo') || ($anterior == 'Periodo')) {	
+		}	else {
+			$str_fecha = consultar_id_fecha2($actual);
+			$fecha_act = formatear_fecha2($str_fecha);
+			$str_fecha = consultar_id_fecha2($anterior);
+			$fecha_ant = formatear_fecha2($str_fecha);
+			if ($fecha_act == $fecha_ant) {
+				form_set_error('periodo1', 'Periodos iguales');
+				form_set_error('periodo2', 'Seleccione dos Periodos diferetes');
+			}
+		}
+	}
+}
+
+function consultar_id_fecha2($id) {
+	$fecha_query = db_query('select fec_fecha from fecha where fec_id_fecha = '.$id);
+	foreach ($fecha_query as $key => $value) {
+		return $value->fec_fecha;
+	}
+}
+
+function formatear_fecha2($str_fecha) {
+	if (strlen($str_fecha) != 8) {
+		$str_fecha = '0'.$str_fecha;
+	}
+	$dd = substr($str_fecha, 0,2);
+	$mm = substr($str_fecha, 2,2);
+	$yy = substr($str_fecha, 4,4);
+	$fecha = date('Y/m/d', strtotime($yy.'-'.$mm.'-'.$dd));
+	return $fecha;
+}
+
+function valorem_estado_resultados_form_submit($form, &$form_state) {
+	$actual = $form_state['values']['periodo1'];
+	$anterior = $form_state['values']['periodo2'];
+	//if (isset ($_GET['id_periodo1']) && isset ($_GET['id_periodo2'])) {
+	$form_state['redirect'] = array('node/27', array(
+		'query' => array('id_periodo1'=>$actual, 'id_periodo2'=>$anterior)));
+}

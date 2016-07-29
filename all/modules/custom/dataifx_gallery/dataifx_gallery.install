@@ -1,0 +1,67 @@
+<?php
+
+
+/**
+ * @file
+ * Install, update and uninstall functions for the dataifx_gallery module.
+ */
+
+
+/**
+ * Implements hook_requirements().
+ */
+function dataifx_gallery_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  // Check on the installation status of the dataifx_gallery library. Note that
+  // we do not do this check during the 'install' phase as the libraries API
+  // functions will not always be available then (if installing Drupal via an
+  // install profile, etc.).
+  if ($phase == 'runtime') {
+    $library = libraries_detect('dataifx_gallery');
+    $requirements['dataifx_gallery'] = array(
+      'title' => $t('dataifx_gallery Javascript Library'),
+    );
+    if ($library['installed']) {
+      $requirements['dataifx_gallery']['value'] = $library['version'];
+      $requirements['dataifx_gallery']['severity'] = REQUIREMENT_OK;
+    }
+    else {
+      $requirements['dataifx_gallery']['value'] = $library['error'];
+      $requirements['dataifx_gallery']['description'] = $library['error message'];
+      $requirements['dataifx_gallery']['severity'] = REQUIREMENT_ERROR;
+    }
+    if (module_exists('devel_themer')) {
+      $requirements['dataifx_gallery_devel_themer'] = array(
+        'title' => 'dataifx_gallery Compatibility',
+        'value' => 'Theme Developer module is enabled',
+        'description' => t('The dataifx_gallery module is not compatible with the Theme Developer module. Your dataifx_gallery galleries may not display correctly until the Theme Developer module has been disabled.'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+  return $requirements;
+}
+
+
+/**
+ * Update registry and cache details to ensure that dataifx_gallery galleries made with
+ * beta versions of the module are compatible with post-beta versions.
+ */
+function dataifx_gallery_update_7100() {
+  // Empty update to force a rebuild of the cache/registry. We have added a new
+  // theme variable for 'dataifx_gallery_embed_markup' ('gallery_id') and have
+  // re-structured the "schema" for configuration variables. For the schema
+  // change, clearing the cache will enforce correct default values but we also
+  // have added some "real-time" handling for manually configured values in
+  // _dataifx_gallery_init_display_settings().
+}
+
+
+/**
+ * Update registry and cache details to accomodate new theme variables.
+ */
+function dataifx_gallery_update_7101() {
+  // Empty update to force a rebuild of the cache/registry. We have changed
+  // some theme variable names ("jlib_options" and "settings").
+}

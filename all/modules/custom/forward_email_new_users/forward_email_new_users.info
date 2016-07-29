@@ -1,0 +1,4 @@
+name = Forward Email New Users
+description = "Forward Email New Users"
+package = Caracol
+core = 7.x

@@ -1,0 +1,4 @@
+name = Expose Variables Catalyst
+description = Expose Variables Catalyst
+core = 7.x
+package = caracol

@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Manual Crop module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function manual_adjust_install() {
+	variable_set('manual_adjust_cache_control', TRUE);
+
+	// Hooks have to run after the Insert module.
+	db_query("UPDATE {system} SET weight = 20 WHERE name = 'manual_adjust'");
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function manual_adjust_uninstall() {
+	variable_del('manual_adjust_cache_control');
+}
+
+/**
+ * Implements hook_schema().
+ */
+function manual_adjust_schema() {
+	$schema['manual_adjust'] = array(
+		'description' => 'Holds the crop-area position and size all cropped images.',
+		'fields' => array(
+			'fid' => array(
+				'description' => 'The {file_managed}.fid of the image file.',
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE
+			),
+			'style_name' => array(
+				'description' => 'The machine name of the style.',
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+				'default' => '',
+			),
+			'x' => array(
+				'description' => 'The x-position of the left top cropping-area corner.',
+				'type' => 'int',
+				'size' => 'small',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+			'y' => array(
+				'description' => 'The y-position of the left top cropping-area corner.',
+				'type' => 'int',
+				'size' => 'small',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+			'width' => array(
+				'description' => 'The width of the cropping-area.',
+				'type' => 'int',
+				'size' => 'small',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+			'height' => array(
+				'description' => 'The height of the cropping-area.',
+				'type' => 'int',
+				'size' => 'small',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+		),
+		'foreign keys' => array(
+			'file' => array(
+				'table' => 'file_managed',
+				'columns' => array('fid' => 'fid'),
+			),
+		),
+		'primary key' => array('fid', 'style_name'),
+	);
+
+	return $schema;
+}

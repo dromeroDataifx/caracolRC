@@ -1,0 +1,5 @@
+; $Id$
+name = Uploads file
+description = Enable content creation via txt import
+package = Valorem
+core = "7.x"

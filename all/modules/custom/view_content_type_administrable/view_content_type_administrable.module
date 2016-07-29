@@ -1,0 +1,60 @@
+<?php
+/**
+ * @file
+ * Allows you to view_content_type_administrable
+ *
+ */
+
+
+
+function view_content_type_administrable_views_handlers() {
+  return array(
+    'info' => array(
+      // path to handler files
+      'path' => drupal_get_path('module', 'view_content_type_administrable') . '/inc',
+    ),
+    'handlers' => array(
+      // register our custom filter, with the class/file name and parent class
+      'view_content_type_administrable_handler_filter_admin_content' => array(
+        'parent' => 'views_handler_filter',
+      ),
+    ),
+  );
+}
+
+function view_content_type_administrable_views_data() {
+  $data = array();
+
+  $data['node']['admin_content'] = array(
+    'group' => t('Custom'),
+    'real field' => 'nid',
+    'title' => t('custom filter'),
+    'help' => t('to customize the content type to display view without technical knowledge of views.'),
+    'filter' => array(
+      'handler' => 'view_content_type_administrable_handler_filter_admin_content',
+    ),
+  );
+
+  return $data;
+}
+
+function view_content_type_administrable_menu(){  
+
+    $items['admin/config/content_type_view_home'] = array(
+        'title' => t('Administration of the custom view homepage'),
+        'description' => 'Administration of the custom view homepage',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('view_content_type_administrable_contentype_form'),
+        'access arguments' => array('administer site configuration'),
+        'file' => 'forms/view_content_type_administrable.form.inc'            
+
+    );    
+
+
+
+    return $items;
+}
+
+
+
+

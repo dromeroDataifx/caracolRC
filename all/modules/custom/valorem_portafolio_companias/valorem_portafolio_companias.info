@@ -1,0 +1,5 @@
+; $Id$
+name = Portafolio de Companias
+description = Portafolio de companias
+package = Valorem
+core = "7.x"

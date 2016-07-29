@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * Implements hook_block_info
+ */
+
+function valorem_compania_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Compania')
+  );
+  return $blocks;
+}
+
+/**
+ *  Implements hook_block_view
+ */
+function valorem_compania_block_view($delta = '') {
+  $block = array();
+  $block['subject'] = t('COMPAÑIA');
+  $block['content'] = compania_page();
+  return $block;
+}
+
+/**
+ *  function compania_page
+ */
+ function compania_page() {
+	$wysiwyg_nid = 52;
+	global $language;
+	if($language->language=='en-gb') {
+		$wysiwyg_nid = 192;
+	}
+   $node = node_load($wysiwyg_nid);  
+   $node->title = '';
+   return node_view($node);
+ }
+
+
+
+

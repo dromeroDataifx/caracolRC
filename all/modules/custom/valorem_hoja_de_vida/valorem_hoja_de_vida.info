@@ -1,0 +1,7 @@
+; $Id$
+name = Hojas de Vida
+description =  Hojas de Vida representantes y junta Directiva
+package = Caracol
+core = "7.x"
+
+scripts[] = js/valorem_hoja_de_vida.js

@@ -1,0 +1,264 @@
+<?php
+class token_invite_generatorMailSystem extends DefaultMailSystem { 
+
+    public function format(array $message) { 
+        $message['body'] = implode("\n\n", $message['body']); 
+        $message['body'] = drupal_wrap_mail($message['body']); 
+        return $message; 
+
+} } 
+
+
+function token_invite_generator_menu() {
+	$items['admin/config/people/token-invite'] = array(
+		'title' => t('Token Invite'),
+		'description' => t('generate tokens'),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('token_invite_generator_admin_settings'),
+		'access arguments' => array('generate tokens'),
+		'type' => MENU_NORMAL_ITEM,
+	);
+	return $items;
+}
+
+function token_invite_generator_permission() {
+	return array(
+		'generate tokens' => array(
+			'title' => t('Generate tokens'),
+			'description' => t('generates tokens to invites many people'),
+		),
+	);
+}
+
+function token_invite_generator_form_alter(&$form, &$form_state, $form_id) {
+	switch ($form_id) {
+		case 'user_register_form';
+			token_invite_generator_user_register_form_alter($form, $form_state, $form_id);
+			break;
+	}
+}
+
+function token_invite_generator_user_register_form_alter(&$form, &$form_state, $form_id) {
+	unset($form['terms_of_use']);
+	$params = drupal_get_query_parameters();
+
+	$token = false;
+	if (isset($params['token']))
+		$token = _token_invite_generator_get_token($params['token']);
+
+	if ($token && user_is_anonymous()) {
+		$form['token'] = array('#type' => 'value', '#value' => $token->getHash());
+
+		$form['#validate'][] = 'token_invite_generator_user_register_form_validate';
+		$form['#submit'][] = 'token_invite_generator_user_register_form_submit';
+
+		if (!$token->getHash() || $token->getState() == Token::ESTADO_USADO)
+			drupal_goto('<front>');
+		else {
+			/* se cargan los valores del token */
+			$data = $token->getData();
+			$emailSegments = explode('@', $data['email']);
+			$form['account']['name']['#default_value'] = $emailSegments[0];
+			$form['account']['mail']['#default_value'] = $data['email'];
+			$form['profile_periodista']['field_nombre']['und'][0]['value']['#default_value'] = $data['name'];
+			$form['profile_periodista']['field_direccion']['und'][0]['value']['#default_value'] = $data['address'];
+			$form['profile_periodista']['field_telefono']['und'][0]['value']['#default_value'] = $data['phone'];
+			$form['profile_periodista']['field_celular']['und'][0]['value']['#default_value'] = $data['mobile'];
+
+			$form['profile_periodista']['field_medio']['und']['#default_value'] = $data['means'];
+			$form['fake_medio']['#default_value'] = $data['means'];
+		}
+	}
+}
+
+function token_invite_generator_user_register_form_validate($form, &$form_state) {
+	$token = _token_invite_generator_get_token($form_state['values']['token']);
+        if ( (!$token->getHash() || $token->getState() == Token::ESTADO_USADO)) {
+		drupal_set_message(t('Your invitation has already been used or was disabled, please request a new invitation'));
+		drupal_goto('<front>');
+	}
+}
+
+function token_invite_generator_user_register_form_submit($form, &$form_state) {
+	$token = _token_invite_generator_get_token($form_state['values']['token']);
+	$token->setState(Token::ESTADO_USADO);
+	$token->save();
+
+	/* usuario activo por defecto */
+	$edit['status'] = true;
+	/* se asigna el rol de periodista */
+	$edit['roles'][4] = 4;
+               
+    $edit['pass']=$form_state['input']['pass']['pass1'];
+                
+    user_save($form['#user'], $edit);
+	$form_state['uid'] = $form['#user']->uid;
+	user_login_submit($form, $form_state);
+	
+}
+
+function token_invite_generator_admin_settings($form, &$form_state) {
+	$form['excel'] = array(
+		'#type' => 'file',
+		'#title' => t('Choose a file'),
+	);
+
+	$params = array(
+          'campo1' => 'ffff',
+         
+      );
+
+       
+          //drupal_mail('token_invite_generator', 'prueba', 'dromero@dataifx.com', 'es', $params);
+         //drupal_set_message(theme('token_invite_generator_template', array('message' => $params['campo1'])));
+    
+	require_once 'token.inc';
+	$query = db_select('token_invite_generator_tokens', 'tokens');
+	$query->fields('tokens');
+	$query->condition('tokens.state', Token::ESTADO_NO_USADO);
+	$result = $query->execute();
+        
+	if ($result->rowCount() > 0) {
+		$form['download'] = array(
+			'#type' => 'button',
+			'#executes_submit_callback' => true,
+			'#value' => t('Download Tokens'),
+		);
+		$form['clear_all'] = array(
+			'#type' => 'button',
+			'#executes_submit_callback' => true,
+			'#value' => t('Clear all tokens'),
+		);
+	}
+	$form['#submit'][] = 'token_invite_generator_admin_settings_submit';
+	$form = system_settings_form($form);
+
+	return $form;
+}
+
+function token_invite_generator_admin_settings_validate($form, &$form_state) {
+	//nada que validar
+}
+
+
+
+function token_invite_generator_admin_settings_submit($form, &$form_state) {
+	$meta['columnNames'][] = 'email';
+	$meta['columnNames'][] = 'name';
+	$meta['columnNames'][] = 'means';
+	$meta['columnNames'][] = 'address';
+	$meta['columnNames'][] = 'city';
+	$meta['columnNames'][] = 'phone';
+	$meta['columnNames'][] = 'mobile';
+	$meta['columnNames'][] = 'prt';
+	switch ($form_state['values']['op']) {
+		case $form_state['values']['submit']:
+			$validators['file_validate_extensions'][] = 'xls, xlsx';
+			$file = file_save_upload('excel', $validators, false, FILE_EXISTS_REPLACE);
+			require_once 'xlsReader.inc';
+                        
+             
+			$reader = new XLSReader($file, $meta);
+			$registros = $reader->getSheetsContent();
+
+			$tokens = array();
+			if (!empty($registros)) {
+				require_once 'token.inc';
+				foreach ($registros as $row) {
+					$tmp = new Token($row);
+					$tmp->save();
+					$tokens[] = $tmp;
+					unset($tmp);
+				}
+			}
+			break;
+		case $form_state['values']['download']:
+			require_once 'xlsWriter.inc';
+			$meta['columnNames'][] = 'token';
+			$writer = new XLSWriter($meta);
+
+			require_once 'token.inc';
+			$query = db_select('token_invite_generator_tokens', 'tokens');
+			$query->fields('tokens', array('data', 'hash'));
+			$query->condition('tokens.state', Token::ESTADO_NO_USADO);
+			$result = $query->execute();
+
+			$rows = $result->fetchAll();
+			foreach ($rows as $i => $row) {
+				$rows[$i]->data = unserialize($row->data);
+				$j = 1;
+				$tmpRow = array();
+				foreach ($rows[$i]->data as $value)
+					$tmpRow[$meta['columnNames'][$j++]] = $value;
+
+				$tmpRow[$meta['columnNames'][$j++]] = url('user/register', array('query' => array('token' => $rows[$i]->hash), 'absolute' => true));
+				$rows[$i] = $tmpRow;
+				unset($tmpRow);
+			}
+			$writer->write($rows, 'invitations');
+			break;
+		case $form_state['values']['clear_all']:
+			db_query('TRUNCATE token_invite_generator_tokens');
+			drupal_set_message(t('all invitations were deleted'));
+			break;
+	}
+}
+
+function _token_invite_generator_get_token($token) {
+	require_once 'token.inc';
+	$tmp = new Token();
+	$tmp->load($token);
+	return $tmp;
+}
+
+function _token_invite_generator_is_valid_token() {
+	
+}
+
+/** * Implements hook_mail_alter() * @param string $message */ 
+
+function token_invite_generator_mail_alter(&$message) { 
+
+	$headers = array( 'MIME-Version' => '1.0', 'Content-Type' => 'text/html; charset=UTF-8;; format=flowed', 'Content-Transfer-Encoding' => '8Bit', 'X-Mailer' => 'Drupal', ); 
+
+	foreach ($headers as $key => $value) { 
+		$message['headers'][$key] = $value; 
+	} 
+} 
+
+
+
+function token_invite_generator_mail($key, &$message, $params) { 
+	//Language Selection
+	extract($params);
+    global $base_root;    
+
+   $logo = $base_root.'/sites/default/files/logo.png';
+    
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+    
+    switch ($key) {
+        case 'invite':
+            $message['subject'] = "Invitación Portal Caracol Tv";
+            $message['body'][] = theme('token_invite_generator_template', array('message' => $params));
+            
+            break;
+    } 
+
+}
+
+function token_invite_generator_theme() {
+    $path = drupal_get_path('module', 'token_invite_generator') . '/templates';
+    return array(
+        'token_invite_generator_template' => array(
+            'template' => 'mail_welcome', //note that there isn't an extension on here, it assumes .tpl.php
+            'arguments' => array('message' => ''), //the '' is a default value
+            'path' => $path,
+        ),
+    );
+}
+
+
+
+
+

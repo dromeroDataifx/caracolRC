@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ */
+function valorem_analisis_menu() {
+  $items = array();
+  
+  $items['admin/config/user-interface/analisis'] = array(
+    'title' => t('Analisis'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('valorem_analisis_form'),
+    'access callback' => TRUE,
+    'weight' => 12,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+function valorem_analisis_form($form, &$form_state) {
+	$form = array();
+	$form['iframe_1'] = array(
+		'#title' => t('URL iframe Correlaciones'),
+		'#type' => 'textfield',
+		'#default_value' => variable_get('iframe_1', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,  
+	);
+	$form['iframe_2'] = array(
+		'#title' => 'iframe 2',
+		'#type' => 'textfield',
+		'#default_value' => variable_get('iframe_2', ''),
+		'#maxlength' => 50,
+		'#size' => 50,
+		'#required' => TRUE,
+	);
+	$form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Guardar')
+	);
+	return $form;
+}
+
+function valorem_analisis_form_submit($form, &$form_state) {
+	variable_set('iframe_1', isset ($form_state['values']['iframe_1']) ? $form_state['values']['iframe_1'] : ''); 
+	variable_set('iframe_2', isset ($form_state['values']['iframe_2']) ? $form_state['values']['iframe_2'] : '');
+}
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_analisis_block_info() {
+  $blocks = array();
+  $blocks['info_1'] = array(
+    'info' => t('Iframe 1')
+  );
+	$blocks['info_2'] = array(
+    'info' => t('Iframe 2')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+ function valorem_analisis_block_view($delta = '') {
+   $block = array();
+	 switch ($delta) {
+		 case 'info_1':
+			 $block['subject'] = t('CORRELACIONES');
+   		 $block['content'] =  _analisis1_page(); 
+			 break;
+		 case 'info_2':
+			 $block['subject'] = t('ANALISIS TECNICO');
+   		 $block['content'] =  _analisis2_page(); 
+			 break;
+
+		 default:
+			 
+			 break;
+	 }
+   return $block;
+ }
+ 
+ function _analisis1_page() {
+ 	 return '<iframe src="' . variable_get('iframe_1', '') . '" WIDTH=960 HEIGHT=610></iframe>';
+ }
+ 
+ function _analisis2_page() {
+ 	 return '<iframe src="' . variable_get('iframe_2', '') . '" WIDTH=960 HEIGHT=697></iframe>';
+ }
+ 

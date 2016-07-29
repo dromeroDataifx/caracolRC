@@ -1,0 +1,13 @@
+<?php
+
+/**
+* Implements hook_init().
+*/
+function valorem_active_menu_init() {
+	$path = drupal_get_path_alias(current_path());
+	$current_path = explode('/', $path);
+	if ( $current_path[0] == t('informacion_financiera') || $current_path[0] == t('sociedad') ) {
+		drupal_add_js(drupal_get_path('module', 'valorem_active_menu') . 
+			'/js/valorem_active_menu.js');
+	}
+}

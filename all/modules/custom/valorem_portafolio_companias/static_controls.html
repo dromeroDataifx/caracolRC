@@ -1,0 +1,62 @@
+<html>
+<head>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!-- jQuery library -->
+<script type="text/javascript" src="lib/jquery-1.4.2.min.js"></script>
+<!--
+  jCarousel library
+-->
+<script type="text/javascript" src="lib/jquery.jcarousel.min.js"></script>
+<script type="text/javascript">
+/**
+ * We use the initCallback callback
+ * to assign functionality to the controls
+ */
+function mycarousel_initCallback(carousel) {
+    jQuery('.jcarousel-control a').bind('click', function() {
+        carousel.scroll(jQuery.jcarousel.intval(jQuery(this).text()));
+        return false;
+    });
+};
+
+jQuery(document).ready(function() {
+    jQuery("#mycarousel").jcarousel({
+        scroll: 1,
+        initCallback: mycarousel_initCallback,
+    });
+});
+
+</script>
+
+</head>
+<body>
+<div id="wrap">
+  <div id="mycarousel" class="jcarousel-skin-tango">
+    <ul>
+      <li><img width="75" height="75" src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" alt="" /></li>
+      <li><img width="75" height="75" src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" alt="" /></li>
+    </ul>
+    <div class="jcarousel-control">
+      <a href="#">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">4</a>
+      <a href="#">5</a>
+      <a href="#">6</a>
+      <a href="#">7</a>
+      <a href="#">8</a>
+      <a href="#">9</a>
+      <a href="#">10</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

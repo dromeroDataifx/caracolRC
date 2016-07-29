@@ -1,0 +1,10 @@
+name = "Ajax UI"
+description = "provee una interfaz de intregacion para otros portales u servicios."
+files[]=ajax_ui.admin.inc
+files[]=ajax_ui.ajax.inc
+core = 7.x
+version = "7.x-1.2"
+
+core = "7.x"
+project = "Fiducor Services"
+package = Data iFX

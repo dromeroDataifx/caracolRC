@@ -1,0 +1,2383 @@
+                                                                     
+                                                                     
+                                                                     
+                                             
+1 Cuenta Español Colombia
+2 1 Activo Inglés Asset
+3 11 Disponible Inglés Available
+4 1105 Caja Inglés Cash
+5 110505 Caja general Inglés General cash
+6 110510 Cajas menores Inglés Petty cash
+7 110515 Moneda extranjera Inglés Foreign currency
+8 1110 Bancos Inglés Banks
+9 111005 Moneda nacional Inglés National currency
+10 111010 Moneda extranjera Inglés Foreign currency
+11 1115 Remesas en tránsito Inglés Remittances in transit
+12 111505 Moneda nacional Inglés National currency
+13 111510 Moneda extranjera Inglés Foreign currency
+14 1120 Cuentas de ahorro Inglés Savings accounts
+15 112005 Bancos Inglés Banks
+16 112010 Corporaciones de ahorro y vivienda Inglés Corporations of saving and house
+17 112015 Organismos cooperativos financieros Inglés Cooperative financial organisms
+18 1125 Fondos Inglés Funds
+19 112505 Rotatorios moneda nacional Inglés Rotatory national currency
+20 112510 Rotatorios moneda extranjera Inglés Rotatory foreign currency
+21 112515 Especiales moneda nacional Inglés Specials national currency
+22 112520 Especiales moneda extranjera Inglés Specials foreign currency
+23 112525 De amortización moneda nacional Inglés Of amortization national currency
+24 112530 De amortización moneda extranjera Inglés Of amortization foreign currency
+25 12 Inversiones Inglés Investments
+26 1205 Acciones Inglés Stocks
+27 120505 Agricultura, ganadería, caza y silvicultura Inglés Agriculture, livestock, hunting and silviculture
+28 120510 Pesca Inglés Fish
+29 120515 Explotación de minas y canteras Inglés Exploitation of mines and stone pits
+30 120520 Industria manufacturera Inglés Manufacturing industry
+31 120525 Suministro de electricidad, gas y agua Inglés Supply of electricity, gas and water
+32 120530 Construcción Inglés Construction
+33 120535 Comercio al por mayor y al por menor Inglés Trade wholesale and in detail
+34 120540 Hoteles y restaurantes Inglés Hotels and restaurants
+35 120545 Transporte, almacenamiento y comunicaciones Inglés Transport, storage and communications
+36 120550 Actividad financiera Inglés Financial activity
+37 120555 Actividades inmobiliarias, empresariales y de alquiler Inglés Real estate, renting and business
+38 120560 Enseñanza Inglés Teaching
+39 120565 Servicios sociales y de salud Inglés Social and health services
+40 120570 Otras actividades de servicios comunitarios, sociales y personales Inglés Another activities of community services, social and personal
+41 120599 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+42 1210 Cuotas o partes de interés social Inglés Quotas or parts of social interest
+43 121005 Agricultura, ganadería, caza y silvicultura Inglés Agriculture, cattle raising, hunting and silviculture
+44 121010 Pesca Inglés Fish
+45 121015 Explotación de minas y canteras Inglés Exploitation of mines and stone pits
+46 121020 Industria manufacturera Inglés Manufacturing industry
+47 121025 Suministro de electricidad, gas y agua Inglés Supply of electricity, gas and water
+48 121030 Construcción Inglés Construction
+49 121035 Comercio al por mayor y al por menor Inglés Trade wholesale and in detail
+50 121040 Hoteles y restaurantes Inglés Hotels and restaurants
+51 121045 Transporte, almacenamiento y comunicaciones Inglés Transport, storage and communications
+52 121050 Actividad financiera Inglés Financial activity
+53 121055 Actividades inmobiliarias, empresariales y de alquiler Inglés Real estate, renting and business
+54 121060 Enseñanza Inglés Teaching
+55 121065 Servicios sociales y de salud Inglés Social and health services
+56 121070 Otras actividades de servicios comunitarios, sociales y personales Inglés Another activities of community services, social and personal
+57 121099 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+58 1215 Bonos Inglés Bonds
+59 121505 Bonos públicos moneda nacional Inglés Government bonds national currency
+60 121510 Bonos públicos moneda extranjera Inglés Government bonds foreign currency
+61 121515 Bonos ordinarios Inglés Ordinary bonds
+62 121520 Bonos convertibles en acciones Inglés Convertible bonds
+63 121595 Otros Inglés Other
+64 1220 Cédulas Inglés Bonds
+65 122005 Cédulas de capitalización Inglés Capitalization bonds
+66 122010 Cédulas hipotecarias Inglés Mortgage credentials
+67 122015 Cédulas de inversión Inglés Investment bonds
+68 122095 Otras Inglés Other
+69 1225 Certificados Inglés Certificates
+70 122505 Certificados de depósito a término (CDT) Inglés Certificates of deposit to term ( CDT )
+71 122510 Certificados de depósito de ahorro Inglés Certificates of deposit of saving
+72 122515 Certificados de ahorro de valor constante (CAVC) Inglés Certificates of saving of constant value ( CAVC )
+73 122520 Certificados de cambio Inglés Exchange certificates
+74 122525 Certificados cafeteros valorizables Inglés Coffee certificates valorizables
+75 122530 Certificados eléctricos valorizables (CEV) Inglés Electric certificates valorizables ( CEV )
+76 122535 Certificados de reembolso tributario (CERT) Inglés Certificates of tributary reimbursement ( CERT )
+77 122540 Certificados de desarrollo turístico Inglés Certificates of tourist development
+78 122545 Certificados de inversión forestal (CIF) Inglés Forestal investment certificates ( CIF )
+79 122595 Otros Inglés Other
+80 1230 Papeles comerciales Inglés Commercial papers
+81 123005 Empresas comerciales Inglés Business ventures
+82 123010 Empresas industriales Inglés Industrial enterprises
+83 123015 Empresas de servicios Inglés Utilities companies
+84 1235 Títulos Inglés Titles
+85 123505 Títulos de desarrollo agropecuario Inglés Titles of agricultural development
+86 123510 Títulos canjeables por certificados de cambio Inglés Exchangeable titles for change certificates
+87 123515 Títulos de tesorería (TES) Inglés Titles of office of treasurer ( TES )
+88 123520 Títulos de participación Inglés Equity securities
+89 123525 Títulos de crédito de fomento Inglés Negotiable instruments of fomentation
+90 123530 Títulos financieros agroindustriales (TFA) Inglés Financial agroindustrial titles ( TFA )
+91 123535 Títulos de ahorro cafetero (TAC) Inglés Coffee savings bonds ( TAC )
+92 123540 Títulos de ahorro nacional (TAN) Inglés National savings bonds ( TAN )
+93 123545 Títulos energéticos de rentabilidad creciente (TER) Inglés Energetic titles of increasing profitability ( TER )
+94 123550 Títulos de ahorro educativo (TAE) Inglés Educational savings bonds ( TAE )
+95 123555 Títulos financieros industriales y comerciales Inglés Financial titles industrials and commercials
+96 123560 Tesoros Inglés Treasures
+97 123565 Títulos de devolución de impuestos nacionales (TIDIS) Inglés National titles of tax rebate ( TIDIS )
+98 123570 Títulos inmobiliarios Inglés Realestate titles
+99 123595 Otros Inglés Other
+100 1240 Aceptaciones bancarias o financieras Inglés Banker's acceptances or financiers
+101 124005 Bancos comerciales Inglés Commercial banks
+102 124010 Compañías de financiamiento comercial Inglés Companies of commercial financing
+103 124015 Corporaciones financieras Inglés Finance corporations
+104 124095 Otras Inglés Other
+105 1245 Derechos fiduciarios Inglés Fiduciary Rights
+106 124505 Fideicomisos de inversión moneda nacional Inglés Currency investment trusts
+107 124510 Fideicomisos de inversión moneda extranjera Inglés Foreign investment trusts
+108 1250 Derechos de recompra de inversiones negociadas (repos) Inglés Rights of buyback of negotiated investments ( repurchase agreements )
+109 125005 Acciones Inglés Stocks
+110 125010 Cuotas o partes de interés social Inglés Quotas or parts of social interest
+111 125015 Bonos Inglés Bonds
+112 125020 Cédulas Inglés Bonds
+113 125025 Certificados Inglés Certificates
+114 125030 Papeles comerciales Inglés Commercial papers
+115 125035 Títulos Inglés Titles
+116 125040 Aceptaciones bancarias o financieras Inglés Banker's acceptances or financiers
+117 125095 Otros Inglés Other
+118 125099 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+119 1255 Obligatorias Inglés Obligatory
+120 125505 Bonos de financiamiento especial Inglés Bonds of especial financing
+121 125510 Bonos de financiamiento presupuestal Inglés Bonds of financing presupuestal
+122 125515 Bonos para desarrollo social y seguridad interna (BDSI) Inglés Bonds for social development and internal certainty ( BDSI )
+123 125595 Otras Inglés Other
+124 1260 Cuentas en participación Inglés Participation Account
+125 126001 a 126098 Inglés To 126098
+126 126099 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+127 1295 otras inversiones Inglés Another investments
+128 129505 aportes en cooperativas Inglés Contributions in cooperatives
+129 129510 derechos en clubes sociales Inglés Rights in social clubs
+130 129515 acciones o derechos en clubes deportivos Inglés Stocks or rights in sports clubs
+131 129520 bonos en colegios Inglés school bond
+132 129595 diversas Inglés Various
+133 129599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+134 1299 provisiones Inglés provisions
+135 129905 Acciones Inglés Stocks
+136 129910 cuotas o partes de interes social Inglés Quotas or parts of social interest
+137 129915 bonos Inglés Bonds
+138 129920 cedulas Inglés Bonds
+139 129925 certificados Inglés Certificates
+140 129930 papeles comerciales Inglés Commercial papers
+141 129935 titulos Inglés Titles
+142 129940 aceptaciones bancarias o financieras Inglés Banker's acceptances or financiers
+143 129945 derechos fiduciarios Inglés Fiduciary rights
+144 129950 derechos de recompra de inversiones negociadas Inglés Repurchase rights negotiated investments
+145 129955 obligatorias Inglés Obligatory
+146 129960 cuentas en participacion Inglés Participation Account
+147 129995 otras inversiones Inglés Another investments
+148 13 deudores Inglés Debtors
+149 1305 clientes Inglés Customers
+150 130505 nacionales Inglés Nationals
+151 130510 del exterior Inglés From outside
+152 130515 deudores del sistema Inglés Debtors of the system
+153 1310 cuentas corrientes comerciales Inglés Commercial current accounts
+154 131005 casa matriz Inglés parent company
+155 131010 compañias vinculadas Inglés Linked companies
+156 131015 accionistas o socios Inglés Shareholders or associates
+157 131020 particulares Inglés Individuals
+158 131095 otras Inglés Other
+159 1315 cuentas por cobrar a casa matriz Inglés accounts receivable to parent company
+160 131505 ventas Inglés Sales
+161 131510 pagos a nombre de casa matriz Inglés payments on behalf of parent company
+162 131515 valores recibidos por casa matriz Inglés values received by parent company
+163 131520 prestamos Inglés Loans
+164 1320 cuentas por cobrar a vinculados economicos Inglés accounts receivable to linked economic
+165 132005 filiales Inglés Subsidiaries
+166 132010 subsidiarias Inglés Subsidiaries
+167 132015 sucursales Inglés Subsidiaries
+168 1325 cuenta s por cobrar a socios y accionistas Inglés Accounts receivable from partners and shareholders
+169 132505 a socios Inglés To associates
+170 132510 a accionistas Inglés To shareholders
+171 1328 aportes por cobrar Inglés Receivable contributions
+172 132801 a 132898 Inglés To 132898
+173 1330 anticipos y avances Inglés Advance payments and advances
+174 133005 a proveedores Inglés To suppliers
+175 133010 a contratistas Inglés To contractors
+176 133015 a trabajadores Inglés To workers
+177 133020 a agentes Inglés To agents
+178 133025 a concesionarios Inglés to dealers
+179 133030 de adjudicaciones Inglés Of adjudications
+180 133095 otros Inglés Other
+181 1332 cuentas de operacion conjunta Inglés United operating accounts
+182 133201 a 133298 Inglés To 133298
+183 1335 depositos Inglés Deposits
+184 133505 para importaciones Inglés For imports
+185 133510 para servicios Inglés For services
+186 133515 para contratos Inglés For contracts
+187 133520 para responsabilidades Inglés For responsibilities
+188 133525 Para juicios ejecutivos Inglés For executory processes
+189 133530 para adquisicion de acciones, cuotas o derechos sociales Inglés For acquisition of actions, quotas or social rights
+190 133535 en garantia Inglés Under guarantee
+191 133595 otros Inglés Other
+192 1340 promesas de compra venta Inglés Promises to purchasesale
+193 134005 de bienes raices Inglés Of real estate
+194 134010 de maquinaria y equipo Inglés Of machinery and equipment
+195 134015 de flota y equipo de transporte Inglés On fleet and transport equipment
+196 134020 de flota y equipo aereo Inglés On air fleet and equipment
+197 134025 de flota y equipo ferreo Inglés On train fleet and equipment
+198 134030 de flota y equipo fluvial y/o maritimo Inglés On river fleet and equipment and / or maritime
+199 134035 de semovientes Inglés Of livestock
+200 134095 de otros bienes Inglés Of another goods
+201 1345 ingresos por cobrar Inglés income receivable
+202 134505 dividendos y/o participaciones Inglés Dividends and or participations
+203 134510 intereses Inglés Interests
+204 134515 comisiones Inglés Commissions
+205 134520 honorarios Inglés Fees
+206 134525 servicios Inglés Services
+207 134530 arrendamientos Inglés Leasings
+208 134535 cert por cobrar Inglés Receivable CERT
+209 134595 otros Inglés Other
+210 1350 retencion sobre contratos Inglés Retention on contracts
+211 135005 de construccion Inglés Of construction
+212 135010 de prestacion de servicios Inglés Of provide services
+213 135095 otros Inglés Other
+214 1355 anticipo de impuestos y contribuciones o saldos a favor Inglés Advance payment of taxes and contributions or balances in favor
+215 135505 anticipo de impuestos de renta y complementarios Inglés Advance payment of taxes of income and complementary
+216 135510 anticipo de impuestos de industria y comercio Inglés Advance payment of taxes on purpose and commerce
+217 135515 retencion en la fuente Inglés Withholding tax payment
+218 135517 Impuesto a las ventas y retenido Inglés Sales tax withheld
+219 135518 Impuesto de Industria y comercio y retenido Inglés Industry and trade tax and retained
+220 135520 sobrantes en liquidacion privada de impuestos Inglés Surpluses in liquidation private of taxes
+221 135525 contribuciones Inglés Contributions
+222 135530 impuestos descontables Inglés Discountable taxes
+223 135595 otros Inglés Other
+224 1360 reclamaciones Inglés Reclamations
+225 136005 a compañias aseguradoras Inglés To insurance companies
+226 136010 a transportadores Inglés To carriers
+227 136015 por tiquetes aereos Inglés For aerial tickets
+228 136095 otras Inglés Other
+229 1365 cuentas por cobrar a trabajadores Inglés Accounts receivable from employees
+230 136505 vivienda Inglés Housing
+231 136510 vehiculos Inglés Vehicles
+232 136515 educacion Inglés Education
+233 136520 medicos, odontologicos y similares Inglés medical, dental and similar
+234 136525 calamidad domestica Inglés domestic calamity
+235 136530 responsabilidades Inglés Responsibilities
+236 136595 otros Inglés Other
+237 1370 prestamos a particulares Inglés Loans to individuals
+238 137005 con garantia real Inglés With real guarantee
+239 137010 con garantia personal Inglés With personal guarantee
+240 1380 deudores varios Inglés Sundry debtors
+241 138005 depositarios Inglés Depositories
+242 138010 Comisionistas de bolsas Inglés Stockbrokers
+243 138015 fondo de inversion Inglés Investment fund
+244 138020 cuentas por cobrar de terceros Inglés thirdparty accounts receivable
+245 138025 pagos por cuenta de terceros Inglés Payments for third parties
+246 138030 fondos de inversion social Inglés Social investment funds
+247 138095 otros Inglés Other
+248 1385 derechos de recompra de cartera negociada Inglés Rights of buyback of negotiated wallet
+249 138501 a 138598 Inglés To 138598
+250 1390 deudas de dificil cobro Inglés Debts of difficult collection of payment
+251 139001 a 139098 Inglés To 139098
+252 1399 provisiones Inglés provisions
+253 139905 clientes Inglés Customers
+254 139910 cuentas corrientes comerciales Inglés Commercial current accounts
+255 139915 cuentas por cobrar a casa matriz Inglés Accounts receivable from parent
+256 139920 cuentas por cobrar a vinculados economicos Inglés Accounts receivable from related parties
+257 139925 cuentas por cobrar a socios y accionistas Inglés Accounts receivable from partners and shareholders
+258 139930 anticipos y avances Inglés Advance payments and advances
+259 139932 cuentas de operacion conjunta Inglés United operating accounts
+260 139935 depositos Inglés Deposits
+261 139940 promesas de compraventa Inglés Purchase agreements
+262 139945 ingresos por cobrar Inglés Receivable entrances
+263 139950 retencion sobre contratos Inglés Retention on contracts
+264 139955 reclamaciones Inglés Reclamations
+265 139960 cuentas por cobrar a trabajadores Inglés Accounts receivable from employees
+266 139965 prestamos a particulares Inglés Loans to individuals
+267 139975 deudores varios Inglés Several debtors
+268 139980 derechos de recompra de cartera negociada Inglés Rights of buyback of negotiated wallet
+269 14 inventarios Inglés Inventories
+270 1405 materias primas Inglés Raw materials
+271 140501 a 140598 Inglés To 140598
+272 140599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+273 1410 productos en proceso Inglés Goods in process
+274 141001 a 141098 Inglés To 141098
+275 141099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+276 1415 obras de construccion en curso Inglés Construction work in progress
+277 141501 a 141598 Inglés To 141598
+278 141599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+279 1417 obras de urbanismo Inglés urban planning work
+280 141701 a 141798 Inglés To 141798
+281 141799 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+282 1420 contratos en ejecucion Inglés Running contracts
+283 142001 a 142098 Inglés To 142098
+284 142099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+285 1425 cultivos en desarrollo Inglés Developing cultivations
+286 142501 a 142598 Inglés To 142598
+287 142599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+288 1430 productos terminados Inglés Finished goods
+289 143005 productos manufacturados Inglés Manufactures
+290 143010 productos extraidos y/o procesados Inglés Product yieldeds and or defendants
+291 143015 productos agricolas y forestales Inglés Agricultural and forestal products
+292 143020 subproductos Inglés Byproducts
+293 143025 productos de pesca Inglés Products of fishing
+294 143099 ajustes por inflacion Inglés Adjustments for inflation
+295 1435 mercancias no fabricadas por la empresa Inglés Goods manufactured by the company
+296 143501 a 143598 Inglés To 143598
+297 143599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+298 1440 bienes raices para la venta Inglés Real estate for sale
+299 144001 a 144098 Inglés To 144098
+300 144099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+301 1445 semovientes Inglés livestock
+302 144505 especies mayores Inglés Major species
+303 144510 especies menores Inglés Minor species
+304 144599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+305 1450 terrenos Inglés Lots
+306 145005 por urbanizar Inglés In order to urbanize
+307 145010 urbanizados por construir Inglés Builtup to construct
+308 145099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+309 1455 materiales, repuestos y accesorios Inglés Materials, spare parts and accessories
+310 145501 a 145598 Inglés To 145598
+311 145599 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+312 1460 envases y empaques Inglés Containers and packings
+313 146001 a 146098 Inglés To 146098
+314 146099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+315 1465 inventarios en transito Inglés Inventories in transit
+316 146501 a 146598 Inglés To 146598
+317 146599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+318 1499 provisiones Inglés provisions
+319 149905 para obsolescencia Inglés For obsolescence
+320 149910 para diferencia de inventario fisico Inglés For difference of physical inventory
+321 149915 para perdidas de inventarios Inglés For losses of inventories
+322 149920 lifo Inglés Lifo
+323 15 propiedades planta y equipo Inglés property, plant and equipment
+324 1504 terrenos Inglés land
+325 150405 urbanos Inglés Urban
+326 150410 rurales Inglés Rural
+327 150499 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+328 1506 materiales proyectos petroleros Inglés Material oil projects
+329 150605 tuberias y equipo Inglés Pipes and equipment
+330 150610 costos de importacion materiales Inglés Material costs of importing
+331 150615 proyectos de construccion Inglés Building projects
+332 150699 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+333 1508 construcciones en curso Inglés Current constructions
+334 150805 construcciones y edificaciones Inglés Constructions and edifications
+335 150810 acueductos plantas y redes Inglés acueductos plantas y redes
+336 150815 vias de comunicacion Inglés Roadways
+337 150820 pozos artesianos Inglés Artesian wells
+338 150825 Proyectos de exploracion Inglés Projects of exploration
+339 150830 proyectos de desarrollo Inglés Development projects
+340 150899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+341 1512 maquinaria y equipos en montaje Inglés Machinery and equipment in setup
+342 151205 maquinaria y equipo Inglés Machinery and equipment
+343 151210 equipo de oficina Inglés Office equipment
+344 151215 equipo de computacion y comunicacion Inglés Computer equipment and communication
+345 151220 equipo medicocientifico Inglés Medical scientific equipment
+346 151225 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+347 151230 flota y equipo de transporte Inglés Fleet ant transport equipment
+348 151235 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+349 151240 flota y equipo aereo Inglés Air fleet and equipment
+350 151245 flota y equipo ferreo Inglés Train fleet and equipment
+351 151250 plantas y redes Inglés Plants and nets
+352 151299 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+353 1516 construcciones y edificaciones Inglés Constructions and edifications
+354 151605 edificios Inglés Buildings
+355 151610 oficinas Inglés Offices
+356 151615 almacenes Inglés Stores
+357 151620 fabricas y plantas industriales Inglés Factories and plants industrials
+358 151625 salas de exhibicion y ventas Inglés Showrooms and sales
+359 151630 cafeteria y casinos Inglés Coffee shop and casinos
+360 151635 silos Inglés Silos
+361 151640 invernaderos Inglés Greenhouses
+362 151645 casetas y campamentos Inglés Booths and camps
+363 151650 instalaciones agropecuarias Inglés Agricultural installations
+364 151655 viviendas para empleados y obreros Inglés Houses for employees and laborers
+365 151660 terminal de buses y taxis Inglés Bus and taxi terminal
+366 151663 terminal maritimo Inglés Maritime terminal
+367 151665 terminal ferreo Inglés Railway terminal
+368 151670 parqueaderos, garajes y depositos Inglés Parking, garages and deposits
+369 151675 hangares Inglés Hangars
+370 151680 bodegas Inglés Warehouses
+371 151695 otros Inglés Other
+372 151699 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+373 1520 maquinaria y equipo Inglés Machinery and equipment
+374 152001 a 152098 Inglés To 152098
+375 152099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+376 1524 equipo de oficina Inglés Office equipment
+377 152405 muebles y enseres Inglés furniture and fixtures
+378 152410 equipos Inglés Equipment
+379 152495 otros Inglés Other
+380 152499 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+381 1528 equipo de computacion y comunicacion Inglés Computer equipment and communication
+382 152805 equipos de procesamiento de datos Inglés Data processing equipment
+383 152810 equipos de telecomunicaciones Inglés Telecommunications equipment
+384 152815 equipos de radio Inglés Radio equipment
+385 152820 satelites y antenas Inglés Satellites and antennas
+386 152825 lineas telefonicas Inglés Telephone lines
+387 152895 otros Inglés Other
+388 152899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+389 1532 equipo medico cientifico Inglés Medical equipment scientist
+390 153205 medico Inglés Doctor
+391 153210 odontologico Inglés Odontologist
+392 153215 laboratorio Inglés Laboratory
+393 153220 instrumental Inglés Instruments
+394 153295 otros Inglés Other
+395 153299 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+396 1536 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+397 153605 de habitaciones Inglés Of rooms
+398 153610 de comestibles y bebidas Inglés Of groceries and drinks
+399 153695 otros Inglés Other
+400 153699 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+401 1540 flota y equipo de transporte Inglés Fleet ant transport equipment
+402 154005 autos, camionetas y camperos Inglés Cars, pickup trucks and country
+403 154008 camiones, volquetas y furgones Inglés Trucks, dump trucks and trailer trucks
+404 154010 tractomulas y remolques Inglés tractors and trailers
+405 154015 buses y busetas Inglés Buses and small buses
+406 154017 recolectores y contenedores Inglés Collectors and containers
+407 154020 montacargas Inglés Fork lift
+408 154025 palas y gruas Inglés Shovels and cranes
+409 154030 motocicletas Inglés Motorcycles
+410 154035 bicicletas Inglés Bicycles
+411 154040 estibas y carretas Inglés Stowages and carts
+412 154045 bandas transportadoras Inglés Conveyor belts
+413 154095 otros Inglés Other
+414 154099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+415 1544 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+416 154405 buques Inglés Ships
+417 154410 lanchas Inglés Boats
+418 154415 remolcadoras Inglés tow truck
+419 154420 botes Inglés Boats
+420 154425 boyas Inglés Buoys
+421 154430 amarres Inglés Moorings
+422 154435 contenedores y chassises Inglés Containers and chassises
+423 154440 gabarras Inglés Barges
+424 154495 otros Inglés Other
+425 154499 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+426 1548 flota y equipo aereo Inglés Air fleet and equipment
+427 154805 aviones Inglés Airplanes
+428 154810 avionetas Inglés Light airplanes
+429 154815 helicopteros Inglés Helicopters
+430 154820 turbinas y motores Inglés Turbines and motors
+431 154825 manuales de entrenamiento personal tecnico Inglés Technical staff training manuals
+432 154830 equipos de vuelo Inglés Flight equipment
+433 154895 otros Inglés Other
+434 154899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+435 1552 flota y equipo ferreo Inglés Train fleet and equipment
+436 155205 locomotoras Inglés Locomotives
+437 155210 vagones Inglés Wagons
+438 155215 redes ferreas Inglés Rail networks
+439 155295 otros Inglés Other
+440 155299 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+441 1556 acueductos plantas y redes Inglés water supply plants and networks
+442 155605 instalaciones para agua y energia Inglés Installations for water and energy
+443 155610 acueducto acequias y canalizaciones Inglés Aqueduct irrigation ditches and canalizations
+444 155615 plantas de generacion hidraulica Inglés Plants of hydraulic generation
+445 155620 plantas de generacion termica Inglés Plants of thermic generation
+446 155625 Plantas de generacion a gas Inglés Generation's plants to gas
+447 155628 plantas de generacion diesel, gasolina y petroleo Inglés diesel generation plants, petrol and oil
+448 155630 plantas de distribucion Inglés Plants of distribution
+449 155635 plantas de transmision y subestaciones Inglés Plants of transmission and substations
+450 155640 oleoductos Inglés Oil pipe lines
+451 155645 gasoductos Inglés Gas pipelines
+452 155647 poliductos Inglés Polyducts
+453 155650 redes de distribucion Inglés Nets of distribution
+454 155655 plantas de tratamiento Inglés Plants of treatment
+455 155660 redes de recoleccion de aguas negras Inglés Collecting black water nets
+456 155665 instalaciones y equipo de bombeo Inglés Installations and equipment of pumping
+457 155670 redes de distribucion de vapor Inglés Vapor nets of distribution
+458 155675 redes de aire Inglés Air nets
+459 155680 redes alimentacion de gas Inglés Nets nutrition of gas
+460 155682 redes externas de telefonia Inglés Outernets of telephony
+461 155685 plantas deshidratadoras Inglés dehydrating plants
+462 155695 otros Inglés Other
+463 155699 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+464 1560 armamento de vigilancia Inglés Armament of vigilance
+465 156001 a 156098 Inglés To 156098
+466 156099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+467 1562 envases y empaques Inglés Containers and packings
+468 156201 a 156298 Inglés To 156298
+469 156299 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+470 1564 plantaciones agricolas y forestales Inglés Agricultural and forestal plantations
+471 156405 cultivos en desarrollo Inglés Developing cultivations
+472 156410 cultivos amortizables Inglés Redeemable cultivations
+473 156499 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+474 1568 vias de comunicacion Inglés Roadways
+475 156805 pavimentacion y patios Inglés Paving and patios
+476 156810 vias Inglés Roads
+477 156815 puentes Inglés Bridges
+478 156820 calles Inglés Streets
+479 156825 aerodromos Inglés Airdromes
+480 156895 otros Inglés Other
+481 156899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+482 1572 minas y canteras Inglés Mines and stone pits
+483 157205 minas Inglés Mines
+484 157210 canteras Inglés Stone pits
+485 157299 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+486 1576 pozos artesianos Inglés Artesian wells
+487 157601 a 157698 Inglés To 157698
+488 157699 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+489 1580 yacimientos Inglés Deposits
+490 158001 a 158098 Inglés To 158098
+491 158099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+492 1584 semovientes Inglés livestock
+493 158405 especies menores Inglés Minor species
+494 158410 especies mayores Inglés Major species
+495 158499 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+496 1588 propiedades planta y equipo en transito Inglés property, plant and in transit
+497 158805 maquinaria y equipo Inglés Machinery and equipment
+498 158810 equipo de oficina Inglés Office equipment
+499 158815 equipo de computacion y comunicacion Inglés Computer equipment and communication
+500 158820 equipo medico cientifico Inglés Medical scientific equipment
+501 158825 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+502 158830 flota y equipo de transporte Inglés Fleet ant transport equipment
+503 158835 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+504 158840 flota y equipo aereo Inglés Air fleet and equipment
+505 158845 flota y equipo ferreo Inglés Train fleet and equipment
+506 158850 plantas y redes Inglés Plants and nets
+507 158855 armamento de vigilancia Inglés Armament of vigilance
+508 158860 semovientes Inglés livestock
+509 158865 envases y empaques Inglés Containers and packings
+510 158899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+511 1592 depreciacion acumulada Inglés Accrued depreciation
+512 159205 construcciones y edificaciones Inglés Constructions and edifications
+513 159210 maquinaria y equipo Inglés Machinery and equipment
+514 159215 equipo de oficina Inglés Office equipment
+515 159220 equipo de computacion y comunicacion Inglés Computer equipment and communication
+516 159225 equipo medico cientifico Inglés Medical scientific equipment
+517 159230 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+518 159235 flota y equipo de transporte Inglés Fleet ant transport equipment
+519 159240 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+520 159245 flota y equipo aereo Inglés Air fleet and equipment
+521 159250 flota y equipo ferreo Inglés Train fleet and equipment
+522 159255 acueductos plantas y redes Inglés acueductos plantas y redes
+523 159260 armamento de vigilancia Inglés Armament of vigilance
+524 159265 envases y empaques Inglés Containers and packings
+525 159299 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+526 1596 depreciacion diferida Inglés Deferred depreciation
+527 159605 exceso fiscal sobre la contable Inglés Fiscal excess on the bookkeeper
+528 159610 defecto fiscal sobre la contable (cr) Inglés Fiscal defect on the bookkeeper ( cr )
+529 159699 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+530 1597 amortizacion acumulada Inglés Accumulated amortization
+531 159705 plantaciones agricolas y forestales Inglés Agricultural and forestal plantations
+532 159710 vias de comunicacion Inglés Roadways
+533 159715 semovientes Inglés livestock
+534 159799 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+535 1598 agotamiento acumulado Inglés Accumulated depletion
+536 159805 minas y canteras Inglés Mines and stone pits
+537 159815 pozos artesianos Inglés Artesian wells
+538 159820 yacimientos Inglés Deposits
+539 159899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+540 1599 provisiones Inglés provisions
+541 159904 terrenos Inglés Lots
+542 159906 materiales proyectos petroleros Inglés Material oil projects
+543 159908 construcciones en curso Inglés Current constructions
+544 159912 maquinaria en montaje Inglés machinery assembly
+545 159916 construcciones y edificaciones Inglés Constructions and edifications
+546 159920 maquinaria y equipo Inglés Machinery and equipment
+547 159924 equipo de oficina Inglés Office equipment
+548 159928 equipo de computacion y comunicacion Inglés Computer equipment and communication
+549 159932 equipo medico cientifico Inglés Medical scientific equipment
+550 159936 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+551 159940 flota y equipo de transporte Inglés Fleet ant transport equipment
+552 159944 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+553 159948 flota y equipo aereo Inglés Air fleet and equipment
+554 159952 Flota y equipo ferreo Inglés Train fleet and equipment
+555 159956 acueductos, plantas y redes Inglés Aqueducts, plants and nets
+556 159960 armamento de vigilancia Inglés Armament of vigilance
+557 159962 envases y empaques Inglés Containers and packings
+558 159964 plantaciones agricolas y forestales Inglés Agricultural and forestal plantations
+559 159968 vias de comunicacion Inglés Roadways
+560 159972 minas y canteras Inglés Mines and stone pits
+561 159980 pozos artesianos Inglés Artesian wells
+562 159984 yacimientos Inglés Deposits
+563 159988 semovientes Inglés livestock
+564 159992 propiedades planta y equipo en transito Inglés property, plant and in transit
+565 16 intangibles Inglés Intangibles
+566 1605 credito mercantil Inglés Commercial credit
+567 160505 formado o estimado Inglés Formed or estimated
+568 160510 adquirido o comprado Inglés Acquired or bought
+569 160599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+570 1610 marcas Inglés Check marks
+571 161005 adquiridas Inglés Acquired
+572 161010 formadas Inglés Formed
+573 161099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+574 1615 patentes Inglés Patents
+575 161505 adquiridas Inglés Acquired
+576 161510 formadas Inglés Formed
+577 161599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+578 1620 concesiones y franquicias Inglés Concessions and franchises
+579 162005 concesiones Inglés Concessions
+580 162010 franquicias Inglés Franchises
+581 162099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+582 1625 derechos Inglés Rights
+583 162505 derechos de autor Inglés copyright
+584 162510 puesto de bolsa Inglés Brokerdealer
+585 162515 en fideicomisos inmobiliarios Inglés In realestate trusteeships
+586 162520 en fideicomisos de garantia Inglés In trusteeships of you guaranteed
+587 162525 en fideicomisos de administracion Inglés In trusteeships of administration
+588 162595 otros Inglés Other
+589 162535 En bienes recibidos en arrendamiento financiero (leasing) Inglés In goods received in financial leasing (lease)
+590 162599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+591 1630 know how Inglés Know how
+592 163001 a 163098 Inglés To 163098
+593 163099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+594 1635 licencias Inglés Licenses
+595 163501 a 163598 Inglés To 163598
+596 163599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+597 1698 Depreciación y/o amortización acumulada Inglés Depreciation and or accumulated amortization
+598 169805 credito mercantil Inglés Commercial credit
+599 169810 marcas Inglés Check marks
+600 169815 patentes Inglés Patents
+601 169820 concesiones y franquicias Inglés Concessions and franchises
+602 169830 derechos Inglés Rights
+603 169835 know how Inglés Know how
+604 169840 licencias Inglés Licenses
+605 169899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+606 1699 provisiones Inglés provisions
+607 169901 a 169998 Inglés To 169998
+608 17 diferidos Inglés Differed
+609 1705 gastos pagados por anticipado Inglés Prepaid expenses
+610 170505 intereses Inglés Interests
+611 170510 honorarios Inglés Fees
+612 170515 comisiones Inglés Commissions
+613 170520 seguros y fianzas Inglés Insurances and bonding
+614 170525 arrendamientos Inglés Leasings
+615 170530 bodegajes Inglés Storages
+616 170535 mantenimiento equipos Inglés Maintenance equipment
+617 170540 servicios Inglés Services
+618 170545 suscripciones Inglés Subscriptions
+619 170595 otros Inglés Other
+620 1710 cargos diferidos Inglés Deferred charges
+621 171004 organizacion y preoperativos Inglés Organization and preoperations
+622 171008 remodelaciones Inglés Restorations
+623 171012 estudios, investigaciones y proyectos Inglés Studies, investigations and projects
+624 171016 programas para computador (software) Inglés computer programs (software)
+625 171020 utiles y papeleria Inglés School implements and stationer's shop
+626 171024 mejoras a propiedades ajenas Inglés improvements to properties outside
+627 171028 contribuciones y afiliaciones Inglés Contributions and affiliations
+628 171032 entrenamiento de personal Inglés Personal training
+629 171036 ferias y exposiciones Inglés Fairs and expositions
+630 171040 licencias Inglés Licenses
+631 171044 publicidad, propaganda y avisos Inglés Publicity, propaganda and ads
+632 171048 elementos de aseo y cafeteria Inglés Elements of cleanliness and coffee shop
+633 171052 moldes y troqueles Inglés Molds and dies
+634 171056 instrumental quirurgico Inglés Surgical instruments
+635 171060 dotacion y suministro a trabajadores Inglés Endowment and supply to workers
+636 171064 elementos de roperia y lenceria Inglés Clothing and lingerie items
+637 171068 loza y cristaleria Inglés China and glassware
+638 171072 descuento en colocacion de bonos Inglés Discount in placement of bonds
+639 171076 impuesto de renta diferido “debitos” por diferencias temporales Inglés Tax of deferred income debits for temporary differences
+640 171080 concursos y licitaciones Inglés Contests and bids
+641 171095 otros Inglés Other
+642 171099 ajustes por inflacion Inglés Adjustments for inflation
+643 1715 costos de exploracion por amortizar Inglés Costs of exploration to amortize
+644 171505 pozos secos Inglés Dry wells
+645 171510 pozos no comerciales Inglés Wells, no commercial
+646 171515 otros costos de exploracion Inglés Another costs of exploration
+647 171599 ajustes por inflacion Inglés Adjustments for inflation
+648 1720 costos de explotacion y desarrollo Inglés Operating costs and development
+649 172005 perforacion y explotacion Inglés Perforation and exploitation
+650 172010 perforaciones campos en desarrollo Inglés Perforations developing fields
+651 172015 facilidades de produccion Inglés Production facilities
+652 172020 servicio a pozos Inglés Service to wells
+653 172099 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+654 1730 cargos por correccion monetaria diferida < Derogado con el Decreto 1536 de 392I0n9g lé>s Fees for monetary correction deferred Annulled with the Decree 1536 of 39209
+655 173001 a 173098 < Derogado con el Decreto 1536 de 39209 > Inglés To 173098 annulled with the Decree 1536 of 39209
+656 1798 amortizacion acumulada Inglés Accumulated amortization
+657 179805 costos de exploracion por amortizar Inglés Costs of exploration to amortize
+658 179810 costos de explotacion y desarrollo Inglés Operating costs and development
+659 179899 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+660 18 otros activos Inglés Other assets
+661 1805 bienes de arte y cultura Inglés Goods of art and culture
+662 180505 Obras de arte Inglés Artworks
+663 180510 bibliotecas Inglés Libraries
+664 180595 otros Inglés Other
+665 180599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+666 1895 diversos Inglés Various
+667 189505 maquinas porteadoras Inglés Machinate carriers
+668 189510 bienes entregados en comodato Inglés Loaned goods
+669 189515 amortizacion acumulada de bienes entregados en comodato (cr) Inglés Accumulated amortization of loaned goods ( cr )
+670 189520 bienes recibidos en pago Inglés Goods received in payment
+671 189525 derechos sucesorales Inglés Successoral rights
+672 189530 estampillas Inglés Stamps
+673 189595 otros Inglés Other
+674 189599 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+675 1899 provisiones Inglés provisions
+676 189905 bienes de arte y cultura Inglés Goods of art and culture
+677 189995 diversos Inglés Various
+678 19 valorizaciones Inglés Valuings
+679 1905 de inversiones Inglés Of investments
+680 190505 acciones Inglés Actions
+681 190510 cuotas o partes de interes social Inglés Quotas or parts of social interest
+682 190515 derechos fiduciarios Inglés Fiduciary rights
+683 1910 de propiedades planta y equipo Inglés property, plant and equipment
+684 191004 terrenos Inglés Lots
+685 191006 materiales proyectos petroleros Inglés Material oil projects
+686 191008 construcciones y edificaciones Inglés Constructions and edifications
+687 191012 maquinaria y equipo Inglés Machinery and equipment
+688 191016 equipo de oficina Inglés Office equipment
+689 191020 equipo de computacion y comunicacion Inglés Computer equipment and communication
+690 191024 equipo medico cientifico Inglés Medical scientific equipment
+691 191028 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+692 191032 flota y equipo de transporte Inglés Fleet ant transport equipment
+693 191036 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+694 191040 flota y equipo aereo Inglés Air fleet and equipment
+695 191044 flota y equipo ferreo Inglés Train fleet and equipment
+696 191048 acueductos plantas y redes Inglés acueductos plantas y redes
+697 191052 armamento de vigilancia Inglés Armament of vigilance
+698 191056 envases y empaques Inglés Containers and packings
+699 191060 plantaciones agricolas y forestales Inglés Agricultural and forestal plantations
+700 191064 vias de comunicacion Inglés Roadways
+701 191068 minas y canteras Inglés Mines and stone pits
+702 191072 pozos artesianos Inglés Artesian wells
+703 191076 yacimientos Inglés Deposits
+704 191080 semovientes Inglés livestock
+705 1995 de otros activos Inglés Of other assets
+706 199505 bienes de arte y cultura Inglés Goods of art and culture
+707 199510 bienes entregados en comodato Inglés Goods delivered in loan
+708 199515 bienes recibidos en pago Inglés Goods received in payment
+709 199520 inventario de semovientes Inglés livestocks inventory
+710 2 Pasivo Inglés Liabilities
+711 21 Obligaciones financieras Inglés Financial obligations
+712 2105 Bancos nacionales Inglés National banks
+713 210505 Sobregiros Inglés Overdraws
+714 210510 Pagarés Inglés Promissory notes
+715 210515 Cartas de crédito Inglés Credit cards
+716 210520 Aceptaciones bancarias Inglés Banker's acceptances
+717 2110 Bancos del exterior Inglés Foreign banks
+718 211005 Sobregiros Inglés Overdraws
+719 211010 Pagarés Inglés Promissory notes
+720 211015 Cartas de crédito Inglés Credit cards
+721 211020 Aceptaciones bancarias Inglés Banker's acceptances
+722 2115 Corporaciones financieras Inglés Finance corporations
+723 211505 Pagarés Inglés Promissory notes
+724 211510 Aceptaciones financieras Inglés Financial approvals
+725 211515 Cartas de crédito Inglés Credit cards
+726 211520 Contratos de arrendamiento financiero (leasing) Inglés Financial lease contracts ( leasing )
+727 2120 Compañías de financiamiento comercial Inglés Companies of commercial financing
+728 212005 Pagarés Inglés Promissory notes
+729 212010 Aceptaciones financieras Inglés Financial approvals
+730 212020 Contratos de arrendamiento financiero (leasing) Inglés Financial lease contracts ( leasing )
+731 2125 Corporaciones de ahorro y vivienda Inglés Corporations of saving and house
+732 212505 Sobregiros Inglés Overdraws
+733 212510 Pagarés Inglés Promissory notes
+734 212515 Hipotecarias Inglés Mortgagees
+735 2130 Entidades financieras del exterior Inglés Foreign finance entities
+736 213001 a 213098 Inglés To 213098
+737 2135 Compromisos de recompra de inversiones negociadas Inglés Repurchase agreements of negotiated investments
+738 213505 Acciones Inglés Actions
+739 213510 Cuotas o partes de interés social Inglés Quotas or parts of social interest
+740 213515 Bonos Inglés Bonds
+741 213520 Cédulas Inglés Bonds
+742 213525 Certificados Inglés Certificates
+743 213530 Papeles comerciales Inglés Commercial papers
+744 213535 Títulos Inglés Titles
+745 213540 Aceptaciones bancarias o financieras Inglés Banker's acceptances or financiers
+746 213595 Otros Inglés Other
+747 2140 Compromisos de recompra de cartera negociada Inglés Repurchase agreements of negotiated wallet
+748 214001 a 214098 Inglés To 214098
+749 2145 Obligaciones gubernamentales Inglés Government obligations
+750 214505 Gobierno Nacional Inglés National Government
+751 214510 Entidades oficiales Inglés Official entities
+752 2195 Otras obligaciones Inglés Other obligations
+753 219505 Particulares Inglés Individuals
+754 219510 Compañías vinculadas Inglés Linked companies
+755 219515 Casa matriz Inglés Match womb
+756 219520 Socios o accionistas Inglés Associates or shareholders
+757 219525 Fondos y cooperativas Inglés Funds and cooperatives
+758 219530 Directores Inglés Directors
+759 219595 Otras Inglés Other
+760 22 Proveedores Inglés Suppliers
+761 2205 Nacionales Inglés Nationals
+762 220501 a 220598 Inglés To 220598
+763 2210 Del exterior Inglés Of the exterior
+764 221001 a 221098 Inglés To 221098
+765 2215 Cuentas corrientes comerciales Inglés Commercial current accounts
+766 221501 a 221598 Inglés To 221598
+767 2220 Casa matriz Inglés Match womb
+768 222001 a 222098 Inglés To 222098
+769 2225 Compañías vinculadas Inglés Linked companies
+770 222501 a 222598 Inglés To 222598
+771 23 Cuentas por pagar Inglés Accounts Payable
+772 2305 Cuentas corrientes comerciales Inglés Commercial current accounts
+773 230501 a 230598 Inglés To 230598
+774 2310 A casa matriz Inglés A parent
+775 231001 a 231098 Inglés To 231098
+776 2315 A compañías vinculadas Inglés To linked companies
+777 231501 a 231598 Inglés To 231598
+778 2320 A contratistas Inglés To contractors
+779 232001 a 232098 Inglés To 232098
+780 2330 Órdenes de compra por utilizar Inglés Purchase orders to use
+781 233001 a 233098 Inglés To 233098
+782 2335 Costos y gastos por pagar Inglés Costs and payable expenses
+783 233505 Gastos financieros Inglés Financial expenses
+784 233510 Gastos legales Inglés Legal expenses
+785 233515 Libros, suscripciones, periódicos y revistas Inglés Books, subscriptions, newspapers and magazines
+786 233520 Comisiones Inglés Commissions
+787 233525 Honorarios Inglés Fees
+788 233530 Servicios técnicos Inglés Technical services
+789 233535 Servicios de mantenimiento Inglés Services of maintenance
+790 233540 Arrendamientos Inglés Leasings
+791 233545 Transportes, fletes y acarreos Inglés Transportations, freightages and transportings
+792 233550 Servicios públicos Inglés Public services
+793 233555 Seguros Inglés Insurances
+794 233560 Gastos de viaje Inglés Traveling expenses
+795 233565 Gastos de representación y relaciones públicas Inglés Representation expenses and public relations
+796 233570 Servicios aduaneros Inglés Custom services
+797 233595 Otros Inglés Other
+798 2340 Instalamentos por pagar Inglés Installations payable
+799 234001 a 234098 Inglés To 234098
+800 2345 Acreedores oficiales Inglés Official creditors
+801 234501 a 234598 Inglés To 234598
+802 2350 Regalías por pagar Inglés Payable royalties
+803 235001 a 235098 Inglés To 235098
+804 2355 Deudas con accionistas o socios Inglés Debts with shareholders or associates
+805 235505 Accionistas Inglés Shareholders
+806 235510 Socios Inglés Associates
+807 2357 Deudas con directores Inglés Debts with directors
+808 235701 a 235798 Inglés To 235798
+809 2360 Dividendos o participaciones por pagar Inglés Dividends or payable participations
+810 236005 Dividendos Inglés Dividends
+811 236010 Participaciones Inglés Participations
+812 2365 Retención en la fuente Inglés Withholding tax payment
+813 236505 Salarios y pagos laborales Inglés Salaries and labor payments
+814 236510 Dividendos y/o participaciones Inglés Dividends and or participations
+815 236515 Honorarios Inglés Fees
+816 236520 Comisiones Inglés Commissions
+817 236525 Servicios Inglés Services
+818 236530 Arrendamientos Inglés Leasings
+819 236535 Rendimientos financieros Inglés Financial performances
+820 236540 Compras Inglés Shopping
+821 236545 Loterías, rifas, apuestas y similares Inglés Lotteries, raffles, bets and matches
+822 236550 Por pagos al exterior Inglés For payments to the exterior
+823 236555 Por ingresos obtenidos en el exterior Inglés For entrances obtained outofdoors
+824 236560 Enajenación propiedades planta y equipo, personas naturales Inglés Alienation plants properties and equipment, natural people
+825 236565 Por impuesto de timbre Inglés For stamp tax
+826 236570 Otras retenciones y patrimonio Inglés Another retentions and patrimony
+827 236575 Autorretenciones Inglés Selfretaining
+828 2367 Impuesto a las ventas retenido Inglés Sales tax withheld
+829 236701 a 236798 Inglés To 236798
+830 2368 Impuesto de industria y comercio retenido Inglés Tax on purpose and retained commerce
+831 236801 a 236898 Inglés To 236898
+832 2370 Retenciones y aportes de nómina Inglés Retentions and contributions of payroll
+833 237005 Aportes a entidades promotoras de salud, EPS Inglés Contributions to promotive entities of health, EPS
+834 237006 Aportes a administradoras de riesgos profesionales, ARP Inglés Contributions to administrators of occupational hazard insurance, ARP
+835 237010 Aportes al ICBF, SENA y cajas de compensación Inglés Contributions to the ICBF, SENA and compensation funds
+836 237015 Aportes al FIC Inglés Contributions to the FIC
+837 237025 Embargos judiciales Inglés Judicial liens
+838 237030 Libranzas Inglés Warrants
+839 237035 Sindicatos Inglés Labor unions
+840 237040 Cooperativas Inglés Cooperatives
+841 237045 Fondos Inglés Funds
+842 237095 Otros Inglés Other
+843 2375 Cuotas por devolver Inglés Quotas for returning
+844 237501 a 237598 Inglés To 237598
+845 2380 Acreedores varios Inglés Several creditors
+846 238005 Depositarios Inglés Depositories
+847 238010 Comisionistas de bolsas Inglés Stockbrokers
+848 238015 Sociedad administradoraFondos de inversión Inglés Administrating society Investment Funds
+849 238020 Reintegros por pagar Inglés Payable refunds
+850 238025 Fondo de perseverancia Inglés Perseverance fund
+851 238030 Fondos de cesantías y/o pensiones Inglés Funds of severance and/or pensions
+852 238035 Donaciones asignadas por pagar Inglés Donations assigned payable
+853 238095 Otros Inglés Other
+854 24 Impuestos, gravámenes y tasas Inglés Taxes, charges and rates
+855 2404 De renta y complementarios Inglés Of income and complementary
+856 240405 Vigencia fiscal corriente Inglés Ordinary fiscal period
+857 240410 Vigencias fiscales anteriores Inglés Previous fiscal periods
+858 2408 Impuesto sobre las ventas por pagar Inglés Tax on the payable sales
+859 240801 a 240898 Inglés To 240898
+860 2412 De industria y comercio Inglés On industry and trade
+861 241205 Vigencia fiscal corriente Inglés Ordinary fiscal period
+862 241210 Vigencias fiscales anteriores Inglés Previous fiscal periods
+863 2416 A la propiedad raíz Inglés To the real estate
+864 241601 a 241698 Inglés To 241698
+865 2420 Derechos sobre instrumentos públicos Inglés Rights on document recorded withs official notary
+866 242001 a 242098 Inglés To 242098
+867 2424 De valorización Inglés Of valuing
+868 242405 Vigencia fiscal corriente Inglés Ordinary fiscal period
+869 242410 Vigencias fiscales anteriores Inglés Previous fiscal periods
+870 2428 De turismo Inglés Of tourism
+871 242801 a 242898 Inglés To 242898
+872 2432 Tasa por utilización de puertos Inglés Value for utilization of ports
+873 243201 a 243298 Inglés To 243298
+874 2436 De vehículos Inglés Of vehicles
+875 243605 Vigencia fiscal corriente Inglés Ordinary fiscal period
+876 243610 Vigencias fiscales anteriores Inglés Previous fiscal periods
+877 2440 De espectáculos públicos Inglés Of public spectacles
+878 244001 a 244098 Inglés To 244098
+879 2444 De hidrocarburos y minas Inglés Of hydrocarbons and mines
+880 244405 De hidrocarburos Inglés Of hydrocarbons
+881 244410 De minas Inglés Of mines
+882 2448 Regalías e impuestos a la pequeña y mediana minería Inglés Royalties and taxes for small and medium mining
+883 244801 a 244898 Inglés To 244898
+884 2452 A las exportaciones cafeteras Inglés To the coffee exports
+885 245201 a 245298 Inglés To 245298
+886 2456 A las importaciones Inglés To the imports
+887 245601 a 245698 Inglés To 245698
+888 2460 Cuotas de fomento Inglés Quotas of fomentation
+889 246001 a 246098 Inglés To 246098
+890 2464 De licores, cervezas y cigarrillos Inglés Of liquors, beers and cigarettes
+891 246405 De licores Inglés Of liquors
+892 246410 De cervezas Inglés Of beers
+893 246415 De cigarrillos Inglés Of cigarettes
+894 2468 Al sacrificio de ganado Inglés To cattle's sacrifice
+895 246801 a 246898 Inglés To 246898
+896 2472 Al azar y juego Inglés At random and I play
+897 247201 a 247298 Inglés To 247298
+898 2476 Gravámenes y regalías por utilización del suelo Inglés charges and royalties for utilization of the ground
+899 247601 a 247698 Inglés To 247698
+900 2495 Otros Inglés Other
+901 249501 a 249598 Inglés To 249598
+902 25 Obligaciones laborales Inglés Labor obligations
+903 2505 Salarios por pagar Inglés Accrued wages
+904 250501 a 250598 Inglés To 250598
+905 2510 Cesantías consolidadas Inglés Consoidated severance
+906 251005 Ley laboral anterior Inglés Labor previous law
+907 251010 Ley 50 de 1990 y normas posteriores Inglés Law 50 of 1990 and later standards
+908 2515 Intereses sobre cesantías Inglés Interests on severance
+909 251501 a 251598 Inglés To 251598
+910 2520 Prima de servicios Inglés Bonus services
+911 252001 a 252098 Inglés To 252098
+912 2525 Vacaciones consolidadas Inglés Consolidated vacations
+913 252501 a 252598 Inglés To 252598
+914 2530 Prestaciones extralegales Inglés Extralegal social benefits
+915 253005 Primas Inglés Bonus
+916 253010 Auxilios Inglés Asistance
+917 253015 Dotación y suministro a trabajadores Inglés Endowment and supply to workers
+918 253020 Bonificaciones Inglés Bonuses
+919 253025 Seguros Inglés Insurances
+920 253095 Otras Inglés Other
+921 2532 Pensiones por pagar Inglés Payable pensions
+922 253201 a 253298 Inglés To 253298
+923 2535 Cuotas partes pensiones de jubilación Inglés Quotas pensions pays
+924 253501 a 253598 Inglés To 253598
+925 2540 Indemnizaciones laborales Inglés Worker's compensations
+926 254001 a 244098 < Derogado con el Decreto 1536 de 39209 > Inglés To 244098 Derogado with the Decree 1536 of 39209
+927 26 Pasivos estimados y provisiones Inglés Esteemed liabilities and supplies
+928 2605 Para costos y gastos Inglés For costs and expenses
+929 260505 Intereses Inglés Interests
+930 260510 Comisiones Inglés Commissions
+931 260515 Honorarios Inglés Fees
+932 260520 Servicios técnicos Inglés Technical services
+933 260525 Transportes, fletes y acarreos Inglés Transportations, freightages and transportings
+934 260530 Gastos de viaje Inglés Traveling expenses
+935 260535 Servicios públicos Inglés Public services
+936 260540 Regalías Inglés Royalties
+937 260545 Garantías Inglés Guarantees
+938 260550 Materiales y repuestos Inglés Materials and spare parts
+939 260595 Otros Inglés Other
+940 2610 Para obligaciones laborales Inglés For labor obligations
+941 261005 Cesantías Inglés Severance
+942 261010 Intereses sobre cesantías Inglés Interests on severance
+943 261015 Vacaciones Inglés Vacations
+944 261020 Prima de servicios Inglés Bonus services
+945 261025 Prestaciones extralegales Inglés Extralegal social benefits
+946 261030 Viáticos Inglés Traveling expenses
+947 261095 Otras Inglés Other
+948 2615 Para obligaciones fiscales Inglés For tax liabilities
+949 261505 De renta y complementarios Inglés Of income and complementary
+950 261510 De industria y comercio Inglés On industry and trade
+951 261515 Tasa por utilización de puertos Inglés Value for utilization of ports
+952 261520 De vehículos Inglés Of vehicles
+953 261525 De hidrocarburos y minas Inglés Of hydrocarbons and mines
+954 261595 Otros Inglés Other
+955 2620 Pensiones de jubilación Inglés Retired pays
+956 262005 Cálculo actuarial pensiones de jubilación Inglés Actuarial valuation retired pays
+957 262010 Pensiones de jubilación por amortizar (DB) Inglés Retired pays to amortize ( DB )
+958 2625 Para obras de urbanismo Inglés For works of urbanism
+959 262505 Acueducto y alcantarillado Inglés Aqueduct and sewage system
+960 262510 Energía eléctrica Inglés Electric power
+961 262515 Teléfonos Inglés Telephones
+962 262595 Otros Inglés Other
+963 2630 Para mantenimiento y reparaciones Inglés For maintenance and reparations
+964 263005 Terrenos Inglés Lots
+965 263010 Construcciones y edificaciones Inglés Constructions and edifications
+966 263015 Maquinaria y equipo Inglés Machinery and equipment
+967 263020 Equipo de oficina Inglés Office equipment
+968 263025 Equipo de computación y comunicación Inglés Computer equipment and communication
+969 263030 Equipo médicocientífico Inglés Medical scientific equipment
+970 263035 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+971 263040 Flota y equipo de transporte Inglés Fleet ant transport equipment
+972 263045 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+973 263050 Flota y equipo aéreo Inglés Air fleet and equipment
+974 263055 Flota y equipo férreo Inglés Train fleet and equipment
+975 263060 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+976 263065 Armamento de vigilancia Inglés Armament of vigilance
+977 263070 Envases y empaques Inglés Containers and packings
+978 263075 Plantaciones agrícolas y forestales Inglés Agricultural and forestal plantations
+979 263080 Vías de comunicación Inglés Roadways
+980 263085 Pozos artesianos Inglés Artesian wells
+981 263095 Otros Inglés Other
+982 2635 Para contingencias Inglés For contingencies
+983 263505 Multas y sanciones autoridades administrativas Inglés Fines and sanctions administrative authorities
+984 263510 Intereses por multas y sanciones Inglés Interests for fines and sanctions
+985 263515 Reclamos Inglés Claims
+986 263520 Laborales Inglés Labor
+987 263525 Civiles Inglés Civilians
+988 263530 Penales Inglés Criminal
+989 263535 Administrativos Inglés Whitecollar workers
+990 263540 Comerciales Inglés Commercials
+991 263595 Otras Inglés Other
+992 2640 Para obligaciones de garantías Inglés For obligations of guaranties
+993 264001 a 264098 Inglés To 264098
+994 2695 Provisiones diversas Inglés Various supplies
+995 269505 Para beneficencia Inglés For beneficence
+996 269510 Para comunicaciones Inglés For communications
+997 269515 Para pérdida en transporte Inglés For loss in transportation
+998 269520 Para operación Inglés For operation
+999 269525 Para protección de bienes agotables Inglés For protection of wasting assets
+1000 269530 Para ajustes en redención de unidades Inglés For adjustments in redemption of units
+1001 269535 Autoseguro Inglés Selfinsurance
+1002 269540 Planes y programas de reforestación y electrificación Inglés Plans and programs of reforestation and electrification
+1003 269595 Otras Inglés Other
+1004 27 Pasivos estimados y provisiones Inglés Esteemed liabilities and supplies
+1005 2705 Ingresos recibidos por anticipado Inglés Entrances received in advance
+1006 270505 Intereses Inglés Interests
+1007 270510 Comisiones Inglés Commissions
+1008 270515 Arrendamientos Inglés Leasings
+1009 270520 Honorarios Inglés Fees
+1010 270525 Servicios técnicos Inglés Technical services
+1011 270530 De suscriptores Inglés Of subscribers
+1012 270535 Transportes, fletes y acarreos Inglés Transportations, freightages and transportings
+1013 270540 Mercancía en tránsito ya vendida Inglés Inventory in transit right now sold
+1014 270545 Matrículas y pensiones Inglés Registrations and pensions
+1015 270550 Cuotas de administración Inglés Quotas of management
+1016 270595 Otros Inglés Other
+1017 2710 Abonos diferidos Inglés Deferred credits
+1018 271005 Reajuste del sistema Inglés Readjust of the system
+1019 2715 Utilidad diferida en ventas a plazos Inglés Utility deferred in installment sales
+1020 271501 a 271598 Inglés To 271598
+1021 2720 Crédito por corrección monetaria diferida < Derogado con el Decreto 1536 de 39I2n0g9l é>s Credit for monetary correction deferred Annulled with the Decree 1536 of 39209
+1022 272001 a 272098 < Derogado con el Decreto 1536 de 39209 > Inglés To 272098 annulled with the Decree 1536 of 39209
+1023 2725 Impuestos diferidos Inglés Deferred taxes
+1024 272505 Por depreciación flexible Inglés For flexible depreciation
+1025 272595 Diversos Inglés Various
+1026 272599 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+1027 28 Otros pasivos Inglés Another liabilities
+1028 2805 Anticipos y avances recibidos Inglés Advance payments and received advances
+1029 280505 De clientes Inglés Of customers
+1030 280510 Sobre contratos Inglés On contracts
+1031 280515 Para obras en proceso Inglés For construction in process
+1032 280595 Otros Inglés Other
+1033 2810 Depósitos recibidos Inglés Received deposits
+1034 281005 Para futura suscripción de acciones Inglés For future stock subscription
+1035 281010 Para futuro pago de cuotas o derechos sociales Inglés For paid future of quotas or social rights
+1036 281015 Para garantía en la prestación de servicios Inglés For guaranty in the rendering of services
+1037 281020 Para garantía de contratos Inglés For guaranty of contracts
+1038 281025 De licitaciones Inglés Of bids
+1039 281030 De manejo de bienes Inglés Of handling of goods
+1040 281035 Fondo de reserva Inglés Reserve fund
+1041 281095 Otros Inglés Other
+1042 2815 Ingresos recibidos para terceros Inglés Entrances received for third parties
+1043 281505 Valores recibidos para terceros Inglés Value receiveds for third parties
+1044 281510 Venta por cuenta de terceros Inglés Sale for account of third parties
+1045 2820 Cuentas de operación conjunta Inglés United operating accounts
+1046 282001 a 282098 Inglés To 282098
+1047 2825 Retenciones a terceros sobre contratos Inglés Retentions to third parties on contracts
+1048 282505 Cumplimiento obligaciones laborales Inglés Compliance labor obligations
+1049 282510 Para estabilidad de obra Inglés For stability of work
+1050 282515 Garantía cumplimiento de contratos Inglés Guarantee enforcement of contracts
+1051 2830 Embargos judiciales Inglés Judicial liens
+1052 283005 Indemnizaciones Inglés Indemnifications
+1053 283010 Depósitos judiciales Inglés Judicial deposits
+1054 2835 Acreedores del sistema Inglés Creditors of the system
+1055 283505 Cuotas netas Inglés Net quotas
+1056 283510 Grupos en formación Inglés Groups in the making
+1057 2840 Cuentas en participación Inglés Participation Account
+1058 284001 a 284098 Inglés To 284098
+1059 2895 Diversos Inglés Various
+1060 289505 Préstamos de productos Inglés Loans of products
+1061 289510 Reembolso de costos exploratorios Inglés Reimbursement of exploratory costs
+1062 289515 Programa de extensión agropecuaria Inglés Program of agricultural extension
+1063 29 Bonos y papeles comerciales Inglés Bonds and commercial papers
+1064 2905 Bonos en circulación Inglés Outstanding bonds
+1065 290501 a 290598 Inglés To 290598
+1066 2910 Bonos obligatoriamente convertibles en acciones Inglés Compulsorily convertible bonds in stocks
+1067 291001 a 291098 Inglés To 291098
+1068 2915 Papeles comerciales Inglés Commercial papers
+1069 291501 a 291598 Inglés To 291598
+1070 2920 Bonos pensionales Inglés Bonds, pension them
+1071 292005 Valor bonos pensionales Inglés Value bonds, pension them
+1072 292010 Bonos pensionales por amortizar (DB) Inglés Bonds, pension them to amortize ( DB )
+1073 292015 Intereses causados sobre bonos pensionales Inglés Accrued interests on bonds, pension them
+1074 2925 Títulos pensionales Inglés Titles, pension them
+1075 292505 Valor títulos pensionales Inglés Value titles, pension them
+1076 292510 Títulos pensionales por amortizar (DB) Inglés Titles, pension them to amortize ( DB )
+1077 292515 Intereses causados sobre títulos pensionales Inglés Accrued interests on titles, pension them
+1078 3 patrimonio Inglés Equity
+1079 31 Capital social Inglés Capital stock
+1080 3105 Capital suscrito y pagado Inglés Capital subscribed and paidin
+1081 310505 Capital autorizado Inglés Authorized capital
+1082 310510 Capital por suscribir (DB) Inglés Capital to subscribe ( DB )
+1083 310515 Capital suscrito por cobrar (DB) Inglés Subscribed capital receivable (DB)
+1084 3115 Aportes sociales Inglés Social contributions
+1085 311505 Cuotas o partes de interés social Inglés Quotas or parts of social interest
+1086 311510 Aportes de sociosfondo mutuo de inversión Inglés Associates's contributions mutual fund of investment
+1087 311515 Contribución de la empresa fondo mutuo de inversión Inglés Contribution of the mutual fund investment
+1088 311520 Suscripciones del público Inglés Public suscription
+1089 3120 Capital asignado Inglés Capital allocated
+1090 312001 a 312098 Inglés To 312098
+1091 3125 Inversión suplementaria al capital asignado Inglés Additional investment capital assigned
+1092 312501 a 312598 Inglés To 312598
+1093 3130 Capital de personas naturales Inglés Natural people's capital
+1094 313001 a 313098 Inglés To 313098
+1095 3135 Aportes del Estado Inglés State Contributions
+1096 313501 a 313598 Inglés To 313598
+1097 3140 Fondo social Inglés Social fund
+1098 314001 a 314098 Inglés To 314098
+1099 32 Superávit de capital Inglés Capital surplus
+1100 3205 Prima en colocación de acciones, cuotas o partes de interés social Inglés Paidin shares, quotas or social interest
+1101 320505 Prima en colocación de acciones Inglés Bonus in stock placement
+1102 320510 Prima en colocación de acciones por cobrar (DB) Inglés Paidin shares receivable (DB)
+1103 320515 Prima en colocación de cuotas o partes de interés social Inglés Paidin quotas or social interest
+1104 3210 Donaciones Inglés Donations
+1105 321005 En dinero Inglés In money
+1106 321010 En valores mobiliarios Inglés In bearer securities
+1107 321015 En bienes muebles Inglés In personal property
+1108 321020 En bienes inmuebles Inglés At real estate
+1109 321025 En intangibles Inglés In intangibles
+1110 3215 Crédito mercantil Inglés Commercial credit
+1111 321501 a 321598 Inglés To 321598
+1112 3220 Know how Inglés Know how
+1113 322001 a 322098 Inglés To 322098
+1114 3225 Superávit método de participación Inglés Surplus method of participation
+1115 322505 De acciones Inglés Of stocks
+1116 322510 De cuotas o partes de interés social Inglés Of quotas or social interest
+1117 33 Reservas Inglés Reserves
+1118 3305 Reservas obligatorias Inglés Required reserves
+1119 330505 Reserva legal Inglés Legal reserve
+1120 330510 Reservas por disposiciones fiscales Inglés Reserves for fiscal dispositions
+1121 330515 Reserva para readquisición de acciones Inglés Reserve for reacquisition of stock
+1122 330516 Acciones propias readquiridas (DB) Inglés Treasury shares reacquired (DB)
+1123 330517 Reserva para readquisición de cuotas o partes de interés social Inglés Reserve for reacquisition of quotas or parts of social interest
+1124 330518 Cuotas o partes de interés social propias readquiridas (DB) Inglés Quotas or own parts of social interest bought back ( DB )
+1125 330520 Reserva para extensión agropecuaria Inglés Reserve for agricultural extension
+1126 330525 Reserva Ley 7ª de 1990 Inglés Reserve Act 7, 1990
+1127 330530 Reserva para reposición de semovientes Inglés Reserve for livestock's replacement
+1128 330535 Reserva Ley 4ª de 1980 Inglés Reserve Act 4, 1980
+1129 330595 Otras Inglés Other
+1130 3310 Reservas estatutarias Inglés Statutory reserves
+1131 331005 Para futuras capitalizaciones Inglés For future capitalizations
+1132 331010 Para reposición de activos Inglés For replacement of assets
+1133 331015 Para futuros ensanches Inglés For future enlargements
+1134 331095 Otras Inglés Other
+1135 3315 Reservas ocasionales Inglés Occasional reserves
+1136 331505 Para beneficencia y civismo Inglés For beneficence and civism
+1137 331510 Para futuras capitalizaciones Inglés For future capitalizations
+1138 331515 Para futuros ensanches Inglés For future enlargements
+1139 331520 Para adquisición o reposición de propiedades, planta y equipo Inglés For acquisition or replacement of properties, plant and equipment
+1140 331525 Para investigaciones y desarrollo Inglés For research and developments
+1141 331530 Para fomento económico Inglés For costreducing fomentation
+1142 331535 Para capital de trabajo Inglés For working capital
+1143 331540 Para estabilización de rendimientos Inglés For stabilization of performances
+1144 331545 A disposición del máximo órgano social Inglés At the service of the maximum social organ
+1145 331595 Otras Inglés Other
+1146 34 Revalorización del patrimonio Inglés Revalorization of stockholders equity
+1147 3405 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+1148 340505 De capital social < Derogado con el Decreto 1536 de 39209 > Inglés Of capital stock Revoked with the Decree 1536 of 39209
+1149 340510 De superávit de capital < Derogado con el Decreto 1536 de 39209 > Inglés Of capital surplus Annulled with the Decree 1536 of 39209
+1150 340515 De reservas < Derogado con el Decreto 1536 de 39209 > Inglés Of stock Revoked with the Decree 1536 of 39209
+1151 340520 De resultados de ejercicios anteriores < Derogado con el Decreto 1536 de 39209I n>glés Of results of previous exercises Annulled with the Decree 1536 of 39209
+1152 340525 De activos en período improductivo < Derogado con el Decreto 1536 de 39209 >Inglés Of assets in barren period Annulled with the Decree 1536 of 39209
+1153 340530 De saneamiento fiscal Inglés Of fiscal sanitation
+1154 340535 De ajustes Decreto 3019 de 1989 Inglés Adjustments decree 3019 of 1989
+1155 340540 De dividendos y participaciones decretadas en acciones, cuotas o partes de interéIsn gsloécsial Of dividends and participations decreed in actions, quotas or you depart of social interest
+1156 340545 Superávit método de participación Inglés Surplus method of participation
+1157 3410 Saneamiento fiscal Inglés Fiscal sanitation
+1158 341001 a 341098 Inglés To 341098
+1159 3415 Ajustes por inflación Decreto 3019 de 1989 Inglés Adjustments for inflation decree 3019 of 1989
+1160 341501 a 341598 Inglés To 341598
+1161 35 Dividendos o participaciones decretados en acciones, cuotas o partes de interés sIoncgialél s Dividends or participations decreed in actions, quotas or parts of social interest
+1162 3505 Dividendos decretados en acciones Inglés Declared dividends in shares
+1163 350501 a 350598 Inglés To 350598
+1164 3510 Participaciones decretadas en cuotas o partes de interés social Inglés Participations decreed in installments or parts of social interest
+1165 351001 a 351098 Inglés To 351098
+1166 36 Resultados del ejercicio Inglés Year results
+1167 3605 Utilidad del ejercicio Inglés Fiscal year profit
+1168 360501 a 360598 Inglés To 360598
+1169 3610 Pérdida del ejercicio Inglés Loss for the year
+1170 361001 a 361098 Inglés To 361098
+1171 37 Resultados de ejercicios anteriores Inglés Results of previous exercises
+1172 3705 Utilidades acumuladas Inglés Accumulated profits
+1173 370501 a 370598 Inglés To 370598
+1174 3710 Pérdidas acumuladas Inglés Accumulated losses
+1175 371001 a 371098 Inglés To 371098
+1176 38 Superávit por valorizaciones Inglés Surplus valuations
+1177 3805 De inversiones Inglés Of investments
+1178 380505 Acciones Inglés Stocks
+1179 380510 Cuotas o partes de interés social Inglés Quotas or parts of social interest
+1180 380515 Derechos fiduciarios Inglés Fiduciary rights
+1181 3810 De propiedades, planta y equipo Inglés Of properties, plant and equipment
+1182 381004 Terrenos Inglés Lands
+1183 381006 Materiales proyectos petroleros Inglés Material oil projects
+1184 381008 Construcciones y edificaciones Inglés Constructions and edifications
+1185 381012 Maquinaria y equipo Inglés Machinery and equipment
+1186 381016 Equipo de oficina Inglés Office equipment
+1187 381020 Equipo de computación y comunicación Inglés Computer equipment and communication
+1188 381024 Equipo médicocientífico Inglés Medical scientific equipment
+1189 381028 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1190 381032 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1191 381036 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1192 381040 Flota y equipo aéreo Inglés Air fleet and equipment
+1193 381044 Flota y equipo férreo Inglés Train fleet and equipment
+1194 381048 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+1195 381052 Armamento de vigilancia Inglés Weapons monitoring
+1196 381056 Envases y empaques Inglés Containers and packings
+1197 381060 Plantaciones agrícolas y forestales Inglés Agricultural and forestal plantations
+1198 381064 Vías de comunicación Inglés Roadways
+1199 381068 Minas y canteras Inglés Mines and stone pits
+1200 381072 Pozos artesianos Inglés Artesian wells
+1201 381076 Yacimientos Inglés Deposits
+1202 381080 Semovientes Inglés livestock
+1203 3895 De otros activos Inglés Of other assets
+1204 389505 Bienes de arte y cultura Inglés Goods art and culture
+1205 389510 Bienes entregados en comodato Inglés Loaned goods
+1206 389515 Bienes recibidos en pago Inglés Goods received in payment
+1207 389520 Inventario de semovientes Inglés livestocks inventory
+1208 4 Ingresos Inglés Income
+1209 41 Operacionales Inglés Operational
+1210 4105 Agricultura, ganadería, caza y silvicultura Inglés Agriculture, cattle raising, hunting and silviculture
+1211 410505 Cultivo de cereales Inglés Cultivation of cereals
+1212 410510 Cultivos de hortalizas, legumbres y plantas ornamentales Inglés Cultivations of vegetables, vegetables and ornamental plants
+1213 410515 Cultivos de frutas, nueces y plantas aromáticas Inglés Cultivations of fruits, walnuts and aromatic plants
+1214 410520 Cultivo de café Inglés Cultivation of coffee
+1215 410525 Cultivo de flores Inglés Cultivation of flowers
+1216 410530 Cultivo de caña de azúcar Inglés Cultivation of sugar cane
+1217 410535 Cultivo de algodón y plantas para material textil Inglés Cultivation of cotton and plants for textile material
+1218 410540 Cultivo de banano Inglés Cultivation of banana
+1219 410545 Otros cultivos agrícolas Inglés Another agricultural cultivations
+1220 410550 Cría de ovejas, cabras, asnos, mulas y burdéganos Inglés Sheep farming, goats, asses, mules and hinnies
+1221 410555 Cría de ganado caballar y vacuno Inglés Equine and bovine calf
+1222 410560 Producción avícola Inglés Poultry production
+1223 410565 Cría de otros animales Inglés Bring up of another animals
+1224 410570 Servicios agrícolas y ganaderos Inglés Agricultural services and cattle farmers
+1225 410575 Actividad de caza Inglés Activity of hunting
+1226 410580 Actividad de silvicultura Inglés Activity of silviculture
+1227 410595 Actividades conexas Inglés Connected activities
+1228 4110 Pesca Inglés Fish
+1229 411005 Actividad de pesca Inglés Activity of fishing
+1230 411010 Explotación de criaderos de peces Inglés Exploitation of fish farms
+1231 411095 Actividades conexas Inglés Connected activities
+1232 4115 Explotación de minas y canteras Inglés Exploitation of mines and stone pits
+1233 411505 Carbón Inglés Coal
+1234 411510 Petróleo crudo Inglés Crude oil
+1235 411512 Gas natural Inglés Natural gas
+1236 411514 Servicios relacionados con extracción de petróleo y gas Inglés Services related with extraction of oil and gas
+1237 411515 Minerales de hierro Inglés Iron ores
+1238 411520 Minerales metalíferos no ferrosos Inglés Nonferrous metal ores
+1239 411525 Piedra, arena y arcilla Inglés Stone, sand and clay
+1240 411527 Piedras preciosas Inglés Precious stones
+1241 411528 Oro Inglés Gold
+1242 411530 Otras minas y canteras Inglés Another mines and stone pits
+1243 411532 Prestación de servicios sector minero Inglés Rendering of services mining sector
+1244 411595 Actividades conexas Inglés Connected activities
+1245 4120 Industrias manufactureras Inglés Manufacturing industries
+1246 412001 Producción y procesamiento de carnes y productos cárnicos Inglés Production and processing of meats and meat products
+1247 412002 Productos de pescado Inglés Fish's products
+1248 412003 Productos de frutas, legumbres y hortalizas Inglés Fruit, vegetables and vegetables products
+1249 412004 Elaboración de aceites y grasas Inglés Elaboration of oils and greases
+1250 412005 Elaboración de productos lácteos Inglés Elaboration of dairy products
+1251 412006 Elaboración de productos de molinería Inglés Elaboration of grain mill products
+1252 412007 Elaboración de almidones y derivados Inglés Elaboration of starches and byproducts
+1253 412008 Elaboración de alimentos para animales Inglés Elaboration of foodstuff for animals
+1254 412009 Elaboración de productos para panadería Inglés Elaboration of products for bakery
+1255 412010 Elaboración de azúcar y melazas Inglés Elaboration of sugar and molasseses
+1256 412011 Elaboración de cacao, chocolate y confitería Inglés Elaboration of cocoa, chocolate and candy shop
+1257 412012 Elaboración de pastas y productos farináceos Inglés Elaboration of pastas and starchy products
+1258 412013 Elaboración de productos de café Inglés Elaboration of products of coffee
+1259 412014 Elaboración de otros productos alimenticios Inglés Elaboration of another foodstuffs
+1260 412015 Elaboración de bebidas alcohólicas y alcohol etílico Inglés Elaboration of alcoholic drinks and ethyl alcohol
+1261 412016 Elaboración de vinos Inglés Elaboration of wines
+1262 412017 Elaboración de bebidas malteadas y de malta Inglés Elaboration of malted and malt drinks
+1263 412018 Elaboración de bebidas no alcohólicas Inglés Elaboration of nonalcoholic drinks
+1264 412019 Elaboración de productos de tabaco Inglés Elaboration of products of tobacco
+1265 412020 Preparación e hilatura de fibras textiles y tejeduría Inglés Preparation and spinning of textile fibers and weaving
+1266 412021 Acabado de productos textiles Inglés Finishing of textile products
+1267 412022 Elaboración de artículos de materiales textiles Inglés Elaboration of goods of textile materials
+1268 412023 Elaboración de tapices y alfombras Inglés Elaboration of tapestries and carpets
+1269 412024 Elaboración de cuerdas, cordeles, bramantes y redes Inglés Elaboration of ropes, strings, strings and nets
+1270 412025 Elaboración de otros productos textiles Inglés Elaboration of another textile products
+1271 412026 Elaboración de tejidos Inglés Elaboration of textiles
+1272 412027 Elaboración de prendas de vestir Inglés Elaboration of dressing garments
+1273 412028 Preparación, adobo y teñido de pieles Inglés Preparation, dressing and dyed of furs
+1274 412029 Curtido, adobo o preparación de cuero Inglés Tanning, seasoning or preparation of hide
+1275 412030 Elaboración de maletas, bolsos y similares Inglés Elaboration of suitcases, handbags and matches
+1276 412031 Elaboración de calzado Inglés Elaboration of footwear
+1277 412032 Producción de madera, artículos de madera y corcho Inglés Production of wood, wooden goods and cork
+1278 412033 Elaboración de pasta y productos de madera, papel y cartón Inglés Elaboration of pasta and wooden products, paper and cardboard
+1279 412034 Ediciones y publicaciones Inglés Editions and publications
+1280 412035 Impresión Inglés Impression
+1281 412036 Servicios relacionados con la edición y la impresión Inglés Services related with the edition and the impression
+1282 412037 Reproducción de grabaciones Inglés Reproduction of recordings
+1283 412038 Elaboración de productos de horno de coque Inglés Elaboration of products of oven of carbon coke
+1284 412039 Elaboración de productos de la refinación de petróleo Inglés Elaboration of products of the refinement of oil
+1285 412040 Elaboración de sustancias químicas básicas Inglés Elaboration of chemical basic substances
+1286 412041 laboración de abonos y compuestos de nitrógeno Inglés Elaboration of payments and nitrogenous compounds
+1287 412042 Elaboración de plástico y caucho sintético Inglés Elaboration of plastic and synthetic rubber
+1288 412043 Elaboración de productos químicos de uso agropecuario Inglés Elaboration of chemical products of agricultural use
+1289 412044 Elaboración de pinturas, tintas y masillas Inglés Elaboration of paints, inks and putties
+1290 412045 Elaboración de productos farmacéuticos y botánicos Inglés Elaboration of pharmaceutical products and botanists
+1291 412046 Elaboración de jabones, detergentes y preparados de tocador Inglés Elaboration of soaps, detergents and preparations of dresser
+1292 412047 Elaboración de otros productos químicos Inglés Elaboration of another chemical products
+1293 412048 Elaboración de fibras Inglés Elaboration of fibers
+1294 412049 Elaboración de otros productos de caucho Inglés Elaboration of another rubber products
+1295 412050 Elaboración de productos de plástico Inglés Elaboration of products of plastic
+1296 412051 Elaboración de vidrio y productos de vidrio Inglés Elaboration of glass and glassy products
+1297 412052 Elaboración de productos de cerámica, loza, piedra, arcilla y porcelana Inglés Elaboration of products of ceramics, china, stone, clay and porcelain
+1298 412053 Elaboración de cemento, cal y yeso Inglés Elaboration of cement, lime and gypsum
+1299 412054 Elaboración de artículos de hormigón, cemento y yeso Inglés Elaboration of goods of concrete, cement and gypsum
+1300 412055 Corte, tallado y acabado de la piedra Inglés Cut, closefitting and finished of the stone
+1301 412056 Elaboración de otros productos minerales no metálicos Inglés Elaboration of another mineral products not cashes
+1302 412057 Industrias básicas y fundición de hierro y acero Inglés Basic industries and iron foundry and steel
+1303 412058 Productos primarios de metales preciosos y de metales no ferrosos Inglés Primary products of precious metals and of metals not ferrous
+1304 412059 Fundición de metales no ferrosos Inglés Founding of metals not ferrous
+1305 412060 Fabricación de productos metálicos para uso estructural Inglés Manufacture of metallic products for structural use
+1306 412061 Forja, prensado, estampado, laminado de metal y pulvimetalurgia Inglés Forge, calendering, printing, metal and powder metallurgy ply
+1307 412062 Revestimiento de metales y obras de ingeniería mecánica Inglés Coating of metals and works of mechanical engineering
+1308 412063 Fabricación de artículos de ferretería Inglés Manufacture of hardware
+1309 412064 Elaboración de otros productos de metal Inglés Elaboration of another metal products
+1310 412065 Fabricación de maquinaria y equipo Inglés Manufacture of machinery and equipment
+1311 412066 Fabricación de equipos de elevación y manipulación Inglés Manufacture of lifting and handling equipment
+1312 412067 Elaboración de aparatos de uso doméstico Inglés Elaboration of apparatuses of domestic use
+1313 412068 Elaboración de equipo de oficina Inglés Elaboration of office equipment
+1314 412069 Elaboración de pilas y baterías primarias Inglés Elaboration of sinks and primary batteries
+1315 412070 Elaboración de equipo de iluminación Inglés elaboration of illumination equipment
+1316 412071 Elaboración de otros tipos de equipo eléctrico Inglés Elaboration of another electric equipment's types
+1317 412072 Fabricación de equipos de radio, televisión y comunicaciones Inglés Elaboration of equipment of radio, television and communications
+1318 412073 Fabricación de aparatos e instrumentos médicos Inglés Manufacture of medical apparatus and instruments
+1319 412074 Fabricación de instrumentos de medición y control Inglés Manufacture of instruments of measurement and control
+1320 412075 Fabricación de instrumentos de óptica y equipo fotográfico Inglés Manufacture of instruments of optics and photographic equipment
+1321 412076 Fabricación de relojes Inglés Clockmaking
+1322 412077 Fabricación de vehículos automotores Inglés Manufacture of motor vehicles
+1323 412078 Fabricación de carrocerías para automotores Inglés Manufacture of bodyworks for motor cars
+1324 412079 Fabricación de partes piezas y accesorios para automotores Inglés Manufacture of parts pieces and accessories for motor cars
+1325 412080 Fabricación y reparación de buques y otras embarcaciones Inglés Manufacture and reparation of ships and another boats
+1326 412081 Fabricación de locomotoras y material rodante para ferrocarriles Inglés Manufacture of locomotives and rolling material for railroads
+1327 412082 Fabricación de aeronaves Inglés Manufacture of aircrafts
+1328 412083 Fabricación de motocicletas Inglés Manufacture of motorcycles
+1329 412084 Fabricación de bicicletas y sillas de ruedas Inglés Manufacture of bicycles and wheelchairs
+1330 412085 Fabricación de otros tipos de transporte Inglés Manufacture of another transporting types
+1331 412086 Fabricación de muebles Inglés Manufacture of furniture
+1332 412087 Fabricación de joyas y artículos conexos Inglés Manufacture of jewels and connected goods
+1333 412088 Fabricación de instrumentos de música Inglés Manufacture of instruments of music
+1334 412089 Fabricación de artículos y equipo para deporte Inglés Manufacture of goods and equipment for sports
+1335 412090 Fabricación de juegos y juguetes Inglés Manufacture of games and toys
+1336 412091 Reciclamiento de desperdicios Inglés Waste recycling
+1337 412095 Productos de otras industrias manufactureras Inglés Products of another manufacturing industries
+1338 4125 Suministro de electricidad, gas y agua Inglés Supply of electricity, gas and water
+1339 412505 Generación, captación y distribución de energía eléctrica Inglés Generation, comprehension and distribution of electric power
+1340 412510 Fabricación de gas y distribución de combustibles gaseosos Inglés Manufacture of gas and distribution of gaseous fuels
+1341 412515 Captación, depuración y distribución de agua Inglés Comprehension, depuration and distribution of water
+1342 412595 Actividades conexas Inglés Connected activities
+1343 4130 Construcción Inglés Construction
+1344 413005 Preparación de terrenos Inglés Preparation of land
+1345 413010 Construcción de edificios y obras de ingeniería civil Inglés Construction of buildings and works of civil engineering
+1346 413015 Acondicionamiento de edificios Inglés Conditioning of buildings
+1347 413020 Terminación de edificaciones Inglés Conclusion of edifications
+1348 413025 Alquiler de equipo con operarios Inglés Equipment rental with operator
+1349 413095 Actividades conexas Inglés Connected activities
+1350 4135 Comercio al por mayor y al por menor Inglés Trade wholesale and in detail
+1351 413502 Venta de vehículos automotores Inglés Sale of motor vehicles
+1352 413504 Mantenimiento, reparación y lavado de vehículos automotores Inglés Maintenance, reparation and washing of motor vehicles
+1353 413506 Venta de partes, piezas y accesorios de vehículos automotores Inglés Sale of parts, pieces and accessories of motor vehicles
+1354 413508 Venta de combustibles sólidos, líquidos, gaseosos Inglés Sale of solid fuels, liquids, gaseous
+1355 413510 Venta de lubricantes, aditivos, llantas y lujos para automotores Inglés Sale of lubricants, additives, tires and luxuries for motor cars
+1356 413512 Venta a cambio de retribución o por contrata Inglés Sale in exchange for retribution or for contract
+1357 413514 Venta de insumos, materias primas agropecuarias y flores Inglés Sale of raw materials, agricultural raw materials and flowers
+1358 413516 Venta de otros insumos y materias primas no agropecuarias Inglés Sale of another raw materials and raw materials not agricultural
+1359 413518 Venta de animales vivos y cueros Inglés Sale of alive animals and hides
+1360 413520 Venta de productos en almacenes no especializados Inglés Sale of products at not specialized stores
+1361 413522 Venta de productos agropecuarios Inglés Sale of agricultural products
+1362 413524 Venta de productos textiles, de vestir, de cuero y calzado Inglés Sale of textile products, to dress, of hide and footwear
+1363 413526 Venta de papel y cartón Inglés Sale of paper and cardboard
+1364 413528 Venta de libros, revistas, elementos de papelería, útiles y textos escolares Inglés Sale of books, magazines, elements of stationer's shop, school implements and school texts
+1365 413530 Venta de juegos, juguetes y artículos deportivos Inglés Sale of games, toys and sports goods
+1366 413532 Venta de instrumentos quirúrgicos y ortopédicos Inglés Sale of surgical and orthopedic instruments
+1367 413534 Venta de artículos en relojerías y joyerías Inglés Sale of goods at watchmaker'ses and jewelry stores
+1368 413536 Venta de electrodomésticos y muebles Inglés Sale of household appliances and furniture
+1369 413538 Venta de productos de aseo, farmacéuticos, medicinales, y artículos de tocador Inglés Sale of products of cleanliness, druggists, give them medicine, and cosmetics
+1370 413540 Venta de cubiertos, vajillas, cristalería, porcelanas, cerámicas y otros artículos de Iunsgolé dsoméstico Sale of cutlery, tablewares, glassware shop, porcelains, ceramicses and another household goods
+1371 413542 Venta de materiales de construcción, fontanería y calefacción Inglés Sale of construction materials, plumbing and heating
+1372 413544 Venta de pinturas y lacas Inglés Sale of paints and shellacs
+1373 413546 Venta de productos de vidrios y marquetería Inglés Sale of products of glasses and inlaid work
+1374 413548 Venta de herramientas y artículos de ferretría Inglés Selling tools and hardware
+1375 413550 Venta de químicos Inglés Sale of chemicals
+1376 413552 Venta de productos intermedios, desperdicios y desechos Inglés Sale of intermediate goods, wastes and waste matter
+1377 413554 Venta de maquinaria, equipo de oficina y programas de computador Inglés Sale of machinery, equipment of office and programs of computer
+1378 413556 Venta de artículos en cacharrerías y misceláneas Inglés Sale of goods at pot shops and miscellanies
+1379 413558 Venta de instrumentos musicales Inglés Sale of musical instruments
+1380 413560 Venta de artículos en casas de empeño y prenderías Inglés Sale of goods at houses of effort and secondhand shops
+1381 413562 Venta de equipo fotográfico Inglés Photographic equipment sales
+1382 413564 Venta de equipo óptico y de precisión Inglés Sale of optical and precision equipment
+1383 413566 Venta de empaques Inglés Sale of packings
+1384 413568 Venta de equipo profesional y científico Inglés Sale of professional equipment and scientist
+1385 413570 Venta de loterías, rifas, chance, apuestas y similares Inglés Sale of lotteries, raffles, chance, bets and matches
+1386 413572 Reparación de efectos personales y electrodomésticos Inglés Reparation of personal belongings and household appliances
+1387 413595 Venta de otros productos Inglés Sale of another products
+1388 4140 Hoteles y restaurantes Inglés Hotels and restaurants
+1389 414005 Hotelería Inglés Hotels
+1390 414010 Campamento y otros tipos de hospedaje Inglés Camping and other accommodation
+1391 414015 Restaurantes Inglés Restaurants
+1392 414020 Bares y cantinas Inglés Bars and pubs
+1393 414095 Actividades conexas Inglés Connected activities
+1394 4145 Transporte, almacenamiento y comunicaciones Inglés Transport, storage and communications
+1395 414505 Servicio de transporte por carretera Inglés Transport service for road
+1396 414510 Servicio de transporte por vía férrea Inglés Transport service for railroad
+1397 414515 Servicio de transporte por vía acuática Inglés Transport service for aquatic road
+1398 414520 Servicio de transporte por vía aérea Inglés Transport service via airmail
+1399 414525 Servicio de transporte por tuberías Inglés Transport service for pipes
+1400 414530 Manipulación de carga Inglés Cargo handling
+1401 414535 Almacenamiento y depósito Inglés Storage and deposit
+1402 414540 Servicios complementarios para el transporte Inglés Accessorial services for transportation
+1403 414545 Agencias de viaje Inglés Agencies on tour
+1404 414550 Otras agencias de transporte Inglés Another transporting agencies
+1405 414555 Servicio postal y de correo Inglés Postal and mail service
+1406 414560 Servicio telefónico Inglés Phone service
+1407 414565 Servicio de telégrafo Inglés Service of telegraph
+1408 414570 Servicio de transmisión de datos Inglés Service of data transmission
+1409 414575 Servicio de radio y televisión por cable Inglés Service of radio and cable television
+1410 414580 Transmisión de sonido e imágenes por contrato Inglés Transmission of sound and imagery by contract
+1411 414595 Actividades conexas Inglés Connected activities
+1412 4150 Actividad financiera Inglés Financial activity
+1413 415005 Venta de inversiones Inglés Sale of investments
+1414 415010 Dividendos de sociedades anónimas y/o asimiladas Inglés Dividends from corporations and / or similar
+1415 415015 Participaciones de sociedades limitadas y/o asimiladas Inglés Limited partnership interest and / or similar
+1416 415020 Intereses Inglés Interests
+1417 415025 Reajuste monetarioUPAC Inglés Monetary readjustment UPAC
+1418 415030 Comisiones Inglés Commissions
+1419 415035 Operaciones de descuento Inglés Operations of discount
+1420 415040 Cuotas de inscripciónconsorcios Inglés Quotas of registration consortia
+1421 415045 Cuotas de administraciónconsorcios Inglés Quotas of administration consortia
+1422 415050 Reajuste del sistemaconsorcios Inglés Readjust of the system consortia
+1423 415060 Cuotas de ingreso o retirosociedad administradora Inglés Admission Fees or withdrawalmanagement company
+1424 415065 Servicios a comisionistas Inglés Services to commission agents
+1425 415070 Inscripciones y cuotas Inglés Registrations and quotas
+1426 415075 Recuperación de garantías Inglés Recuperation of guaranties
+1427 415080 Ingresos método de participación Inglés Income equity method
+1428 415095 Actividades conexas Inglés Connected activities
+1429 4155 Actividades inmobiliarias, empresariales y de alquiler Inglés Real estate, renting and business
+1430 415505 Arrendamientos de bienes inmuebles Inglés Leasings of real estate
+1431 415510 Inmobiliarias por retribución o contrata Inglés Realestate for retribution or contract
+1432 415515 Alquiler equipo de transporte Inglés Rent automotive equipment
+1433 415520 Alquiler maquinaria y equipo Inglés Renting of machinery and equipment
+1434 415525 Alquiler de efectos personales y enseres domésticos Inglés Rent of personal belongings and household goods
+1435 415530 Consultoría en equipo y programas de informática Inglés Consultantship in equipment and programs of information technology
+1436 415535 Procesamiento de datos Inglés Data processing
+1437 415540 Mantenimiento y reparación de maquinaria de oficina Inglés Maintenance and reparation of machinery of office
+1438 415545 Investigaciones científicas y de desarrollo Inglés Scientific research and of development
+1439 415550 Actividades empresariales de consultoría Inglés Business activities of consultantship
+1440 415555 Publicidad Inglés Publicity
+1441 415560 Dotación de personal Inglés Staffing
+1442 415565 Investigación y seguridad Inglés Investigation and security
+1443 415570 Limpieza de inmuebles Inglés Real estate cleaning
+1444 415575 Fotografía Inglés Photograph
+1445 415580 Envase y empaque Inglés Bottle and pack
+1446 415585 Fotocopiado Inglés Photocopied
+1447 415590 Mantenimiento y reparación de maquinaria y equipo Inglés Maintenance and reparation of machinery and equipment
+1448 415595 Actividades conexas Inglés Connected activities
+1449 4160 Enseñanza Inglés Teaching
+1450 416005 Actividades relacionadas con la educación Inglés Activities related with education
+1451 416095 Actividades conexas Inglés Connected activities
+1452 4165 Servicios sociales y de salud Inglés Social and health services
+1453 416505 Servicio hospitalario Inglés Hospital service
+1454 416510 Servicio médico Inglés Medical service
+1455 416515 Servicio odontológico Inglés Dental service
+1456 416520 Servicio de laboratorio Inglés Service of laboratory
+1457 416525 Actividades veterinarias Inglés Activities veterinaries
+1458 416530 Actividades de servicios sociales Inglés Activities of social services
+1459 416595 Actividades conexas Inglés Connected activities
+1460 4170 Otras actividades de servicios comunitarios, sociales y personales Inglés Another activities of community services, social and personal
+1461 417005 Eliminación de desperdicios y aguas residuales Inglés Elimination of wastes and residual waters
+1462 417010 Actividades de asociación Inglés Association's activities
+1463 417015 Producción y distribución de filmes y videocintas Inglés Production and distribution of films and videotapes
+1464 417020 Exhibición de filmes y videocintas Inglés Exhibition of films and videotapes
+1465 417025 Actividad de radio y televisión Inglés Activity of radio and television
+1466 417030 Actividad teatral, musical y artística Inglés Theatrical, musical and artistic activity
+1467 417035 Grabación y producción de discos Inglés Recording and production of records
+1468 417040 Entretenimiento y esparcimiento Inglés Entertainment and leisure
+1469 417045 Agencias de noticias Inglés News agencies
+1470 417050 Lavanderías y similares Inglés Laundry and the like
+1471 417055 Peluquerías y similares Inglés Hairdressers and related
+1472 417060 Servicios funerarios Inglés Funerary services
+1473 417065 Zonas francas Inglés Free zones
+1474 417095 Actividades conexas Inglés Connected activities
+1475 4175 Devoluciones en ventas (DB) Inglés Returns in sales ( DB )
+1476 417501 a 417598 Inglés To 417598
+1477 42 No operacionales Inglés No operational
+1478 4205 Otras ventas Inglés Another sales
+1479 420505 Materia prima Inglés Raw material
+1480 420510 Material de desecho Inglés Waste material
+1481 420515 Materiales varios Inglés Several materials
+1482 420520 productos de diversificacion Inglés Products of diversification
+1483 420525 excedentes de exportacion Inglés Export surpluses
+1484 420530 envases y empaques Inglés Containers and packings
+1485 420535 productos agricolas Inglés Agricultural products
+1486 420540 de propaganda Inglés Of propaganda
+1487 420545 productos en remate Inglés Products in auction
+1488 420550 combustibles y lubricantes Inglés Fuels and lubricants
+1489 4210 financieros Inglés Financiers
+1490 421005 intereses Inglés Interests
+1491 421010 reajuste monetario upac Inglés Monetary readjustment UPAC
+1492 421015 descuentos amortizados Inglés Amortized discounts
+1493 421020 diferencia en cambio Inglés Exchange difference
+1494 421025 financiacion vehiculos Inglés Financing vehicles
+1495 421030 financiacion sistemas de viajes Inglés Financing systems of journeys
+1496 421035 aceptaciones bancarias Inglés Banker's acceptances
+1497 421040 descuentos comerciales condicionados Inglés Conditioned trade discounts
+1498 421045 descuentos bancarios Inglés Bank discounts
+1499 421050 comisiones cheques de otras plazas Inglés Commissions checks of another plazas
+1500 421055 multas y recargos Inglés Fines and surcharges
+1501 421060 sanciones cheques devueltos Inglés Sanctions returned checks
+1502 421095 otros Inglés Other
+1503 4215 dividendos y participaciones Inglés Dividends and participations
+1504 421505 de sociedades anonimas y/o asimiladas Inglés Of corporations and or assimilated
+1505 421510 de sociedades limitadas y/o asimiladas Inglés Of limitedliability companies and or assimilated
+1506 4218 Ingresos metodos de participación Inglés Entrances methods of participation
+1507 421805 De sociedades Anonimas y/o asimiladas Inglés Of corporations and or assimilated
+1508 421810 De sociedades Anonimas y/o asimiladas Inglés Of corporations and or assimilated
+1509 4220 arrendamientos Inglés Leasings
+1510 422005 terrenos Inglés Lots
+1511 422010 construcciones y edificios Inglés Constructions and buildings
+1512 422015 maquinaria y equipo Inglés Machinery and equipment
+1513 422020 equipo de oficina Inglés Office equipment
+1514 422025 equipo de computacion y comunicacion Inglés Computer equipment and communication
+1515 422030 equipo medico cientifico Inglés Medical equipment scientist
+1516 422035 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1517 422040 flota y equipo de transporte Inglés Fleet ant transport equipment
+1518 422045 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+1519 422050 flota y equipo aereo Inglés Air fleet and equipment
+1520 422055 flota y equipo ferreo Inglés Train fleet and equipment
+1521 422060 acueductos plantas y redes Inglés acueductos plantas y redes
+1522 422062 envases y empaques Inglés Containers and packings
+1523 422065 plantaciones agricolas y forestales Inglés Agricultural and forestal plantations
+1524 422070 aerodromos Inglés Airdromes
+1525 422075 semovientes Inglés livestock
+1526 4225 comisiones Inglés Commissions
+1527 422505 sobre inversiones Inglés On investments
+1528 422510 de concesionarios Inglés Of dealers
+1529 422515 de actividades financieras Inglés Of financial activities
+1530 422520 por venta de servicios de taller Inglés For sale of services of workshop
+1531 422525 por venta de seguros Inglés For sale of insurances
+1532 422530 por ingresos para terceros Inglés For entrances for third parties
+1533 422535 por distribucion de peliculas Inglés For distribution of films
+1534 422540 derechos de autor Inglés copyright
+1535 422545 derechos de programacion Inglés Programming rights
+1536 4230 honorarios Inglés Fees
+1537 423005 asesorias Inglés Expert advices
+1538 423010 asistencia tecnica Inglés Technical assistance
+1539 423015 administracion de vinculadas Inglés Administration of linked
+1540 4235 servicios Inglés Services
+1541 423505 de bascula Inglés Of scale
+1542 423510 de transporte Inglés Of transportation
+1543 423515 de prensa Inglés Of press
+1544 423520 administrativos Inglés Whitecollar workers
+1545 423525 tecnicos Inglés Technicians
+1546 423530 de computacion Inglés Of computation
+1547 423535 de telefax Inglés Of telefax
+1548 423540 taller de vehiculos Inglés Car Workshop
+1549 423545 de recepcion de aeronaves Inglés Of reception of aircrafts
+1550 423550 de transporte programa gas natural Inglés transport natural gas program
+1551 423555 por contratos Inglés For contracts
+1552 423560 de trillla Inglés Threshing
+1553 423565 de mantenimiento Inglés Of maintenance
+1554 423570 al personal Inglés To the staff
+1555 423575 de casino Inglés Of casino
+1556 423580 fletes Inglés Freigh
+1557 423585 entre compañias Inglés Intercompany
+1558 423595 otros Inglés Other
+1559 4240 utilidad en venta de inversiones Inglés Utility in sale of investments
+1560 424005 acciones Inglés Actions
+1561 424010 cuotas o partes de interes social Inglés Quotas or parts of social interest
+1562 424015 bonos Inglés Bonds
+1563 424020 cedulas Inglés Bonds
+1564 424025 certificados Inglés Certificates
+1565 424030 papeles comerciales Inglés Commercial papers
+1566 424035 titulos Inglés Titles
+1567 424045 derechos fiduciarios Inglés Fiduciary rights
+1568 424050 obligatorias Inglés Obligatory
+1569 424095 otras Inglés Other
+1570 4245 utilidad en venta de propiedades planta y equipo Inglés Utility in sale of properties sets up and equipment
+1571 424504 terrenos Inglés Lots
+1572 424506 materiales industria petrolera Inglés Materials oil industry
+1573 424508 construcciones en curso Inglés Current constructions
+1574 424512 maquinaria en montaje Inglés machinery assembly
+1575 424516 construcciones y edificaciones Inglés Constructions and edifications
+1576 424520 maquinaria y equipo Inglés Machinery and equipment
+1577 424524 equipo de oficina Inglés Office equipment
+1578 424528 equipo de computacion y comunicacion Inglés Computer equipment and communication
+1579 424532 equipo medico cientifico Inglés Medical equipment scientist
+1580 424536 equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1581 424540 flota y equipo de transporte Inglés Fleet ant transport equipment
+1582 424544 flota y equipo fluvial y/o maritimo Inglés Float and fluvial equipment and or maritime
+1583 424548 flota y equipo aereo Inglés Air fleet and equipment
+1584 424552 flota y equipo ferreo Inglés Train fleet and equipment
+1585 424556 acueductos plantas y redes Inglés acueductos plantas y redes
+1586 424560 armamento de vigilancia Inglés Armament of vigilance
+1587 424562 envases y empaques Inglés Containers and packings
+1588 424564 plantaciones agricolas y forestales Inglés Agricultural and forestal plantations
+1589 424568 vias de comunicacion Inglés Roadways
+1590 424572 minas y canteras Inglés Mines and stone pits
+1591 424580 pozos artesianos Inglés Artesian wells
+1592 424584 yacimientos Inglés Deposits
+1593 424588 semovientes Inglés livestock
+1594 4248 utilidad en venta de otros bienes Inglés Utility in sale of another goods
+1595 424805 intangibles Inglés Intangibles
+1596 424810 otros activos Inglés Other assets
+1597 4250 recuperaciones Inglés Recuperations
+1598 425005 deudas malas Inglés Bad debts
+1599 425010 seguros Inglés Insurances
+1600 425015 reclamos Inglés Claims
+1601 425020 reintegro por personal en comision Inglés Refund for staff in commission
+1602 425025 reintegro garantias Inglés Refund guarantees
+1603 425030 descuentos concedidos Inglés Discount alloweds
+1604 425035 reintegro provisiones Inglés Reinstatement provisions
+1605 425040 gastos bancarios Inglés Bank charges
+1606 425045 de depreciacion Inglés Of depreciation
+1607 425050 reintegro de otros costos y gastos Inglés Refund of another cost and expenses
+1608 4255 indemnizaciones Inglés Indemnifications
+1609 425505 por siniestro Inglés For damage
+1610 425510 por suministros Inglés For supplies
+1611 425515 lucro cesante compañias de seguros Inglés Loss of profits insurance companies
+1612 425520 daño emergente compañias de seguros Inglés Indirect damages insurance companies
+1613 425525 por perdida de mercancia Inglés For lost of merchandise
+1614 425530 por incumplimiento de contratos Inglés For breach of contracts
+1615 425535 de terceros Inglés Of third parties
+1616 425540 por incapacidades i.s.s. Inglés For incapacities i.s.s.
+1617 425595 otras Inglés Other
+1618 4260 participaciones en concesiones Inglés Participations in concessions
+1619 426001 a 426098 Inglés To 426098
+1620 4265 ingresos de ejercicios anteriores Inglés Entrances of previous exercises
+1621 426501 a 426598 Inglés To 426598
+1622 4275 devoluciones, rebajas y descuentos en otras ventas (db) Inglés Returns, discounts and discounts in another sales ( db )
+1623 427501 a 427598 Inglés To 427598
+1624 427599 ajustes por inflacion Inglés Adjustments for inflation
+1625 4295 diversos Inglés Various
+1626 429503 cert Inglés CERT
+1627 429505 aprovechamientos Inglés Uses
+1628 429507 auxilios Inglés Asistance
+1629 429509 Subvenciones Inglés Subventions
+1630 429511 ingresos por investigacion y desarrollo Inglés Entrances for research and development
+1631 429513 por trabajos ejecutados Inglés For executed works
+1632 429515 regalias Inglés Royalties
+1633 429517 derivados de las exportaciones Inglés Byproducts of the exports
+1634 429519 otros ingresos de explotacion Inglés Other income of exploitation
+1635 429521 de la actividad ganadera Inglés Of livestock activities
+1636 429525 derechos y licitaciones Inglés Rights and bids
+1637 429530 ingresos por elementos perdidos Inglés Entrances for lost elements
+1638 429533 multas y recargos Inglés Fines and surcharges
+1639 429535 preavisos descontados Inglés Deducted notices
+1640 429537 reclamos Inglés Claims
+1641 429540 recobro de daños Inglés Recovery of damages
+1642 429543 premios Inglés Rewards
+1643 429545 bonificaciones Inglés Bonuses
+1644 429547 productos descontados Inglés Deducted products
+1645 429549 reconocimientos i.s.s. Inglés Recognitions i.s.s.
+1646 429551 excedentes Inglés Surplus stock
+1647 429553 sobrantes de caja menor Inglés Surpluses of minor box
+1648 429555 sobrantes en liquidacion fletes Inglés Surpluses in liquidation freightages
+1649 429557 subsidios estatales Inglés Stateowned subsidies
+1650 429559 capacitacion distribuidores Inglés Capacitation distributing
+1651 429561 de escrituracion Inglés Title deed
+1652 429563 registro promesas de venta Inglés Register of promises to sell
+1653 429567 utiles, papeleria y fotocopias Inglés School implements, stationer's shop and photocopies
+1654 429571 resultados matriculas y traspasos Inglés Tuition and transfer results
+1655 429573 decoraciones Inglés Decorations
+1656 429575 manejo de carga Inglés Cargo handling
+1657 429579 historia clinica Inglés Clinical history
+1658 429581 ajuste al peso Inglés Adjust the weight
+1659 429583 llamadas telefonicas Inglés Phone calls
+1660 429595 Otros. < Adicionado con el Decreto 1536 de 39209 > Inglés Other ones. < Added with the Decree 1536 of 39209
+1661 47 ajustes por inflacion < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+1662 4705 correccion monetaria Inglés Monetary correction
+1663 470505 inversiones (cr) Inglés Investments ( cr )
+1664 470510 inventarios (cr) Inglés Inventories ( cr )
+1665 470515 propiedades, planta y equipo (cr) Inglés property, plant and equipment (cr)
+1666 470520 intangibles (cr) Inglés Intangibles ( cr )
+1667 470525 activos diferidos Inglés Deferred assets
+1668 470530 otros activos (cr) Inglés Other assets ( cr )
+1669 470535 pasivos sujetos de ajuste Inglés Liabilities subject of adjustment
+1670 470540 patrimonio Inglés Stockholders equity
+1671 470545 depreciacion acumulada (db) Inglés Accrued depreciation ( db )
+1672 470550 depreciacion diferida (cr) Inglés Deferred depreciation ( cr )
+1673 470555 agotamiento acumulado (db) Inglés Accumulated depletion ( db )
+1674 470560 amortizacion acumulada (db) Inglés Accumulated amortization ( db )
+1675 470590 compras (cr) Inglés Shopping ( cr )
+1676 5 Gastos Inglés Expenses
+1677 51 Operacionales de administración Inglés Operational of administration
+1678 5105 Gastos de personal Inglés staff cost
+1679 510503 Salario integral Inglés Integral salary
+1680 510506 Sueldos Inglés Wages
+1681 510512 Jornales Inglés Wages
+1682 510515 Horas extras y recargos Inglés Overtime surcharges
+1683 510518 Comisiones Inglés Commissions
+1684 510521 Viáticos Inglés Traveling expenses
+1685 510524 Incapacidades Inglés Incapacities
+1686 510527 Auxilio de transporte Inglés Transport assistance
+1687 510530 Cesantías Inglés Severance
+1688 510533 Intereses sobre cesantías Inglés Interests on severance
+1689 510536 Prima de servicios Inglés Bonus services
+1690 510539 Vacaciones Inglés Vacations
+1691 510542 Primas extralegales Inglés Bonuses extralegal
+1692 510545 Auxilios Inglés Asistance
+1693 510548 Bonificaciones Inglés Bonuses
+1694 510551 Dotación y suministro a trabajadores Inglés Endowment and supply to workers
+1695 510554 Seguros Inglés Insurances
+1696 510557 Cuotas partes pensiones de jubilación Inglés Quotas pensions pays
+1697 510558 Amortización cálculo actuarial pensiones de jubilación Inglés Amortization actuarial valuation retired pays
+1698 510559 Pensiones de jubilación Inglés Retired pays
+1699 510560 Indemnizaciones laborales Inglés Worker's compensations
+1700 510561 Amortización bonos pensionales Inglés Amortization bonds, pension them
+1701 510562 Amortización títulos pensionales Inglés Amortization titles, pension them
+1702 510563 Capacitación al personal Inglés Capacitation to the staff
+1703 510566 Gastos deportivos y de recreación Inglés Sports and recreation expenses
+1704 510568 Aportes a administradoras de riesgos profesionales, ARP Inglés Contributions to administrators of occupational hazard insurance, ARP
+1705 510569 Aportes a entidades promotoras de salud, EPS Inglés Contributions to promotive entities of health, EPS
+1706 510570 Aportes a fondos de pensiones y/o cesantías Inglés Contributions to funds of pensions and or cessations
+1707 510572 Aportes cajas de compensación familiar Inglés Contributions familiar clearinghouses
+1708 510575 Aportes ICBF Inglés Contributions ICBF
+1709 510578 SENA Inglés SENA
+1710 510581 Aportes sindicales Inglés Syndical contributions
+1711 510584 Gastos médicos y drogas Inglés Medical expenses and drugs
+1712 510595 Otros Inglés Other
+1713 5110 Honorarios Inglés Fees
+1714 511005 Junta directiva Inglés Directive meeting
+1715 511010 Revisoría fiscal Inglés Tax auditor
+1716 511015 Auditoría externa Inglés External audit
+1717 511020 Avalúos Inglés Evaluations
+1718 511025 Asesoría jurídica Inglés Legal department
+1719 511030 Asesoría financiera Inglés Financial expert advice
+1720 511035 Asesoría técnica Inglés Technical expert advice
+1721 511095 Otros Inglés Other
+1722 5115 Impuestos Inglés Taxes
+1723 511505 Industria y comercio Inglés Industry and commerce
+1724 511510 De timbres Inglés Of stamps
+1725 511515 A la propiedad raíz Inglés To the real estate
+1726 511520 Derechos sobre instrumentos públicos Inglés Rights on document recorded withs official notary
+1727 511525 De valorización Inglés Of valuing
+1728 511530 De turismo Inglés Of tourism
+1729 511535 Tasa por utilización de puertos Inglés Value for utilization of ports
+1730 511540 De vehículos Inglés Of vehicles
+1731 511545 De espectáculos públicos Inglés Of public spectacles
+1732 511550 Cuotas de fomento Inglés Quotas of fomentation
+1733 511570 IVA descontable Inglés Discountable VAT
+1734 511595 Otros Inglés Other
+1735 5120 Arrendamientos Inglés Leasings
+1736 512005 Terrenos Inglés Lots
+1737 512010 Construcciones y edificaciones Inglés Constructions and edifications
+1738 512015 Maquinaria y equipo Inglés Machinery and equipment
+1739 512020 Equipo de oficina Inglés Office equipment
+1740 512025 Equipo de computación y comunicación Inglés Computer equipment and communication
+1741 512030 Equipo médicocientífico Inglés Medical scientific equipment
+1742 512035 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1743 512040 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1744 512045 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1745 512050 Flota y equipo aéreo Inglés Air fleet and equipment
+1746 512055 Flota y equipo férreo Inglés Train fleet and equipment
+1747 512060 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+1748 512065 Aeródromos Inglés Airdromes
+1749 512070 Semovientes Inglés livestock
+1750 512095 Otros Inglés Other
+1751 5125 Contribuciones y afiliaciones Inglés Contributions and affiliations
+1752 512505 Contribuciones Inglés Contributions
+1753 512510 Afiliaciones y sostenimiento Inglés Affiliations and support
+1754 5130 Seguros Inglés Insurances
+1755 513005 Manejo Inglés Management
+1756 513010 Cumplimiento Inglés Compliance
+1757 513015 Corriente débil Inglés Weak current
+1758 513020 Vida colectiva Inglés Collective life
+1759 513025 Incendio Inglés Fire
+1760 513030 Terremoto Inglés Earthquake
+1761 513035 Sustracción y hurto Inglés Subtraction and theft
+1762 513040 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1763 513045 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1764 513050 Flota y equipo aéreo Inglés Air fleet and equipment
+1765 513055 Flota y equipo férreo Inglés Train fleet and equipment
+1766 513060 Responsabilidad civil y extracontractual Inglés Civil and responsibility not in the contract
+1767 513065 Vuelo Inglés flight insurance
+1768 513070 Rotura de maquinaria Inglés Breaking of machinery
+1769 513075 Obligatorio accidente de tránsito Inglés Obligatory accident in transit
+1770 513080 Lucro cesante Inglés Loss of profits
+1771 513085 Transporte de mercancía Inglés Transport of merchandise
+1772 513095 Otros Inglés Other
+1773 5135 Servicios Inglés Services
+1774 513505 Aseo y vigilancia Inglés Cleanliness and vigilance
+1775 513510 Temporales Inglés temporary
+1776 513515 Asistencia técnica Inglés Technical assistance
+1777 513520 Procesamiento electrónico de datos Inglés EDP
+1778 513525 Acueducto y alcantarillado Inglés Aqueduct and sewage system
+1779 513530 Energía eléctrica Inglés Electric power
+1780 513535 Teléfono Inglés Telephone
+1781 513540 Correo, portes y telegramas Inglés Mail, transports and telegrams
+1782 513545 Fax y télex Inglés Fax and telex
+1783 513550 Transporte, fletes y acarreos Inglés Transport, freightages and transportings
+1784 513555 Gas Inglés Gas
+1785 513595 Otros Inglés Other
+1786 5140 Gastos legales Inglés Legal expenses
+1787 514005 Notariales Inglés Notarial
+1788 514010 Registro mercantil Inglés Mercantile register
+1789 514015 Trámites y licencias Inglés Procedures and licenses
+1790 514020 Aduaneros Inglés Customses officer
+1791 514025 Consulares Inglés Consular
+1792 514095 Otros Inglés Other
+1793 5145 Mantenimiento y reparaciones Inglés Maintenance and reparations
+1794 514505 Terrenos Inglés Lots
+1795 514510 Construcciones y edificaciones Inglés Constructions and edifications
+1796 514515 Maquinaria y equipo Inglés Machinery and equipment
+1797 514520 Equipo de oficina Inglés Office equipment
+1798 514525 Equipo de computación y comunicación Inglés Computer equipment and communication
+1799 514530 Equipo médicocientífico Inglés Medical scientific equipment
+1800 514535 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1801 514540 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1802 514545 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1803 514550 Flota y equipo aéreo Inglés Air fleet and equipment
+1804 514555 Flota y equipo férreo Inglés Train fleet and equipment
+1805 514560 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+1806 514565 Armamento de vigilancia Inglés Armament of vigilance
+1807 514570 Vías de comunicación Inglés Roadways
+1808 5150 Adecuación e instalación Inglés Adjusting and installation
+1809 515005 Instalaciones eléctricas Inglés Electrical systems
+1810 515010 Arreglos ornamentales Inglés Ornamental arrangements
+1811 515015 Reparaciones locativas Inglés Locative reparations
+1812 515095 Otros Inglés Other
+1813 5155 Gastos de viaje Inglés Traveling expenses
+1814 515505 Alojamiento y manutención Inglés Accommodation and maintenance
+1815 515510 Pasajes fluviales y/o marítimos Inglés River or / and Sea tickets
+1816 515515 Pasajes aéreos Inglés Aerial passages
+1817 515520 Pasajes terrestres Inglés Land tickets
+1818 515525 Pasajes férreos Inglés Train tickets
+1819 515595 Otros Inglés Other
+1820 5160 Depreciaciones Inglés Depreciations
+1821 516005 Construcciones y edificaciones Inglés Constructions and edifications
+1822 516010 Maquinaria y equipo Inglés Machinery and equipment
+1823 516015 Equipo de oficina Inglés Office equipment
+1824 516020 Equipo de computación y comunicación Inglés Computer equipment and communication
+1825 516025 Equipo médicocientífico Inglés Medical scientific equipment
+1826 516030 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1827 516035 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1828 516040 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1829 516045 Flota y equipo aéreo Inglés Air fleet and equipment
+1830 516050 Flota y equipo férreo Inglés Train fleet and equipment
+1831 516055 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+1832 516060 Armamento de vigilancia Inglés Armament of vigilance
+1833 5165 Amortizaciones Inglés Amortizations
+1834 516505 Vías de comunicación Inglés Roadways
+1835 516510 Intangibles Inglés Intangibles
+1836 516515 Cargos diferidos Inglés Deferred charges
+1837 516595 Otras Inglés Other
+1838 5195 Diversos Inglés Various
+1839 519505 Comisiones Inglés Commissions
+1840 519510 Libros, suscripciones, periódicos y revistas Inglés Books, subscriptions, newspapers and magazines
+1841 519515 Música ambiental Inglés Background music
+1842 519520 Gastos de representación y relaciones públicas Inglés Representation expenses and public relations
+1843 519525 Elementos de aseo y cafetería Inglés Elements of cleanliness and coffee shop
+1844 519530 Útiles, papelería y fotocopias Inglés School implements, stationer's shop and photocopies
+1845 519535 Combustibles y lubricantes Inglés Fuels and lubricants
+1846 519540 Envases y empaques Inglés Containers and packings
+1847 519545 Taxis y buses Inglés Taxis and buses
+1848 519550 Estampillas Inglés Stamps
+1849 519555 Microfilmación Inglés Microfilm
+1850 519560 Casino y restaurante Inglés Casino and restaurant
+1851 519565 Parqueaderos Inglés Parking
+1852 519570 Indemnización por daños a terceros Inglés Compensatory damages to third parties
+1853 519575 Pólvora y similares Inglés Gunpowder and matches
+1854 519595 Otros Inglés Other
+1855 5199 Provisiones Inglés provisions
+1856 519905 Inversiones Inglés Investments
+1857 519910 Deudores Inglés Debtors
+1858 519915 Propiedades, planta y equipo Inglés property, plant and equipment
+1859 519995 Otros activos Inglés Other assets
+1860 52 Operacionales de ventas Inglés Operational of sales
+1861 5205 Gastos de personal Inglés staff cost
+1862 520503 Salario integral Inglés Integral salary
+1863 520506 Sueldos Inglés Wages
+1864 520512 Jornales Inglés Wages
+1865 520515 Horas extras y recargos Inglés Overtime surcharges
+1866 520518 Comisiones Inglés Commissions
+1867 520521 Viáticos Inglés Traveling expenses
+1868 520524 Incapacidades Inglés Incapacities
+1869 520527 Auxilio de transporte Inglés Transport assistance
+1870 520530 Cesantías Inglés Severance
+1871 520533 Intereses sobre cesantías Inglés Interests on severance
+1872 520536 Prima de servicios Inglés Bonus services
+1873 520539 Vacaciones Inglés Vacations
+1874 520542 Primas extralegales Inglés Bonuses extralegal
+1875 520545 Auxilios Inglés Asistance
+1876 520548 Bonificaciones Inglés Bonuses
+1877 520551 Dotación y suministro a trabajadores Inglés Endowment and supply to workers
+1878 520554 Seguros Inglés Insurances
+1879 520557 Cuotas partes pensiones de jubilación Inglés Quotas pensions pays
+1880 520558 Amortización cálculo actuarial pensiones de jubilación Inglés Amortization actuarial valuation retired pays
+1881 520559 Pensiones de jubilación Inglés Retired pays
+1882 520560 Indemnizaciones laborales Inglés Worker's compensations
+1883 520561 Amortización bonos pensionales Inglés Amortization bonds, pension them
+1884 520562 Amortización títulos pensionales Inglés Amortization titles, pension them
+1885 520563 Capacitación al personal Inglés Capacitation to the staff
+1886 520566 Gastos deportivos y de recreación Inglés Sports and recreation expenses
+1887 520568 Aportes a administradoras de riesgos profesionales, ARP Inglés Contributions to administrators of occupational hazard insurance, ARP
+1888 520669 Aportes a entidades promotoras de salud, EPS Inglés Contributions to promotive entities of health, EPS
+1889 520570 Aportes a fondos de pensiones y/o cesantías Inglés Contributions to funds of pensions and or cessations
+1890 520572 Aportes cajas de compensación familiar Inglés Contributions familiar clearinghouses
+1891 520575 Aportes ICBF Inglés Contributions ICBF
+1892 520578 SENA Inglés Contributions SENA
+1893 520581 Aportes sindicales Inglés Syndical contributions
+1894 520584 Gastos médicos y drogas Inglés Medical expenses and drugs
+1895 520595 Otros Inglés Other
+1896 5210 Honorarios Inglés Fees
+1897 521005 Junta directiva Inglés Directive meeting
+1898 521010 Revisoría fiscal Inglés Tax auditor
+1899 521015 Auditoría externa Inglés External audit
+1900 521020 Avalúos Inglés Evaluations
+1901 521025 Asesoría jurídica Inglés Legal department
+1902 521030 Asesoría financiera Inglés Financial expert advice
+1903 521035 Asesoría técnica Inglés Technical expert advice
+1904 521095 Otros Inglés Other
+1905 5215 Impuestos Inglés Taxes
+1906 521505 Industria y comercio Inglés Industry and commerce
+1907 521510 De timbres Inglés Of stamps
+1908 521515 A la propiedad raíz Inglés To the real estate
+1909 521520 Derechos sobre instrumentos públicos Inglés Rights on document recorded withs official notary
+1910 521525 De valorización Inglés Of valuing
+1911 521530 De turismo Inglés Of tourism
+1912 521535 Tasa por utilización de puertos Inglés Value for utilization of ports
+1913 521540 De vehículos Inglés Of vehicles
+1914 521545 De espectáculos públicos Inglés Of public spectacles
+1915 521550 Cuotas de fomento Inglés Quotas of fomentation
+1916 521555 Licores Inglés Liquors
+1917 521560 Cervezas Inglés Beers
+1918 521565 Cigarrillos Inglés Cigarettes
+1919 521570 IVA descontable Inglés Discountable VAT
+1920 521595 Otros Inglés Other
+1921 5220 Arrendamientos Inglés Leasings
+1922 522005 Terrenos Inglés Lots
+1923 522010 Construcciones y edificaciones Inglés Constructions and edifications
+1924 522015 Maquinaria y equipo Inglés Machinery and equipment
+1925 522020 Equipo de oficina Inglés Office equipment
+1926 522025 Equipo de computación y comunicación Inglés Computer equipment and communication
+1927 522030 Equipo médicocientífico Inglés Medical scientific equipment
+1928 522035 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1929 522040 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1930 522045 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1931 522050 Flota y equipo aéreo Inglés Air fleet and equipment
+1932 522055 Flota y equipo férreo Inglés Train fleet and equipment
+1933 522060 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+1934 522065 Aeródromos Inglés Airdromes
+1935 522070 Semovientes Inglés livestock
+1936 522095 Otros Inglés Other
+1937 5225 Contribuciones y afiliaciones Inglés Contributions and affiliations
+1938 522505 Contribuciones Inglés Contributions
+1939 522510 Afiliaciones y sostenimiento Inglés Affiliations and support
+1940 5230 Seguros Inglés Insurances
+1941 523005 Manejo Inglés Management
+1942 523010 Cumplimiento Inglés Compliance
+1943 523015 Corriente débil Inglés Weak current
+1944 523020 Vida colectiva Inglés Collective life
+1945 523025 Incendio Inglés Fire
+1946 523030 Terremoto Inglés Earthquake
+1947 523035 Sustracción y hurto Inglés Subtraction and theft
+1948 523040 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1949 523045 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1950 523050 Flota y equipo aéreo Inglés Air fleet and equipment
+1951 523055 Flota y equipo férreo Inglés Train fleet and equipment
+1952 523060 Responsabilidad civil y extracontractual Inglés Civil and responsibility not in the contract
+1953 523065 Vuelo Inglés flight insurance
+1954 523070 Rotura de maquinaria Inglés Breaking of machinery
+1955 523075 Obligatorio accidente de tránsito Inglés Obligatory accident in transit
+1956 523080 Lucro cesante Inglés Loss of profits
+1957 523095 Otros Inglés Other
+1958 5235 Servicios Inglés Services
+1959 523505 Aseo y vigilancia Inglés Cleanliness and vigilance
+1960 523510 Temporales Inglés temporary
+1961 523515 Asistencia técnica Inglés Technical assistance
+1962 523520 Procesamiento electrónico de datos Inglés EDP
+1963 523525 Acueducto y alcantarillado Inglés Aqueduct and sewage system
+1964 523530 Energía eléctrica Inglés Electric power
+1965 523535 Teléfono Inglés Telephone
+1966 523540 Correo, portes y telegramas Inglés Mail, transports and telegrams
+1967 523545 Fax y télex Inglés Fax and telex
+1968 523550 Transporte, fletes y acarreos Inglés Transport, freightages and transportings
+1969 523555 Gas Inglés Gas
+1970 523560 Publicidad, propaganda y promoción Inglés Publicity, propaganda and promotion
+1971 523595 Otros Inglés Other
+1972 5240 Gastos legales Inglés Legal expenses
+1973 524005 Notariales Inglés Notarial
+1974 524010 Registro mercantil Inglés Mercantile register
+1975 524015 Trámites y licencias Inglés Procedures and licenses
+1976 524020 Aduaneros Inglés Customses officer
+1977 524025 Consulares Inglés Consular
+1978 524095 Otros Inglés Other
+1979 5245 Mantenimiento y reparaciones Inglés Maintenance and reparations
+1980 524505 Terrenos Inglés Lots
+1981 524510 Construcciones y edificaciones Inglés Constructions and edifications
+1982 524515 Maquinaria y equipo Inglés Machinery and equipment
+1983 524520 Equipo de oficina Inglés Office equipment
+1984 524525 Equipo de computación y comunicación Inglés Computer equipment and communication
+1985 524530 Equipo médicocientífico Inglés Medical scientific equipment
+1986 524535 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+1987 524540 Flota y equipo de transporte Inglés Fleet ant transport equipment
+1988 524545 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+1989 524550 Flota y equipo aéreo Inglés Air fleet and equipment
+1990 524555 Flota y equipo férreo Inglés Train fleet and equipment
+1991 524560 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+1992 524565 Armamento de vigilancia Inglés Armament of vigilance
+1993 524570 Vías de comunicación Inglés Roadways
+1994 5250 Adecuación e instalación Inglés Adjusting and installation
+1995 525005 Instalaciones eléctricas Inglés Electrical systems
+1996 525010 Arreglos ornamentales Inglés Ornamental arrangements
+1997 525015 Reparaciones locativas Inglés Locative reparations
+1998 525095 Otros Inglés Other
+1999 5255 Gastos de viaje Inglés Traveling expenses
+2000 525505 Alojamiento y manutención Inglés Accommodation and maintenance
+2001 525510 Pasajes fluviales y/o marítimos Inglés River or / and Sea tickets
+2002 525515 Pasajes aéreos Inglés Aerial passages
+2003 525520 Pasajes terrestres Inglés Land tickets
+2004 525525 Pasajes férreos Inglés Train tickets
+2005 525595 Otros Inglés Other
+2006 5260 Depreciaciones Inglés Depreciations
+2007 526005 Construcciones y edificaciones Inglés Constructions and edifications
+2008 526010 Maquinaria y equipo Inglés Machinery and equipment
+2009 526015 Equipo de oficina Inglés Office equipment
+2010 526020 Equipo de computación y comunicación Inglés Computer equipment and communication
+2011 526025 Equipo médicocientífico Inglés Medical scientific equipment
+2012 526030 Equipo de hoteles y restaurantes Inglés Hotels and restaurants equipment
+2013 526035 Flota y equipo de transporte Inglés Fleet ant transport equipment
+2014 526040 Flota y equipo fluvial y/o marítimo Inglés Float and fluvial equipment and or maritime
+2015 526045 Flota y equipo aéreo Inglés Air fleet and equipment
+2016 526050 Flota y equipo férreo Inglés Train fleet and equipment
+2017 526055 Acueductos, plantas y redes Inglés Aqueducts, plants and nets
+2018 526060 Armamento de vigilancia Inglés Armament of vigilance
+2019 526065 Envases y empaques Inglés Containers and packings
+2020 5265 Amortizaciones Inglés Amortizations
+2021 526505 Vías de comunicación Inglés Roadways
+2022 526510 Intangibles Inglés Intangibles
+2023 526515 Cargos diferidos Inglés Deferred charges
+2024 526595 Otras Inglés Other
+2025 5270 Financierosreajuste del sistema Inglés Financiers readjust of the system
+2026 527001 a 527098 Inglés To 527098
+2027 5275 Pérdidas método de participación Inglés Losses method of participation
+2028 527505 De sociedades anónimas y/o asimiladas Inglés Of corporations and or assimilated
+2029 527510 De sociedades limitadas y/o asimiladas Inglés Of limitedliability companies and or assimilated
+2030 5295 Diversos Inglés Various
+2031 529505 Comisiones Inglés Commissions
+2032 529510 Libros, suscripciones, periódicos y revistas Inglés Books, subscriptions, newspapers and magazines
+2033 529515 Música ambiental Inglés Background music
+2034 529520 Gastos de representación y relaciones públicas Inglés Representation expenses and public relations
+2035 529525 Elementos de aseo y cafetería Inglés Elements of cleanliness and coffee shop
+2036 529530 Útiles, papelería y fotocopias Inglés School implements, stationer's shop and photocopies
+2037 529535 Combustibles y lubricantes Inglés Fuels and lubricants
+2038 529540 Envases y empaques Inglés Containers and packings
+2039 529545 Taxis y buses Inglés Taxis and buses
+2040 529550 Estampillas Inglés Stamps
+2041 529555 Microfilmación Inglés Microfilmación
+2042 529560 Casino y restaurante Inglés Casino and restaurant
+2043 529565 Parqueaderos Inglés Parking
+2044 529570 Indemnización por daños a terceros Inglés Compensatory damages to third parties
+2045 529575 Pólvora y similares Inglés Gunpowder and matches
+2046 529595 Otros Inglés Other
+2047 5299 Provisiones Inglés provisions
+2048 529905 Inversiones Inglés Investments
+2049 529910 Deudores Inglés Debtors
+2050 529915 Inventarios Inglés Inventories
+2051 529920 Propiedades, planta y equipo Inglés property, plant and equipment
+2052 529995 Otros activos Inglés Other assets
+2053 53 No operacionales Inglés No operational
+2054 5305 Financieros Inglés Financiers
+2055 530505 Gastos bancarios Inglés Bank charges
+2056 530510 Reajuste monetarioUPAC Inglés Monetary readjustment UPAC
+2057 530515 Comisiones Inglés Commissions
+2058 530520 Intereses Inglés Interests
+2059 530525 Diferencia en cambio Inglés Exchange difference
+2060 530530 Gastos en negociación certificados de cambio Inglés Expenses under discussion exchange certificates
+2061 530535 Descuentos comerciales condicionados Inglés Conditioned trade discounts
+2062 530540 Gastos manejo y emisión de bonos Inglés Management expenses and bond issue
+2063 530545 Prima amortizada Inglés Bonuses amortized
+2064 530595 Otros Inglés Other
+2065 5310 Pérdida en venta y retiro de bienes Inglés Loss for sale and withdrawal of goods
+2066 531005 Venta de inversiones Inglés Sale of investments
+2067 531010 Venta de cartera Inglés Sale of receivable
+2068 531015 Venta de propiedades, planta y equipo Inglés Sale of properties, plant and equipment
+2069 531020 Venta de intangibles Inglés Sale of intangibles
+2070 531025 Venta de otros activos Inglés Sale of other assets
+2071 531030 Retiro de propiedades, planta y equipo Inglés Withdrawal of properties, plant and equipment
+2072 531035 Retiro de otros activos Inglés Withdrawal of other assets
+2073 531040 Pérdidas por siniestros Inglés Losses for damages
+2074 531095 Otros Inglés Other
+2075 5313 Pérdidas método de participación Inglés Losses method of participation
+2076 531305 De sociedades anónimas y/o asimiladas Inglés Of corporations and or assimilated
+2077 531310 De sociedades limitadas y/o asimiladas Inglés Of limitedliability companies and or assimilated
+2078 5315 Gastos extraordinarios Inglés Nonrecurrent expenses
+2079 531505 Costas y procesos judiciales Inglés Coasts and judicial processes
+2080 531510 Actividades culturales y cívicas Inglés Cultural and civic activities
+2081 531515 Costos y gastos de ejercicios anteriores Inglés Costs and expenses of previous exercises
+2082 531520 Impuestos asumidos Inglés Assumed taxes
+2083 531595 Otros Inglés Other
+2084 5395 Gastos diversos Inglés Sundry expenses
+2085 539505 Demandas laborales Inglés Employment claims
+2086 539510 Demandas por incumplimiento de contratos Inglés Claims for breach of contract
+2087 539515 Indemnizaciones Inglés Indemnifications
+2088 539520 Multas, sanciones y litigios Inglés Fines, sanctions and pleadings
+2089 539525 Donaciones Inglés Donations
+2090 539530 Constitución de garantías Inglés Constitution of guaranties
+2091 539535 Amortización de bienes entregados en comodato Inglés Amortization of loaned goods
+2092 539595 Otros Inglés Other
+2093 54 Impuesto de renta y complementarios Inglés Tax of income and complementary
+2094 5405 Impuesto de renta y complementarios Inglés Tax of income and complementary
+2095 540505 Impuesto de renta y complementarios Inglés Tax of income and complementary
+2096 59 Ganancias y pérdidas Inglés Profit and loss
+2097 5905 Ganancias y pérdidas Inglés Profit and loss
+2098 590505 Ganancias y pérdidas Inglés Profit and loss
+2099 6 Costos Inglés Costs
+2100 61 Costo de ventas y de prestación de servicios Inglés Cost of sales and of rendering of services
+2101 6105 Agricultura, ganadería, caza y silvicultura Inglés Agriculture, cattle raising, hunting and silviculture
+2102 610505 Cultivo de cereales Inglés Cultivation of cereals
+2103 610510 Cultivos de hortalizas, legumbres y plantas ornamentales Inglés Cultivations of vegetables, vegetables and ornamental plants
+2104 610515 Cultivos de frutas, nueces y plantas aromáticas Inglés Cultivations of fruits, walnuts and aromatic plants
+2105 610520 Cultivo de café Inglés Cultivation of coffee
+2106 610525 Cultivo de flores Inglés Cultivation of flowers
+2107 610530 Cultivo de caña de azúcar Inglés Cultivation of sugar cane
+2108 610535 Cultivo de algodón y plantas para material textil Inglés Cultivation of cotton and plants for textile material
+2109 610540 Cultivo de banano Inglés Cultivation of banana
+2110 610545 Otros cultivos agrícolas Inglés Another agricultural cultivations
+2111 610550 Cría de ovejas, cabras, asnos, mulas y burdéganos Inglés Sheep farming, goats, asses, mules and hinnies
+2112 610555 Cría de ganado caballar y vacuno Inglés Equine and bovine calf
+2113 610560 Producción avícola Inglés Poultry production
+2114 610565 Cría de otros animales Inglés Bring up of another animals
+2115 610570 Servicios agrícolas y ganaderos Inglés Agricultural services and cattle farmers
+2116 610575 Actividad de caza Inglés Activity of hunting
+2117 610580 Actividad de silvicultura Inglés Activity of silviculture
+2118 610595 Actividades conexas Inglés Connected activities
+2119 6110 Pesca Inglés Fish
+2120 611005 Actividad de pesca Inglés Activity of fishing
+2121 611010 Explotación de criaderos de peces Inglés Exploitation of fish farms
+2122 611095 Actividades conexas Inglés Connected activities
+2123 6115 Explotación de minas y canteras Inglés Exploitation of mines and stone pits
+2124 611505 Carbón Inglés Coal
+2125 611510 Petróleo crudo Inglés Crude oil
+2126 611512 Gas natural Inglés Natural gas
+2127 611514 Servicios relacionados con extracción de petróleo y gas Inglés Services related with extraction of oil and gas
+2128 611515 Minerales de hierro Inglés Iron ores
+2129 611520 Minerales metalíferos no ferrosos Inglés Nonferrous metal ores
+2130 611525 Piedra, arena y arcilla Inglés Stone, sand and clay
+2131 611527 Piedras preciosas Inglés Precious stones
+2132 611528 Oro Inglés Gold
+2133 611530 Otras minas y canteras Inglés Another mines and stone pits
+2134 611532 Prestación de servicios sector minero Inglés Rendering of services mining sector
+2135 611595 Actividades conexas Inglés Connected activities
+2136 6120 Industrias manufactureras Inglés Manufacturing industries
+2137 612001 Producción y procesamiento de carnes y productos cárnicos Inglés Production and processing of meats and meat products
+2138 612002 Productos de pescado Inglés Fish's products
+2139 612003 Productos de frutas, legumbres y hortalizas Inglés Fruit, vegetables and vegetables products
+2140 612004 Elaboración de aceites y grasas Inglés Elaboration of oils and greases
+2141 612005 Elaboración de productos lácteos Inglés Elaboration of dairy products
+2142 612006 Elaboración de productos de molinería Inglés Elaboration of grain mill products
+2143 612007 Elaboración de almidones y derivados Inglés Elaboration of starches and byproducts
+2144 612008 Elaboración de alimentos para animales Inglés Elaboration of foodstuff for animals
+2145 612009 Elaboración de productos para panadería Inglés Elaboration of products for bakery
+2146 612010 Elaboración de azúcar y melazas Inglés Elaboration of sugar and molasseses
+2147 612011 Elaboración de cacao, chocolate y confitería Inglés Elaboration of cocoa, chocolate and candy shop
+2148 612012 Elaboración de pastas y productos farináceos Inglés Elaboration of pastas and starchy products
+2149 612013 Elaboración de productos de café Inglés Elaboration of products of coffee
+2150 612014 Elaboración de otros productos alimenticios Inglés Elaboration of another foodstuffs
+2151 612015 Elaboración de bebidas alcohólicas y alcohol etílico Inglés Elaboration of alcoholic drinks and ethyl alcohol
+2152 612016 Elaboración de vinos Inglés Elaboration of wines
+2153 612017 Elaboración de bebidas malteadas y de malta Inglés Elaboration of malted and malt drinks
+2154 612018 Elaboración de bebidas no alcohólicas Inglés Elaboration of nonalcoholic drinks
+2155 612019 Elaboración de productos de tabaco Inglés Elaboration of products of tobacco
+2156 612020 Preparación e hilatura de fibras textiles y tejeduría Inglés Preparation and spinning of textile fibers and weaving
+2157 612021 Acabado de productos textiles Inglés Finishing of textile products
+2158 612022 Elaboración de artículos de materiales textiles Inglés Elaboration of goods of textile materials
+2159 612023 Elaboración de tapices y alfombras Inglés Elaboration of tapestries and carpets
+2160 612024 Elaboración de cuerdas, cordeles, bramantes y redes Inglés Manufacture of cordage, rope, twine and netting
+2161 612025 Elaboración de otros productos textiles Inglés Elaboration of another textile products
+2162 612026 Elaboración de tejidos Inglés Elaboration of textiles
+2163 612027 Elaboración de prendas de vestir Inglés Clothing Development
+2164 612028 Preparación, adobo y teñido de pieles Inglés Preparation, dressing and dyed of furs
+2165 612029 Curtido, adobo o preparación de cuero Inglés Tanning, seasoning or preparation of hide
+2166 612030 Elaboración de maletas, bolsos y similares Inglés Elaboration of suitcases, handbags and matches
+2167 612031 Elaboración de calzado Inglés Elaboration of footwear
+2168 612032 Producción de madera, artículos de madera y corcho Inglés Production of wood, wooden goods and cork
+2169 612033 Elaboración de pasta y productos de madera, papel y cartón Inglés Elaboration of pasta and wooden products, paper and cardboard
+2170 612034 Ediciones y publicaciones Inglés Editions and publications
+2171 612035 Impresión Inglés Impression
+2172 612036 Servicios relacionados con la edición y la impresión Inglés Services related with the edition and the impression
+2173 612037 Reproducción de grabaciones Inglés Reproduction of recordings
+2174 612038 Elaboración de productos de horno de coque Inglés Elaboration of products of oven of carbon coke
+2175 612039 Elaboración de productos de la refinación de petróleo Inglés Elaboration of products of the refinement of oil
+2176 612040 Elaboración de sustancias químicas básicas Inglés Elaboration of chemical basic substances
+2177 612041 Elaboración de abonos y compuestos de nitrógeno Inglés Elaboration of payments and nitrogenous compounds
+2178 612042 Elaboración de plástico y caucho sintético Inglés Elaboration of plastic and synthetic rubber
+2179 612043 Elaboración de productos químicos de uso agropecuario Inglés Elaboration of chemical products of agricultural use
+2180 612044 Elaboración de pinturas, tintas y masillas Inglés Elaboration of paints, inks and putties
+2181 612045 Elaboración de productos farmacéuticos y botánicos Inglés Elaboration of pharmaceutical products and botanists
+2182 612046 Elaboración de jabones, detergentes y preparados de tocador Inglés Manufacture of soaps, detergents and toilet preparations
+2183 612047 Elaboración de otros productos químicos Inglés Elaboration of another chemical products
+2184 612048 Elaboración de fibras Inglés Elaboration of fibers
+2185 612049 Elaboración de otros productos de caucho Inglés Elaboration of another rubber products
+2186 612050 Elaboración de productos de plástico Inglés Elaboration of products of plastic
+2187 612051 Elaboración de vidrio y productos de vidrio Inglés Elaboration of glass and glassy products
+2188 612052 Elaboración de productos de cerámica, loza, piedra, arcilla y porcelana Inglés Elaboration of products of ceramics, china, stone, clay and porcelain
+2189 612053 Elaboración de cemento, cal y yeso Inglés Elaboration of cement, lime and gypsum
+2190 612054 Elaboración de artículos de hormigón, cemento y yeso Inglés Elaboration of goods of concrete, cement and gypsum
+2191 612055 Corte, tallado y acabado de la piedra Inglés Cut, closefitting and finished of the stone
+2192 612056 Elaboración de otros productos minerales no metálicos Inglés Elaboration of another mineral products not cashes
+2193 612057 Industrias básicas y fundición de hierro y acero Inglés Basic industries and iron foundry and steel
+2194 612058 Productos primarios de metales preciosos y de metales no ferrosos Inglés Primary products of precious metals and of metals not ferrous
+2195 612059 Fundición de metales no ferrosos Inglés Founding of metals not ferrous
+2196 612060 Fabricación de productos metálicos para uso estructural Inglés Manufacture of metallic products for structural use
+2197 612061 Forja, prensado, estampado, laminado de metal y pulvimetalurgia Inglés Forge, calendering, printing, metal and powder metallurgy ply
+2198 612062 Revestimiento de metales y obras de ingeniería mecánica Inglés Coating of metals and works of mechanical engineering
+2199 612063 Fabricación de artículos de ferretería Inglés Manufacture of hardware
+2200 612064 Elaboración de otros productos de metal Inglés Elaboration of another metal products
+2201 612065 Fabricación de maquinaria y equipo Inglés Manufacture of machinery and equipment
+2202 612066 Fabricación de equipos de elevación y manipulación Inglés Elaboration of equipment elevation and manipulation
+2203 612067 Elaboración de aparatos de uso doméstico Inglés Elaboration of apparatuses of domestic use
+2204 612068 Elaboración de equipo de oficina Inglés Elaboration of office equipment
+2205 612069 Elaboración de pilas y baterías primarias Inglés Elaboration of sinks and primary batteries
+2206 612070 Elaboración de equipo de iluminación Inglés Elaboration of illumination equipment
+2207 612071 Elaboración de otros tipos de equipo eléctrico Inglés Elaboration of another electric equipment types
+2208 612072 Fabricación de equipos de radio, televisión y comunicaciones Inglés Elaboration of equipment of radio, television and communications
+2209 612073 Fabricación de aparatos e instrumentos médicos Inglés Manufacture of apparatuses and medical instruments
+2210 612074 Fabricación de instrumentos de medición y control Inglés Manufacture of instruments of measurement and control
+2211 612075 Fabricación de instrumentos de óptica y equipo fotográfico Inglés Manufacture of instruments of optics and photographic equipment
+2212 612076 Fabricación de relojes Inglés Clockmaking
+2213 612077 Fabricación de vehículos automotores Inglés Manufacture of motor vehicles
+2214 612078 Fabricación de carrocerías para automotores Inglés Manufacture of bodyworks for motor cars
+2215 612079 Fabricación de partes, piezas y accesorios para automotores Inglés Manufacture of parts, pieces and accessories for motor cars
+2216 612080 Fabricación y reparación de buques y otras embarcaciones Inglés Manufacture and reparation of ships and another boats
+2217 612081 Fabricación de locomotoras y material rodante para ferrocarriles Inglés Manufacture of locomotives and rolling material for railroads
+2218 612082 Fabricación de aeronaves Inglés Manufacture of aircrafts
+2219 612083 Fabricación de motocicletas Inglés Manufacture of motorcycles
+2220 612084 Fabricación de bicicletas y sillas de ruedas Inglés Manufacture of bicycles and wheelchairs
+2221 612085 Fabricación de otros tipos de transporte Inglés Manufacture of another transporting types
+2222 612086 Fabricación de muebles Inglés Manufacture of furniture
+2223 612087 Fabricación de joyas y artículos conexos Inglés Manufacture of jewels and connected goods
+2224 612088 Fabricación de instrumentos de música Inglés Manufacture of instruments of music
+2225 612089 Fabricación de artículos y equipo para deporte Inglés Manufacture of goods and equipment for sports
+2226 612090 Fabricación de juegos y juguetes Inglés Manufacture of games and toys
+2227 612091 Reciclamiento de desperdicios Inglés Waste recycling
+2228 612095 Productos de otras industrias manufactureras Inglés Products of another manufacturing industries
+2229 6125 Suministro de electricidad, gas y agua Inglés Supply of electricity, gas and water
+2230 612505 Generación, captación y distribución de energía eléctrica Inglés Generation, comprehension and distribution of electric power
+2231 612510 Fabricación de gas y distribución de combustibles gaseosos Inglés Manufacture of gas and distribution of gaseous fuels
+2232 612515 Captación, depuración y distribución de agua Inglés Comprehension, depuration and distribution of water
+2233 612595 Actividades conexas Inglés Connected activities
+2234 6130 Construcción Inglés Construction
+2235 613005 Preparación de terrenos Inglés Preparation of land
+2236 613010 Construcción de edificios y obras de ingeniería civil Inglés Construction of buildings and works of civil engineering
+2237 613015 Acondicionamiento de edificios Inglés Conditioning of buildings
+2238 613020 Terminación de edificaciones Inglés Conclusion of edifications
+2239 613025 Alquiler de equipo con operario Inglés Equipment rental with operator
+2240 613095 Actividades conexas Inglés Connected activities
+2241 6135 Comercio al por mayor y al por menor Inglés Trade wholesale and in detail
+2242 613502 Venta de vehículos automotores Inglés Sale of motor vehicles
+2243 613504 Mantenimiento, reparación y lavado de vehículos automotores Inglés Maintenance, reparation and washing of motor vehicles
+2244 613506 Venta de partes, piezas y accesorios de vehículos automotores Inglés Sale of parts, pieces and accessories of motor vehicles
+2245 613508 Venta de combustibles sólidos, líquidos, gaseosos Inglés Sale of solid fuels, liquids, gaseous
+2246 613510 Venta de lubricantes, aditivos, llantas y lujos para automotores Inglés Sale of lubricants, additives, tires and luxuries for motor cars
+2247 613512 Venta a cambio de retribución o por contrata Inglés Sale in exchange for retribution or for contract
+2248 613514 Venta de insumos, materias primas agropecuarias y flores Inglés Sale of raw materials, agricultural raw materials and flowers
+2249 613516 Venta de otros insumos y materias primas no agropecuarias Inglés Sale of other supplies and nonagricultural commodities
+2250 613518 Venta de animales vivos y cueros Inglés Sale of alive animals and hides
+2251 613520 Venta de productos en almacenes no especializados Inglés Sale of products at not specialized stores
+2252 613522 Venta de productos agropecuarios Inglés Sale of agricultural products
+2253 613524 Venta de productos textiles, de vestir, de cuero y calzado Inglés Sale of textile products, to dress, of hide and footwear
+2254 613526 Venta de papel y cartón Inglés Sale of paper and cardboard
+2255 613528 Venta de libros, revistas, elementos de papelería, útiles y textos escolares Inglés Sale of books, magazines, elements of stationer's shop, school implements and school texts
+2256 613530 Venta de juegos, juguetes y artículos deportivos Inglés Sale of games, toys and sports goods
+2257 613532 Venta de instrumentos quirúrgicos y ortopédicos Inglés Sale of surgical and orthopedic instruments
+2258 613534 Venta de artículos en relojerías y joyerías Inglés Sale of goods at watchmaker'ses and jewelry stores
+2259 613536 Venta de electrodomésticos y muebles Inglés Sale of household appliances and furniture
+2260 613538 Venta de productos de aseo, farmacéuticos, medicinales y artículos de tocador Inglés Sale of products of cleanliness, druggists, give them medicine and cosmetics
+2261 613540 Venta de cubiertos, vajillas, cristalería, porcelanas, cerámicas y otros artículos de Iunsgolé dsoméstico Sale of cutlery, tablewares, glassware shop, porcelains, ceramicses and another household goods
+2262 613542 Venta de materiales de construcción, fontanería y calefacción Inglés Sale of construction materials, plumbing and heating
+2263 613544 Venta de pinturas y lacas Inglés Sale of paints and shellacs
+2264 613546 Venta de productos de vidrios y marquetería Inglés Sale of products of glasses and inlaid work
+2265 613548 Venta de herramientas y artículos de ferretería Inglés Sale of tools and hardware
+2266 613550 Venta de químicos Inglés Sale of chemicals
+2267 613552 Venta de productos intermedios, desperdicios y desechos Inglés Sale of intermediate goods, wastes and waste matter
+2268 613554 Venta de maquinaria, equipo de oficina y programas de computador Inglés Sale of machinery, equipment of office and programs of computer
+2269 613556 Venta de artículos en cacharrerías y misceláneas Inglés Sale of goods at pot shops and miscellanies
+2270 613558 Venta de instrumentos musicales Inglés Sale of musical instruments
+2271 613560 Venta de artículos en casas de empeño y prenderías Inglés Sale of goods at houses of effort and secondhand shops
+2272 613562 Venta de equipo fotográfico Inglés Photographic equipment sales
+2273 613564 Venta de equipo óptico y de precisión Inglés Sale of optical and precision equipment
+2274 613566 Venta de empaques Inglés Sale of packings
+2275 613568 Venta de equipo profesional y científico Inglés Sale of professional equipment and scientist
+2276 613570 Venta de loterías, rifas, chance, apuestas y similares Inglés Sale of lotteries, raffles, chance, betting and the like
+2277 613572 Reparación de efectos personales y electrodomésticos Inglés Reparation of personal belongings and household appliances
+2278 613595 Venta de otros productos Inglés Sale of another products
+2279 6140 Hoteles y restaurantes Inglés Hotels and restaurants
+2280 614005 Hotelería Inglés Hotels
+2281 614010 Campamento y otros tipos de hospedaje Inglés Camp and another types of boardinghouse
+2282 614015 Restaurantes Inglés Restaurants
+2283 614020 Bares y cantinas Inglés Bars and pubs
+2284 614095 Actividades conexas Inglés Connected activities
+2285 6145 Transporte, almacenamiento y comunicaciones Inglés Transport, storage and communications
+2286 614505 Servicio de transporte por carretera Inglés Transport service for road
+2287 614510 Servicio de transporte por vía férrea Inglés Transport service for railroad
+2288 614515 Servicio de transporte por vía acuática Inglés Transport service for aquatic road
+2289 614520 Servicio de transporte por vía aérea Inglés Transport service via airmail
+2290 614525 Servicio de transporte por tuberías Inglés Transport service for pipes
+2291 614530 Manipulación de carga Inglés Cargo handling
+2292 614535 Almacenamiento y depósito Inglés Storage and deposit
+2293 614540 Servicios complementarios para el transporte Inglés Accessorial services for transportation
+2294 614545 Agencias de viaje Inglés Agencies on tour
+2295 614550 Otras agencias de transporte Inglés Another transporting agencies
+2296 614555 Servicio postal y de correo Inglés Postal and mail service
+2297 614560 Servicio telefónico Inglés Phone service
+2298 614565 Servicio de telégrafo Inglés Service of telegraph
+2299 614570 Servicio de transmisión de datos Inglés Service of data transmission
+2300 614575 Servicio de radio y televisión por cable Inglés Service of radio and cable television
+2301 614580 Transmisión de sonido e imágenes por contrato Inglés Transmission of sound and imagery by contract
+2302 614595 Actividades conexas Inglés Connected activities
+2303 6150 Actividad financiera Inglés Financial activity
+2304 615005 De inversiones Inglés Of investments
+2305 615010 De servicio de bolsa Inglés Of brokerage service
+2306 6155 Actividades inmobiliarias, empresariales y de alquiler Inglés Real estate, renting and business
+2307 615505 Arrendamientos de bienes inmuebles Inglés Leasings of real estate
+2308 615510 Inmobiliarias por retribución o contrata Inglés Realestate for retribution or contract
+2309 615515 Alquiler equipo de transporte Inglés Rent automotive equipment
+2310 615520 Alquiler maquinaria y equipo Inglés Renting of machinery and equipment
+2311 615525 Alquiler de efectos personales y enseres domésticos Inglés Rent of personal belongings and household goods
+2312 615530 Consultoría en equipo y programas de informática Inglés Consultantship in equipment and programs of information technology
+2313 615535 Procesamiento de datos Inglés Data processing
+2314 615540 Mantenimiento y reparación de maquinaria de oficina Inglés Maintenance and reparation of machinery of office
+2315 615545 Investigaciones científicas y de desarrollo Inglés Scientific and development investigations
+2316 615550 Actividades empresariales de consultoría Inglés Business activities of consultantship
+2317 615555 Publicidad Inglés Publicity
+2318 615560 Dotación de personal Inglés Staffing
+2319 615565 Investigación y seguridad Inglés Investigation and security
+2320 615570 Limpieza de inmuebles Inglés Real estate cleaning
+2321 615575 Fotografía Inglés Photograph
+2322 615580 Envase y empaque Inglés Bottle and pack
+2323 615585 Fotocopiado Inglés Photocopied
+2324 615590 Mantenimiento y reparación de maquinaria y equipo Inglés Maintenance and reparation of machinery and equipment
+2325 615595 Actividades conexas Inglés Connected activities
+2326 6160 Enseñanza Inglés Teaching
+2327 616005 Actividades relacionadas con la educación Inglés Activities related with education
+2328 616095 Actividades conexas Inglés Connected activities
+2329 6165 Servicios sociales y de salud Inglés Social and health services
+2330 616505 Servicio hospitalario Inglés Hospital service
+2331 616510 Servicio médico Inglés Medical service
+2332 616515 Servicio odontológico Inglés Dental service
+2333 616520 Servicio de laboratorio Inglés Service of laboratory
+2334 616525 Actividades veterinarias Inglés Activities veterinaries
+2335 616530 Actividades de servicios sociales Inglés Activities of social services
+2336 616595 Actividades conexas Inglés Connected activities
+2337 6170 Otras actividades de servicios comunitarios, sociales y personales Inglés Another activities of community services, social and personal
+2338 617005 Eliminación de desperdicios y aguas residuales Inglés Elimination of wastes and residual waters
+2339 617010 Actividades de asociación Inglés Association's activities
+2340 617015 Producción y distribución de filmes y videocintas Inglés Production and distribution of films and videotapes
+2341 617020 Exhibición de filmes y videocintas Inglés Exhibition of films and videotapes
+2342 617025 Actividad de radio y televisión Inglés Activity of radio and television
+2343 617030 Actividad teatral, musical y artística Inglés Theatrical, musical and artistic activity
+2344 617035 Grabación y producción de discos Inglés Recording and production of records
+2345 617040 Entretenimiento y esparcimiento Inglés Entertainment and leisure
+2346 617045 Agencias de noticias Inglés News agencies
+2347 617050 Lavanderías y similares Inglés Dry cleaner'ses and related
+2348 617055 Peluquerías y similares Inglés Hairdressers and related
+2349 617060 Servicios funerarios Inglés Funerary services
+2350 617065 Zonas francas Inglés Free zones
+2351 617095 Actividades conexas Inglés Connected activities
+2352 62 Compras Inglés Shopping
+2353 6205 De mercancías Inglés Of goods
+2354 620501 a 620598 Inglés To 620598
+2355 620599 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+2356 6210 De materias primas Inglés Of raw materials
+2357 621001 a 621098 Inglés To 621098
+2358 621099 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+2359 6215 De materiales indirectos Inglés Of expense materials
+2360 621501 a 621598 Inglés To 621598
+2361 621599 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+2362 6220 Compra de energía Inglés Shop of energy
+2363 622001 a 622098 Inglés To 622098
+2364 622099 Ajustes por inflación < Derogado con el Decreto 1536 de 39209 > Inglés Adjustments for inflation Annulled with the Decree 1536 of 39209
+2365 6225 Devoluciones en compras (CR) Inglés Returns in shopping ( CR )
+2366 622501 a 622598 Inglés To 622598
+2367 7 Costos de producción Inglés Production cost
+2368 71 Materia prima Inglés Raw material
+2369 7101 a 7199 Inglés To 7199
+2370 710101 a 719999 Inglés To 719999
+2371 72 Mano de obra directa Inglés Direct labor
+2372 7201 a 7299 Inglés To 7299
+2373 720101 a 729999 Inglés To 729999
+2374 73 Costos indirectos Inglés Indirect costs
+2375 7301 a 7399 Inglés To 7399
+2376 730101 a 739999 Inglés To 739999
+2377 74 Contratos de servicios Inglés Service contracts
+2378 7401 a 7499 Inglés To 7499
+2379 740101 a 749999 Inglés To 749999

@@ -1,0 +1,85 @@
+<?php
+
+function market_data_menu() {
+    $items['admin/config/user-interface/market_data'] = array(
+        'title' => t('Market Data'),
+        'description' => t('configure all indices'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('market_data_admin_settings'),
+        'access arguments' => array('administer site configuration'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function market_data_admin_settings($form, &$form_state) {
+    $form['dataifx_key'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Key'),
+        '#description' => t('a key provided by Data iFX for consulting'),
+        '#default_value' => variable_get('dataifx_key', ''),
+        '#size' => 60,
+        '#maxlength' => 128,
+        '#required' => TRUE,
+    );
+    $form['dataifx_indices'] = array(
+        '#title' => t('Indices'),
+        '#type' => 'textarea',
+        '#description' => t('indices list'),
+        '#default_value' => variable_get('dataifx_indices', ''),
+    );
+    return system_settings_form($form);
+}
+
+function market_data_block_info() {
+    $blocks = array();
+    $blocks['economic_data']['info'] = t('Economic Data');
+    $blocks['economic_data']['cache'] = DRUPAL_NO_CACHE;
+    return $blocks;
+}
+
+function market_data_block_view($delta = '') {
+    switch ($delta) {
+        case 'economic_data':
+            $block['subject'] = t("Economic Data");
+            $block['content'] = theme('market_data');
+            break;
+    }
+
+    return $block;
+}
+
+function market_data_theme() {
+    $path = drupal_get_path('module', 'market_data');
+    return array(
+        'market_data' => array(
+            'path' => "{$path}/theme",
+            'variables' => array('data' => NULL),
+            'file' => 'market_data.theme.inc',
+            'template' => "data-rendering-table",
+        )
+    );
+}
+
+/* * *******************INTERNAL FUNCTIONS****************** */
+
+function encodeField($fields) {
+    foreach ($fields as $key => $value)
+        if (is_array($value))
+            foreach ($value as $key2 => $value2)
+                $pieces[] = "{$key}[]=" . encode($value2);
+        else
+            $pieces[] = "{$key}=" . encode($value);
+    return implode('&', $pieces);
+}
+
+function encode($var) {
+    $out = $var;
+    switch (gettype($var)) {
+        case 'boolean':
+            $out = $var ? 'true' : 'false';
+        case 'array':
+            $out = encodeField($var);
+    }
+    return urlencode($out);
+}

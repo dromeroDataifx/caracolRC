@@ -1,0 +1,10 @@
+name = Market Data
+description = For view some market data from Data iFX
+dependencies[] = block
+package = Data iFX
+core = 7.x
+configure = admin/config/user-interface/market_data
+
+version = "7.x-1.5beta"
+core = "7.x"
+project = "Data iFX"

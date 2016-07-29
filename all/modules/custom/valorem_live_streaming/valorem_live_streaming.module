@@ -1,0 +1,153 @@
+<?php
+
+
+function valorem_live_streaming_permission() {
+  return array(
+    'live_streaming' => array(
+      'title' => t('Live Streaming'),
+      'description' => t('Perform Live Streaming'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function valorem_live_streaming_menu() {
+  $items = array();
+  $items['live_streaming'] = array(
+    'title' => t('Live Streaming'),
+    'page callback' => 'valorem_live_streaming_page',
+    'access arguments' => array('live_streaming'),
+  );
+  return $items;
+}
+
+
+function valorem_live_streaming_block_info() {
+  $blocks = array();
+  $blocks['banner'] = array(
+    'info' => t('Banner livestreaming')
+  );	
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_live_streaming_block_view($delta = '') {
+  $block = array();
+	switch ($delta) {
+	case 'banner':
+	  $block['subject'] = t('Banner livestreaming');
+		$block['content'] =  valorem_live_streaming_banner();
+	  break;
+	default:
+	  # code...
+	  break;
+	}
+  
+  return $block;
+}
+
+function valorem_live_streaming_banner() {
+
+	$posicionIngles = strpos(request_uri(),'en-gb');
+	$idioma = 'es';
+    if ($posicionIngles>=0 && is_numeric($posicionIngles) ) {
+      $idioma = 'en-gb';
+    } else {
+	  $idioma = 'es';
+    }
+	
+	$output = '';
+	if($idioma == 'en-gb') {
+		$output = '<a href="/en-gb/live_streaming" class="banner-live english" alt="General Shareholders\' meeting Live streaming"></a>';
+	} else {
+		$output = '<a href="/live_streaming"  class="banner-live spanish" alt="Asamblea General de accionistas live streaming"></a>';
+	}
+	
+	return $output;
+
+}
+
+function valorem_live_streaming_init() {
+    //Esto es un machetaso, pero es que está mal desde el principio, esperemos sea temporal
+    $args = arg();
+    if ($args[1] == 205 || $args[1] == 203) {
+		global $user;
+		if (!isset ($user->roles[2]) && !isset ($user->roles[3])) {
+			drupal_goto('user/login');//,'node/'.$args[1]);
+			//drupal_set_message(l('Ingresar', 'user/login'), 'status');
+		}
+    }
+}
+
+function valorem_live_streaming_page() {
+
+	if (current_path() == 'live_streaming') {
+		global $user;
+		if (!isset ($user->roles[2]) && !isset ($user->roles[3])) {
+			drupal_goto('user/login');
+			//drupal_set_message(l('Ingresar', 'user/login'), 'status');
+		}
+		else {
+			//return '<div class = "logout">' . l('Logout', 'user/logout') . '</div><script src="http://player.ooyala.com/player.js?embedCode=VvbzVpMzpBOMjDtaFyDgqSgR0OuozeK-&width=960&deepLinkEmbedCode=VvbzVpMzpBOMjDtaFyDgqSgR0OuozeK-&height=650"></script>';	
+			return '<div class = "logout">' . l(t('Cerrar Sesión'), 'user/logout') . '</div><div style="text-align:center;"><!-- Start of Brightcove Player -->
+
+            <div style="display:none">
+
+            </div>
+
+            <!--
+
+            By use of this code snippet, I agree to the Brightcove Publisher T and C
+
+            found at https://accounts.brightcove.com/en/terms-and-conditions/.
+
+            -->
+
+            <script language="JavaScript" type="text/javascript" src="http://admin.brightcove.com/js/BrightcoveExperiences.js"></script>
+
+
+            <object id="myExperience4160785116001" class="BrightcoveExperience">
+
+              <param name="bgcolor" value="#FFFFFF" />
+
+              <param name="width" value="640" />
+
+              <param name="height" value="360" />
+
+              <param name="playerID" value="4160514865001" />
+
+              <param name="playerKey" value="AQ~~,AAADiSm7bYE~,NBP1k9-4xBvBY0wX_DrMqnUFSGiNO94Q" />
+
+              <param name="isVid" value="true" />
+
+              <param name="isUI" value="true" />
+
+              <param name="dynamicStreaming" value="true" />
+
+              <param name="@videoPlayer" value="4160785116001" />
+
+            </object>
+
+
+            <!--
+
+            This script tag will cause the Brightcove Players defined above it to be created as soon
+
+            as the line is read by the browser. If you wish to have the player instantiated only after
+
+            the rest of the HTML is processed and the page load is complete, remove the line.
+
+            -->
+
+            <script type="text/javascript">brightcove.createExperiences();</script>
+
+
+            <!-- End of Brightcove Player --></div>';		
+		}
+	}
+  
+}

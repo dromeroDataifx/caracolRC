@@ -1,0 +1,109 @@
+<?php
+
+	
+/**
+ * Implements hook_block_info
+ */
+function valorem_hoja_de_vida_block_info() {
+  $blocks = array();
+  $blocks['info2'] = array(
+    'info' => t('junta directva')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+ function valorem_hoja_de_vida_block_view($delta = '') {
+   $block = array();
+	 switch ($delta) {
+		 case 'info2':
+			 $block['subject'] = t('JUNTA DIRECTIVA');
+   		 	 $block['content'] =  valorem_hoja_de_vida_junta_directiva_page();
+			 break;
+		 default:
+			 
+			 break;
+	 }
+   
+   return $block;
+ } 
+ 
+
+ function valorem_hoja_de_vida_junta_directiva_page() {
+ 
+	 
+ 	 $representantes = '<div class = "lista_junta">';
+	 $hoja_de_vida = '<div class = "hojas_de_vida">';
+	 $principales = '';
+	 $suplentes = '';
+ 	  	$node = db_select('node', 'n')
+			->fields('n', array('nid','title', 'type'))
+			->condition('type', 'miembro_de_junta_directiva','=')
+			->condition('status', 1,'=')
+			->execute();
+			
+			
+		
+      while($record = $node->fetchAssoc()) {
+            
+		
+			$name = $record['title'];
+			
+			$body = db_select('field_data_body', 'b')
+				->fields('b', array('body_value'))
+				->condition('bundle', 'miembro_de_junta_directiva','=')
+				->condition('entity_id', $record['nid'],'=')
+				->condition('entity_type', 'node','=')
+				->execute()
+				->fetchAssoc();
+
+			$body = $body['body_value'];
+
+
+			$query = db_select('field_data_field_tipo', 't')
+                ->fields('t', array('field_tipo_tid'));
+            $query->innerJoin('taxonomy_term_data', 'tax', 'tax.tid = t.field_tipo_tid');
+            $query->condition('t.bundle', 'miembro_de_junta_directiva','=');
+            $query->condition('t.entity_id', $record['nid'],'=');
+            $query->condition('t.entity_type', 'node','=');
+            $query->addField('tax', 'name', 'name');
+            $result = $query->execute();
+            $type = $result->fetchAssoc();
+
+			
+			if ($type['name'] == 'Principal') {
+				$principales .= '
+					<div class = "'.$record['nid'].' lista flecha">
+					<a href = "#'.$record['nid'].'">
+					<div class = "name">'.t($name).'</div>
+					</a></div>';
+			}
+			if ($type['name'] == 'Suplente') {
+				$suplentes .= '
+					<div class = "'.$record['nid'].' lista flecha">
+					<a href = "#'.$record['nid'].'">
+					<div class = "name">'.t($name).'</div>
+					</a></div>';
+			}
+			$hoja_de_vida .= '
+				<div class = "'.$record['nid'].' bodys2">
+				<div class = "title">'.t($name).'</div>
+				<div class = "body">'.$body.'</div>
+				</div>';
+		
+		}
+
+			
+		
+           
+	
+	$hoja_de_vida .= '</div>';
+	$representantes .= '</div>';
+	return '<div class= "junta"><h6>' . t('PRINCIPALES') . '</h6><div class = "lista-junta_directiva">'.$principales.'</div><br><h6>' . t('SUPLENTES') . '</h6><div class = "lista-junta_directiva">'.$suplentes.'</div><br></div>'.$hoja_de_vida.'<br>';
+ }
+ 
+ 
+ 
+ 

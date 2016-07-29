@@ -1,0 +1,108 @@
+<?php
+/**
+ * Implements hook_block_info
+ */
+/*function valorem_multilanguage_menu_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Tickers')
+  );
+  return $blocks;
+}*/
+
+/**
+ * Implements hook_block_view
+ */
+ /*
+ function valorem_multilanguage_menu_block_view($delta = '') {
+   $block = array();
+   $block['subject'] = '';
+   $block['content'] =  tickers_page();
+   return $block;
+ }
+ */
+ /**
+  * Funtion tickers
+  */
+ /*function tickers_page() {
+ 	return '<iframe src = "http://201.234.71.35/Emisores/Labtiked.html" class= "ticket" height="22px" width="974px" scrolling="no"></iframe>';
+  //return '<img src="http://backdata.dataifx.com/tickers/tickerValorem.gif"></img>';
+ }*/
+ 
+ function valorem_multilanguage_menu_block_view_alter(&$data, $block) {
+ 
+	global $language;
+ 
+	if( ISSET($data["subject"]) ) {
+		$posicionIngles = strpos(request_uri(),'en-gb');
+		
+		
+		if($data["subject"]=='RELEVANT INFORMATION') {
+			$data["content"] = str_replace('Ver anexo','Annex',$data["content"]);
+		}
+		
+
+
+
+		if($data["subject"] == 'Menu principal' && ($posicionIngles>=0 && is_numeric($posicionIngles) ) ) {
+			//Si estamos en ingles, desaparezca el menu en español
+			$data["content"] = '';
+		}
+		
+		if($data["subject"] == 'Main menu' && ( $posicionIngles<0 || $posicionIngles==false ) ) {
+			//Si estamos en español, desaparezca el menu en ingles
+			$data["content"] = '';
+		}
+		
+		
+		
+		
+		
+		if($data["subject"] == 'Informacion Financiera' && ($posicionIngles>=0 && is_numeric($posicionIngles) ) ) {
+			//Si estamos en ingles, desaparezca el menu en español
+			$data["content"] = '';
+		}
+		
+		if($data["subject"] == 'Financial Information' && ( $posicionIngles<0 || $posicionIngles==false ) ) {
+			//Si estamos en español, desaparezca el menu en ingles
+			$data["content"] = '';
+		}
+		
+		
+		
+		
+		
+
+		if($data["subject"] == 'Sociedad' && ($posicionIngles>=0 && is_numeric($posicionIngles) ) ) {
+			//Si estamos en ingles, desaparezca el menu en español
+			$data["content"] = '';
+		}
+		
+		if($data["subject"] == 'Corporation' && ( $posicionIngles<0 || $posicionIngles==false ) ) {
+			//Si estamos en español, desaparezca el menu en ingles
+			$data["content"] = '';
+		}
+		
+		
+		
+		
+		
+		if($data["subject"] == 'Idiomas') {
+			//Si estamos en español
+			$data["content"] = str_replace('English, British','English',$data["content"]);
+		}
+		
+		if($data["subject"] == 'Languages') {
+			//Si estamos en ingles
+			$data["content"] = str_replace('English, British','English',$data["content"]);
+		}
+	
+	} 
+	
+ }
+ 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,68 @@
+# $Id$
+#
+# Spanish translation of Drupal (general)
+# Copyright 2013 Javier Rojas <jrojas@dataifx.com>
+# Generated from files:
+#  token_invite_generator.module: n/a
+#  token_invite_generator.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0Dev\n"
+"POT-Creation-Date: 2013-09-11 08:16-0500\n"
+"PO-Revision-Date: 2013-09-11 08:16-0500\n"
+"Last-Translator: Javier Rojas <jrojas@dataifx.com>\n"
+"Language-Team: Spanish <jrojas@dataifx.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: token_invite_generator.module:5
+msgid "Token Invite"
+msgstr "Token de invitacion"
+
+#: token_invite_generator.module:6
+msgid "generate tokens"
+msgstr "generar tokens"
+
+#: token_invite_generator.module:18
+msgid "Generate tokens"
+msgstr "Generar tokens"
+
+#: token_invite_generator.module:19
+msgid "generates tokens to invites many people"
+msgstr "Genera tokens para invitar a muchas personas"
+
+#: token_invite_generator.module:66
+msgid "Your invitation has already been used or was disabled, please request a new invitation"
+msgstr "Su invitación ya fue usada o fue deshabilitada, por favor solicite una nueva invitación"
+
+#: token_invite_generator.module:89
+msgid "Choose a file"
+msgstr "Elija un archivo que contiene los usuarios"
+
+#: token_invite_generator.module:102
+msgid "Download Tokens"
+msgstr "Descargar Tokens"
+
+#: token_invite_generator.module:107
+msgid "Clear all tokens"
+msgstr "Eliminar todos los tokens"
+
+#: token_invite_generator.module:176
+msgid "all invitations were deleted"
+msgstr "todas las invitaciones fueron eliminadas"
+
+#: token_invite_generator.info:0
+msgid "Token Invite Generator"
+msgstr "Generador de invitaciones por token"
+
+#: token_invite_generator.info:0
+msgid "Token generator for invites Data iFX"
+msgstr "Generador de invitaciones por token para DataiFX"
+
+#: token_invite_generator.info:0
+msgid "Data iFX"
+msgstr "Data iFX"

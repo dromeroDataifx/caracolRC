@@ -1,0 +1,1 @@
+<?= t('Welcome: :username ID: :id', array(':username' => $username, ':id' => $id)); ?>

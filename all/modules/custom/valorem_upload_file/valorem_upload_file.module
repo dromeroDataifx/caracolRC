@@ -1,0 +1,1960 @@
+<?php
+
+
+$handle = ''; // variable de lectura del archivo
+$aux = FALSE; // bandera de salida
+$fecha = $id_fecha = ''; //varibles encabezado del archivo
+$activos = $pasivos = $patrimonio = 0; // variables para evolucion de activos - pasivos - patrimonio
+/**variables de identificacion accionistas**/
+$numero_acciones = array();
+$tipo_identificacion = array();
+$identificacion = array();
+//**variables manejo de formato 036 (discriminacion) **/
+$dis_identificacion = array();
+$dis_acciones_ordinarias = array();
+$dis_acciones_dividendo = array();
+$dis_acciones_privilegiadas = array();
+$dis_acciones_participacion = array();
+$dis_acciones_total = array();
+$dis_cuotas = array();
+$dis_cuotas_participacion = array();
+$numero_renglones1 = array();
+$numero_renglones1 = array();
+$column_ant = 0;
+$column_act = 0;
+//*variables formato 140*//
+$accionistas140 = array();
+$acciones140 = array();
+//*variables formato 141
+$accionistas141 = array();
+//*Variable Formato 030 *//
+$deudores030 = array();
+//*Variable Formato 043 *//
+$cuentas_x_pagar = array();
+//*variable activos pasivos patrimio
+$app142 = array();
+/**
+ * Implementation of hook_menu().
+ */
+function valorem_upload_file_menu() {
+  $items = array();
+  
+  $items['admin/config/user-interface/file_upload'] = array(
+    'title' => t('Subir informe timestral'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('valorem_upload_file_import'),
+    'access callback' => TRUE,
+    'weight' => 12,
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+/**
+ * Generates the txt import form.
+ */
+function valorem_upload_file_import() {
+  $form = array(
+    '#attributes' => array(
+      'enctype' => 'multipart/form-data'
+    )
+  );
+
+  $form['source'] = array(
+    '#type' => 'fieldset', 
+    '#title' => t('Source')
+  );
+  $form['source']['upload'] = array(
+    '#type' => 'file',
+    '#title' => t('Seleccione archivo CSV'),
+  );
+
+  if ($max_size = _valorem_upload_file_parse_size(ini_get('upload_max_filesize'))) {
+    $form['source']['upload']['#description'] = t('Debido a las restricciones del servidor, el tamaño máximo de subida de archivos es !size.', array('!size' => format_size($max_size)));
+  }
+
+  $form['source']['delimiter'] = array(
+    '#type' => 'select',
+    '#title' => t('Delimitador'),
+    '#default_value' => 'Coma – por defecto',
+    '#options' => array(
+      '#comma' => t('Coma – por defecto'),
+    ),
+    '#description' => t('Choose the delimiter used in the txt file you want to import.'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit', 
+    '#value' => t('Update')
+  );
+  return $form;
+}
+
+/**
+ * Parses PHP configuration size values into bytes.
+ * Edited from an example at http://php.net/manual/en/function.ini-get.php
+ */
+function _valorem_upload_file_parse_size($value) {
+  $value = trim($value);
+  $number = (int)drupal_substr($value, 0, -1);
+
+  $suffix = drupal_strtoupper(drupal_substr($value, -1));
+  switch ($suffix) {
+    case 'G':
+      $number *= 1024;
+    case 'M':
+      $number *= 1024;
+    case 'K':
+      $number *= 1024;
+  }
+
+  return $number;
+}
+
+/**
+ * Handles txt import form validation.
+ */
+function valorem_upload_file_import_validate($form, &$form_state) {
+  $ext = '';
+  //posibles formatos
+  $extension = '';
+  for ($i = 1; $i <= 12; $i++) {
+    for ($j = 1; $j <= 9; $j++) {
+      $ext = $i.$j;
+      if (Strlen($ext) == 2) {
+        $ext = '0'.$ext;
+        $extension = $extension . ' ' . $ext;
+      } else {
+        $extension = $extension . ' ' . $ext;
+      } 
+    }
+  }
+  $extension .= ' 0';
+  $form_state['upload_file'] = file_save_upload(
+    'upload', array(
+      'file_validate_extensions' => array(
+        0 => $extension
+      )
+    )
+  );
+  if (!$form_state['upload_file']) {
+    form_set_error('upload', t('Please upload a file.'));
+  }
+  else {
+    $form_state['upload_file']->filepath = drupal_realpath($form_state['upload_file']->uri);
+  }
+}
+
+/**
+ * Handles txt import form submission.
+ */
+function valorem_upload_file_import_submit($form, &$form_state) {
+  valorem_upload_file_import_batch($form, $form_state);
+  $core = array('cache');
+  $cache_tables = array_merge(module_invoke_all('flush_caches'), $core);
+  foreach ($cache_tables as $table) {
+    cache_clear_all('*', $table, TRUE);
+  }
+}
+
+/**
+ * Batch operation.
+ * Used for validation and saving
+ */
+function valorem_upload_file_import_batch($form, &$form_state) {
+  $file = $form_state['upload_file'];
+  $options = $form_state['values'];
+  if ($options['delimiter'] == "semicolon") {
+    $delimiter = ';';
+  }
+  else {
+    $delimiter = ',';
+  }
+  // Automatically detect line endings.
+  global $handle;
+  ini_set('auto_detect_line_endings', '1');
+  $handle = fopen($file->filepath, 'r');
+  // ciclo recorre cada linea del archivo
+  while ($line = fgetcsv($handle, 4096, $delimiter)) {
+
+    if (empty($line) || (count($line) == 1 && $line[0] == NULL)) {
+      continue;
+    }
+    else {
+      // Convert line to UTF-8.
+      $line = array_map('_valorem_upload_file_import_line_to_utf8', $line);
+   
+      
+      //Lectura del encabezado del archivo
+      valorem_upload_file_encabezado($line[0]);
+    
+      // Lectura del PUC - formato 000
+   
+      valorem_upload_file_puc($line[0]);
+     
+      // 20 principales accionistas - formato 034 
+      valorem_upload_file_formato034($line[0]);
+    
+      // discriminacion - formato 036 
+      valorem_upload_file_formato036($line[0]);
+      
+      // Informacion acciones y accionistas
+      valorem_upload_file_formato140($line[0]);
+   
+      // Informacion economica General 
+      valorem_upload_file_formato141($line[0]);
+
+      //  Informacion deudores por edades
+      valorem_upload_file_formato030($line[0]);
+ 
+      //  Informacion cuentas por pagar por edades
+      valorem_upload_file_formato043($line[0]);
+      
+      //  Informacion activos  - pasivos  - patrimonio
+
+      valorem_upload_file_formato142($line[0]);
+      
+      
+      /*    
+          *** falta formato 133
+          *** falta formato 137  
+          *** falta formato 142  
+      */   
+    }
+    global $handle, $aux, $fecha;
+    if ($aux == true) // pasa salir del ciclo, sucede cuando ya existe el registro
+      break;
+  } // fin del ciclo
+   if ($aux != true) {
+    //estos metodos solo se llaman vez 
+    valorem_upload_file_insert_ppales_accionistas();
+    //valorem_upload_file_insert_evolucion_app();
+    valorem_upload_file_insert_discriminacion();//formato 036
+    valorem_upload_file_insert_info_acciones_accionistas();//formato 140
+    valorem_upload_file_insert_info_economica_general();//formato 141
+    valorem_upload_file_insert_deudores();
+    valorem_upload_file_insert_cuentas_por_pagar();
+    valorem_upload_file_insert_app();
+  }
+  if ($aux == FALSE) {
+    drupal_set_message(t('Registro '. substr($fecha, 0,2).'-'.substr($fecha, 2,2).'-'.substr($fecha, 4,4).' guardado exitosamente'), $type = 'status');
+    fclose($handle); 
+  }
+}
+
+function valorem_upload_file_insert_app() {
+  global $app142, $id_fecha;
+  $renglones['01'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '100' => '100',
+    '110' => '110',
+    '120' => '120',
+    '130' => '130',
+    '140' => '140',
+    '999' => '999'
+  );
+  $renglones['02'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '100' => '100',
+    '110' => '110',
+    '120' => '120',
+    '130' => '130',
+    '140' => '140',
+    '150' => '150',
+    '160' => '160',
+    '170' => '170',
+    '180' => '180',
+    '190' => '190',
+    '200' => '200',
+    '210' => '210',
+    '999' => '999'
+  );
+  $renglones['03'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '999' => '999'
+  );
+  $renglones['04'] = array(
+    '010' => '010',
+    '020' => '020',
+    '090' => '090',
+    '091' => '091',
+    '092' => '092',
+    '093' => '093',
+    '999' => '999'
+  );
+  $renglones['05'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '100' => '100',
+    '999' => '999'
+  );
+  $renglones['06'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '999' => '999'
+  );
+  $renglones['07'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '100' => '100',
+    '110' => '110',
+    '120' => '120',
+    '130' => '130',
+    '140' => '140',
+    '150' => '150',
+    '160' => '160',
+    '170' => '170',
+    '180' => '180',
+    '999' => '999',
+  );
+  $renglones['08'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '100' => '100',
+    '110' => '110',
+    '120' => '120',
+    '130' => '130',
+    '140' => '140',
+    '150' => '150',
+    '155' => '155',
+    '160' => '160',
+    '170' => '170',
+    '180' => '180',
+    '190' => '190',
+    '999' => '999'
+  );
+  $renglones['09'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '999' => '999'
+  );
+  $renglones['10'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '999' => '999'
+  );
+  $renglones['11'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '999' => '999'
+  );
+  $renglones['12'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '060' => '060',
+    '070' => '070',
+    '080' => '080',
+    '090' => '090',
+    '999' => '999'
+  );
+  $renglones['13'] = array(
+    '010' => '010',
+    '020' => '020',
+    '030' => '030',
+    '040' => '040',
+    '050' => '050',
+    '999' => '999'
+  );
+
+  $cont = 1;
+  foreach ($renglones as $key => $unidad_captura) {
+    foreach ($unidad_captura as $key2 => $renglon) {
+      valorem_record_format142($id_fecha, $cont, 
+        isset ($app142['TOTAL'][$key][$renglon]['name']) ? 
+          $app142['TOTAL'][$key][$renglon]['name'] : NULL, 
+        isset ($app142['TOTAL'][$key][$renglon]['valor']) ? 
+          $app142['TOTAL'][$key][$renglon]['valor'] : NULL, $key2);
+    }
+    $cont++;
+  } 
+}
+
+function valorem_record_format142($id, $orden, $description, $cue_01, $renglon) {
+  $record = array();
+  $record = array(
+    'app_fecha' => $id,
+    'app_orden' => $orden,
+    'app_descripcion' => $description,
+    'app_01' => $cue_01,
+    'app_renglon' => $renglon
+  );
+  if ($cue_01 == NULL && $description == NULL) {  
+  } else {
+    drupal_write_record ('activos_pasivos_patrimonio', $record);
+  }
+}
+
+function valorem_upload_file_insert_cuentas_por_pagar() {
+  global $cuentas_x_pagar, $id_fecha;
+  $renglones['01'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '030' => '030', '035' => '035',
+    '040' => '040', '045' => '045', '050' => '050', '999' => '999',
+  );
+  $renglones['02'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '999' => '999',
+  );
+  $renglones['03'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '030' => '030', '035' => '035',
+    '040' => '040', '045' => '045', '050' => '050', '055' => '055',
+    '060' => '060', '065' => '065', '070' => '070', '075' => '075',
+    '080' => '080', '085' => '085', '090' => '090', '999' => '999',
+  );
+  $renglones['04'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '030' => '030', '035' => '035',
+    '040' => '040', '045' => '045', '050' => '050', '055' => '055',
+    '060' => '060', '065' => '065', '070' => '070', '075' => '075',
+    '080' => '080', '085' => '085', '090' => '090', '095' => '095',
+    '100' => '100', '999' => '999',
+  );
+  $renglones['05'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '030' => '030', '035' => '035',
+    '040' => '040', '045' => '045', '999' => '999',
+  );
+  $renglones['06'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '030' => '030', '035' => '035',
+    '040' => '040', '045' => '045', '999' => '999',
+  );
+  $renglones['07'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '999' => '999',
+  );
+  $renglones['08'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '030' => '030', '035' => '035',
+    '040' => '040', '045' => '045', '999' => '999',
+  );
+  $renglones['09'] = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '025' => '025', '999' => '999',
+  );
+  $renglones['10'] = array(
+    '999' => '999',
+  );
+
+  $cont = 1;
+  foreach ($renglones as $key => $unidad_captura) {
+    foreach ($unidad_captura as $key2 => $renglon) {
+        valorem_record_format043($id_fecha, $cont, 
+        isset ($cuentas_x_pagar['VIGENTE'][$key][$renglon]['name']) ? 
+          $cuentas_x_pagar['VIGENTE'][$key][$renglon]['name'] : NULL, 
+        isset ($cuentas_x_pagar['VIGENTE'][$key][$renglon]['valor']) ? 
+          $cuentas_x_pagar['VIGENTE'][$key][$renglon]['valor'] : NULL,
+        isset ($cuentas_x_pagar['VENCIDA HASTA 30 DIAS'][$key][$renglon]['valor']) ? 
+          $cuentas_x_pagar['VENCIDA HASTA 30 DIAS'][$key][$renglon]['valor'] : NULL,
+        isset ($cuentas_x_pagar['VENCIDA DESDE 31 HASTA 90 DIAS'][$renglon][$key]['valor']) ? 
+          $cuentas_x_pagar['VENCIDA DESDE 31 HASTA 360 DIAS'][$key][$renglon]['valor'] : NULL, 
+        isset ($cuentas_x_pagar['VENCIDA DESDE 91 HASTA 360 DIAS'][$key][$renglon]['valor']) ? 
+          $cuentas_x_pagar['VENCIDA DESDE 91 HASTA 360 DIAS'][$key][$renglon]['valor'] : NULL,
+        isset ($cuentas_x_pagar['VENCIDA MAS DE 360 DIAS'][$key][$renglon]['valor']) ? 
+          $cuentas_x_pagar['VENCIDA MAS DE 360 DIAS'][$key][$renglon]['valor'] : NULL
+        );  
+      
+      $cont++;
+    }
+  }
+}
+
+function valorem_record_format043($id, $orden, $description, $cue_01, $cue_02, $cue_03, $cue_04, $cue_05) {
+  $record = array();
+  $record = array(
+    'cue_fecha' => $id,
+    'cue_orden' => $orden,
+    'cue_descripcion' => $description,
+    'cue_01' => $cue_01,
+    'cue_02' => $cue_02,
+    'cue_03' => $cue_03,
+    'cue_04' => $cue_04,
+    'cue_05' => $cue_05
+  );
+  if (($cue_01 == NULL && $cue_02 == NULL && $cue_03 == NULL && $cue_04 == NULL && $cue_05 == NULL)) {  
+  }
+  else {
+    drupal_write_record ('cuentas_por_pagar', $record);   
+  }
+  //dpm($record);
+}
+
+/**
+ * tabla de deudores por edades
+ */
+function valorem_upload_file_insert_deudores() {
+  global $deudores030, $id_fecha;
+  $renglones = array(
+    '005' => '005', '010' => '010', '015' => '015', '020' => '020',
+    '021' => '021', '025' => '025', '030' => '030', '035' => '035',
+    '040' => '040', '045' => '045', '050' => '050', '055' => '055',
+    '060' => '060', '065' => '065', '070' => '070', '075' => '075',
+    '080' => '080', '085' => '085', '090' => '090', '095' => '095',
+    '100' => '100', '999' => '999',
+  );
+  $cont = 1;
+  // recorre los renglones y asigna valores llamando al metodo valorem_record_formato030
+  foreach ($renglones as $key => $value) {
+    valorem_record_format030($id_fecha, $cont, 
+    isset ($deudores030['VIGENTE'][$value]['name']) ? $deudores030['VIGENTE'][$value]['name'] : NULL, 
+    isset ($deudores030['VIGENTE'][$value]['valor']) ? $deudores030['VIGENTE'][$value]['valor'] : NULL,
+    isset ($deudores030['VENCIDA HASTA 30 DIAS'][$value]['valor']) ? $deudores030['VENCIDA HASTA 30 DIAS'][$value]['valor'] : NULL,
+    isset ($deudores030['VENCIDA DESDE 31 HASTA 360 DIAS'][$value]['valor']) ? $deudores030['VENCIDA DESDE 31 HASTA 360 DIAS'][$value]['valor'] : NULL, 
+    isset ($deudores030['VENCIDA MAS DE 360 DIAS'][$value]['valor']) ? $deudores030['VENCIDA MAS DE 360 DIAS'][$value]['valor'] : NULL
+    );
+    $cont++;
+  }    
+}
+
+// guarda los deudores con la funcion drupal_write_record
+function valorem_record_format030($id, $orden, $description, $deu_01, $deu_02, $deu_03, $deu_04) {
+  $record = array();
+  $record = array(
+    'deu_fecha' => $id,
+    'deu_orden' => $orden,
+    'deu_descripcion' => $description,
+    'deu_01' => $deu_01,
+    'deu_02' => $deu_02,
+    'deu_03' => $deu_03,
+    'deu_04' => $deu_04
+  );
+  if (($deu_01 == NULL && $deu_02 == NULL && $deu_03 == NULL && $deu_04 == NULL)) {  
+  }
+  else {
+    drupal_write_record ('deudores_por_edades', $record); 
+  }
+}
+
+/**
+ * tabla de 20 principales accionistas y acciones ordinarias requeridas
+ */
+function valorem_upload_file_insert_ppales_accionistas() {
+  global $fecha, $id_fecha, $numero_acciones, $table034, $tipo_identificacion, $identificacion;
+  $table034 = array();
+  foreach ($numero_acciones as $key => $value) {
+    $table034[$key] = array(
+      'id_fecha' => $id_fecha,
+      'cod_renglon' => $key,
+      'tipo_identificacion' => isset ($tipo_identificacion[$key]) ? $tipo_identificacion[$key] : 0,
+      'identificacion' => isset ($identificacion[$key]) ? $identificacion[$key] : 0,
+      'numero_accion' => $numero_acciones[$key],
+    );
+  }
+  $query = db_select('fecha', 'fd')
+  ->fields('fd')
+  ->condition('fd.fec_fecha', $fecha, '=')
+  ->execute()
+  ->fetchAssoc();
+  if ($query != NULL) {
+    $query = db_select('pri_acciones', 'fd')
+      ->fields('fd')
+      ->condition('fd.pri_fecha', $id_fecha, '=')
+      ->execute()
+    ->fetchAssoc();
+    if ($query == NULL) {
+      foreach ($table034 as $key => $value) {
+        db_insert('pri_acciones')
+        ->fields(array('pri_fecha', 'pri_renglon', 'pri_tipo_identificacion', 'pri_identificacion', 'pri_accion'))
+        ->values(array(
+          'pri_fecha' => $id_fecha,
+          'pri_renglon' => $value['cod_renglon'],
+          'pri_tipo_identificacion' => $value['tipo_identificacion'],
+          'pri_identificacion' => $value['identificacion'],
+          'pri_accion' => $value['numero_accion'],
+        ))
+        ->execute();
+      }
+    } 
+  }
+}
+
+//valorem_upload_file_insert_discriminacion()
+/**
+ * tabla de 20 principales accionistas y acciones ordinarias requeridas
+ */
+function valorem_upload_file_insert_discriminacion() {
+  global $fecha, $id_fecha, $dis_fecha, $dis_identificacion, $dis_acciones_ordinarias, $dis_acciones_dividendo, $dis_acciones_privilegiadas , $dis_acciones_participacion, $dis_acciones_total, $dis_cuotas, $dis_cuotas_participacion, $numero_renglones1, $numero_renglones2;
+    $table036 = array();
+
+  foreach ($numero_renglones2 as $key => $value) {
+    $table036[$value] = array(
+      'dis_fecha' => $id_fecha,
+      'dis_identificacion' => isset ($dis_identificacion[$value]) ? $dis_identificacion[$value] : NULL,
+      'dis_acciones_ordinarias' => isset ($dis_acciones_ordinarias[$value]) ? $dis_acciones_ordinarias[$value] : NULL,
+      'dis_acciones_dividendo' => isset ($dis_acciones_dividendo[$value]) ? $dis_acciones_dividendo[$value] : NULL,
+      'dis_acciones_privilegiadas' => isset ($dis_acciones_privilegiadas[$value]) ? $dis_acciones_privilegiadas[$value] : NULL,
+      'dis_acciones_total' => isset ($dis_acciones_total[$value]) ? $dis_acciones_total[$value] : NULL,
+      'dis_acciones_participacion' => isset ($dis_acciones_participacion[$value]) ? $dis_acciones_participacion[$value] : NULL,
+      'dis_cuotas' => isset ($dis_cuotas[$value]) ? $dis_cuotas[$value] : NULL,
+      'dis_cuotas_participacion' => isset ($dis_cuotas_participacion[$value]) ? $dis_cuotas_participacion[$value] : NULL,
+    );
+  }
+  $query = db_select('fecha', 'fd')
+  ->fields('fd')
+  ->condition('fd.fec_fecha', $fecha, '=')
+  ->execute()
+  ->fetchAssoc();
+  
+  if ($query != NULL) {
+    $query = db_select('discriminacion_inversiones', 'fd')
+      ->fields('fd')
+      ->condition('fd.dis_fecha', $id_fecha, '=')
+      ->execute()
+    ->fetchAssoc();
+    if ($query == NULL) {
+      foreach ($table036 as $key => $value) {
+        $record = array(
+          'dis_fecha' => $value['dis_fecha'],
+          'dis_identificacion' => $value['dis_identificacion'], 
+          'dis_acciones_ordinarias' => ''.$value['dis_acciones_ordinarias'], 
+          'dis_acciones_dividendo' => ''.$value['dis_acciones_dividendo'], 
+          'dis_acciones_privilegiadas' => ''.$value['dis_acciones_privilegiadas'], 
+          'dis_acciones_total' => ''.$value['dis_acciones_total'], 
+          'dis_acciones_participacion' => ''.$value['dis_acciones_participacion'], 
+          'dis_cuotas' => ''.$value['dis_cuotas'], 
+          'dis_cuotas_participacion' => ''.$value['dis_cuotas_participacion'],
+          'dis_renglon' => $key,
+        );
+        //dpm(drupal_write_record ('discriminacion_inversiones', $record));
+        drupal_write_record ('discriminacion_inversiones', $record);
+      }
+    } 
+  }
+}
+
+/**
+ * Insertar tabla informacion acciones y accionistas
+*/
+function valorem_upload_file_insert_info_acciones_accionistas() {
+  global $accionistas140, $acciones140, $id_fecha;
+  if (isset($id_fecha)) {
+    $i = 1;
+    foreach ($accionistas140 as $key => $value) {
+      $record = array(
+        'inf_fecha' => $id_fecha,
+        'inf_orden' => $i,
+        'inf_descripcion' => $value['name'],
+        'inf_accionistas' => $value['valor'],
+        'inf_acciones' => $acciones140[$key]['valor'],
+      );
+      drupal_write_record ('info_acciones_accionistas', $record);
+      $i++;
+    }
+  }
+}
+/**
+ * Insertar tabla informacion economicva general
+*/
+function valorem_upload_file_insert_info_economica_general() {
+  global $accionistas141, $id_fecha;
+  if (isset($id_fecha)) {
+    $i = 1;
+    foreach ($accionistas141 as $key => $value) {
+      $record = array(
+        'info_fecha' => $id_fecha,
+        'info_orden' => $i,
+        'info_descripcion' => $value['name'],
+        'info_valor' => $value['valor'],
+      );
+      drupal_write_record ('info_economica_general', $record);
+      $i++;
+    }
+  }
+}
+
+/**
+ * Insertar tabla evolucion (evolucion activos - pasivos - patrimonio)
+*/
+function valorem_upload_file_insert_evolucion_app() {
+  global $activos, $pasivos, $patrimonio, $id_fecha;
+  db_insert('evolucion')
+  ->fields(array('evo_fecha', 'evo_activos', 'evo_pasivos', 'evo_patrimonio'))
+    ->values(array(
+      'evo_fecha' => $id_fecha,
+      'evo_activos' => $activos,
+      'evo_pasivos' => $pasivos,
+      'evo_patrimonio' => $patrimonio
+    ))
+  ->execute();
+}
+
+/**
+ *  primera linea del archivo - encabezado
+ */
+function valorem_upload_file_encabezado($line) {
+  global $fecha, $id_fecha, $handle, $aux;
+  if (($fecha == '') && (substr($line, 0,5) == 00001) && (strlen($line) == 42)) {
+    $query = db_select('fecha', 'fd')
+    ->fields('fd')
+    ->condition('fd.fec_fecha', substr($line, 14,8), '=')
+    ->execute()
+    ->fetchAssoc();
+    if ($query == NULL) {
+      $fecha = substr($line, 14,8);
+      $tipo_informe = substr($line, 40,2);
+      db_insert('fecha')
+      ->fields(array('fec_fecha', 'fec_tipo_informe'))
+      ->values(array(
+        'fec_fecha' => $fecha,
+        'fec_tipo_informe' => $tipo_informe,
+      ))
+      ->execute();
+    } 
+    else {
+      drupal_set_message(t('Este registro '. substr($fecha, 0,2).'-'.substr($fecha, 2,2).'-'.substr($fecha, 4,4).' ya existe'), $type = 'warning');
+      fclose($handle);
+      $aux = TRUE;
+    }
+  }
+}
+
+/**
+ * Lectura del PUC
+ */
+function valorem_upload_file_puc($line) {
+  global $fecha, $tipo_informe, $id_fecha;
+  if (((strlen($line) == 30)) && (substr($line, 5,1) == 3 && $fecha != '')) {
+    if ($id_fecha == '') {
+      $query = db_select('fecha', 'fd')
+      ->fields('fd')
+      ->condition('fec_fecha', $fecha, '=')
+      ->execute()
+      ->fetchAssoc();
+      $id_fecha = $query['fec_id_fecha'];
+    }
+
+    //Suprimimos los ceros segun el nivel.
+    $puc = valorem_upload_file_suprimir_cero($line);
+    $query = db_select('field_data_field_codigo_puc', 'fd')
+      ->fields('fd')
+      ->condition('field_codigo_puc_value', $puc, '=')
+      ->condition('bundle', 'puc', '=')
+      ->execute()
+      ->fetchAssoc();
+    
+    if ($query != NULL) {
+      db_insert('estados_financieros')
+      ->fields(array('est_id_fecha', 'est_entity_id', 'est_valor_reportado'))
+      ->values(array(
+        'est_id_fecha' => $id_fecha,
+        'est_entity_id' => $query['entity_id'],
+        'est_valor_reportado' => str_replace(",","",number_format(substr($line, 13,17), 2)), 
+      ))
+      ->execute();
+    } else {
+      // puc que no existen registrados
+    }
+    valorem_upload_file_evolucion_app($line);
+  }
+}
+
+/**
+ * Lectura formato 034
+ */
+function valorem_upload_file_formato034($line) {
+  global $numero_acciones, $identificacion, $tipo_identificacion;
+  if (strlen($line) == 34 && substr($line, 6,3) == '034') {
+    $columna = substr($line, 9,2);//columna archivo 034
+    $unidad_captura = substr($line, 11,2);
+    $renglon = substr($line, 13,3);
+    if ($unidad_captura == '01') {
+      if ($columna == '01') {
+        $tipo_identificacion[$renglon] = number_format(substr($line, 17,17));
+      }
+      if ($columna == '02') {
+        $identificacion[$renglon] = str_replace(",","",number_format(substr($line, 17,17)));
+      }
+      if ($columna == '03' && $renglon != '999') {
+        if (substr($line, 16,1) != '-') {
+          $numero_acciones[$renglon] = str_replace(",","",number_format(substr($line, 17,17),2));
+        }
+        else {
+          //valor es negativo
+          $numero_acciones[$renglon] = str_replace(",","",number_format(substr($line, 16,18),2));
+        }
+      }
+    }
+
+  }
+    /**
+   * información de las personas naturales o jurídicas
+   */
+  if (strlen($line) == 75 && substr($line, 5,1) == '8') {
+    $num_ident = str_replace(",","",number_format(substr($line, 9,15)));
+    $tip_ident = substr($line, 8,1);
+    $nacionalidad = substr($line, 6,2);
+    $nombre = preg_replace('/(\ )+/', ' ', substr($line, 24,51));
+    $query = db_select('accionistas', 'fd')
+      ->fields('fd')
+      ->condition('fd.acc_identificacion', $num_ident, '=')
+      ->condition('fd.acc_tipo_identificacion', $tip_ident, '=')
+      ->execute()
+      ->fetchAssoc();
+    if ($query == NULL) {
+      db_insert('accionistas')
+      ->fields(array('acc_identificacion', 'acc_tipo_identificacion', 'acc_nacionalidad', 'acc_accionista'))
+      ->values(array(
+        'acc_identificacion' => $num_ident,
+        'acc_tipo_identificacion' => $tip_ident,
+        'acc_nacionalidad' => $nacionalidad,
+        'acc_accionista' => $nombre,
+      ))
+      ->execute();
+    } 
+  }
+}
+
+/**
+ *  Lectura formato 043
+ */
+function valorem_upload_file_formato043($line) {
+  if ((strlen($line) == 34 && substr($line, 6,3) == '043') || (strlen($line) == 18 && substr($line, 6,3) == '043')) {
+    $columna = substr($line, 9,2);//columna archivo 140
+    $unidad_captura = substr($line, 11,2);
+    $renglon = substr($line, 13,3);
+    $valor = str_replace(",","", number_format(substr($line, 17,17), 2));
+    //if ($unidad_captura == '01') {
+      if ($columna == '01') {
+        valorem_arreglo_formato_043 ('VIGENTE', $renglon, $columna, $valor, $unidad_captura);
+      }
+      if ($columna == '02') {
+        valorem_arreglo_formato_043 ('VENCIDA HASTA 30 DIAS', $renglon, $columna, $valor, $unidad_captura);
+      }
+      if ($columna == '03') {
+        valorem_arreglo_formato_043 ('VENCIDA DESDE 31 HASTA 90 DIAS', $renglon, $columna, $valor, $unidad_captura);
+      }
+      if ($columna == '04') {
+        valorem_arreglo_formato_043 ('VENCIDA DESDE 91 HASTA 360 DIAS', $renglon, $columna, $valor, $unidad_captura);
+      }
+      if ($columna == '05') {
+        valorem_arreglo_formato_043 ('VENCIDA MAS DE 360 DIAS', $renglon, $columna, $valor, $unidad_captura); 
+      }
+    //}
+  }
+}
+
+function valorem_arreglo_formato_043 ($key, $renglon, $columna, $valor, $unidad_captura) {
+  global $cuentas_x_pagar;
+  if ($unidad_captura == '01') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'OBLIGACIONES FINANCIERAS BCOS. NACIONALES - 2105'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'OBLIGACIONES FINANCIERAS BCOS. EXTRANJEROS - 2110');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CORPORACIONES FINANCIERAS -2115');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'COMPAÑIAS DE FINANCIAMIENTO COMERCIAL -2120');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CORPORACIONES DE AHORRO Y VIVIENDA 2125');
+    if ($renglon == '030') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'ENTIDADES FINANCIERAS DEL EXTERIOR-2130'); 
+    if ($renglon == '035') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'COMPROMISOS DE RECOMPRA DE INVERS.NEGOCIADAS- 2135');
+    if ($renglon == '040') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'COMPROMISOS DE RECOMPRA DE CART.NEGOCIADA- 2140');
+    if ($renglon == '045') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'OBLIGACIONES GUBERNAMENTALES -2145');
+    if ($renglon == '050') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'OTRAS OBLIGACIONES- 2195');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL');
+  }
+  if ($unidad_captura == '02') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PROVEEDORES NACIONALES-2205'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PROVEEDORES DEL EXTERIOR -2210');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS CORRIENTES COMERCIALES - 2215');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CASA MATRIZ -2220');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'COMPAÑIAS VINCULADAS -2225');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUB-TOTAL PROVEEDORES');
+  }
+  if ($unidad_captura == '03') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS CORRIENTES COMERCIALES - 2305'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A CASA MATRIZ - 2310');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A COMPAÑIAS VINCULADAS - 2315');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A CONTRATISTAS - 2320');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'ORDENES DE COMPRA POR UTILIZAR - 2330');
+    if ($renglon == '030') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'COSTOS Y GASTOS POR PAGAR - 2335'); 
+    if ($renglon == '035') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'INSTALAMENTOS POR PAGAR - 2340');
+    if ($renglon == '040') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'ACREEDORES OFICIALES - 2345');
+    if ($renglon == '045') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'REGALIAS POR PAGAR - 2350');
+    if ($renglon == '050') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DEUDAS CON ACCIONISTAS O SOCIOS - 2355');
+    if ($renglon == '055') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DEUDAS CON DIRECTORES -2357');
+    if ($renglon == '060') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DIVIDENDOS O PARTICIPACIONES POR PAGAR -2360'); 
+    if ($renglon == '065') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'RETENCION EN LA FUENTE -2365');
+    if ($renglon == '070') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'IMPUESTO A LAS VENTAS RETENIDO -2367');
+    if ($renglon == '075') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'IMPUESTO DE INDUSTRIA Y COMERCIO RETENIDO -2368');
+    if ($renglon == '080') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'RETENCIONES Y APORTES DE NOMINA -2370');
+    if ($renglon == '085') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CUOTAS POR DEVOLVER -2375');
+    if ($renglon == '090') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'ACREEDORES VARIOS -2380');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL');
+  }
+  if ($unidad_captura == '04') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE RENTA Y COMPLEMENTARIOS -2404'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'IMPUESTO SOBRE LAS VENTAS POR PAGAR -2408');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE INDUSTRIA Y COMERCIO -2412');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A LA PROPIEDAD RAIZ -2416');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DERECHOS SOBRE INSTRUMENTOS PUBLICOS -2420');
+    if ($renglon == '030') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE VALORIZACION -2424'); 
+    if ($renglon == '035') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE TURISMO -2428');
+    if ($renglon == '040') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'TASA POR UTILIZACION DE PUERTOS -2432');
+    if ($renglon == '045') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE VEHICULOS -2436');
+    if ($renglon == '050') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE ESPECTACULOS PUBLICOS -2440');
+    if ($renglon == '055') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE HIDROCABUROS Y MINAS -2444');
+    if ($renglon == '060') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'REGALIAS E IMP.A PEQUEÑA Y MEDIANA MINERIA -2448'); 
+    if ($renglon == '065') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A LAS EXPORTACIONES CAFETERAS -2452');
+    if ($renglon == '070') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A LAS IMPORTACIONES -2456');
+    if ($renglon == '075') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CUOTAS DE FOMENTO -2460');
+    if ($renglon == '080') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DE LICORES, CERVEZAS Y CIGARRILLOS -2464');
+    if ($renglon == '085') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'AL SACRIFICIO DEL GANADO -2468');
+    if ($renglon == '090') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'AL AZAR Y JUEGOS -2472');
+    if ($renglon == '995') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'GRAVAMENES Y REGALIAS POR UTILIZAR EL SUELO -2476');
+    if ($renglon == '100') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'OTROS -2495');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL');
+  }
+  if ($unidad_captura == '05') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SALARIOS POR PAGAR -2505'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CESANTIAS CONSOLIDADAS -2510');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'INTERESES SOBRE CESANTIAS -2515');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PRIMA DE SERVICIOS -2520');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'VACACIONES CONSOLIDADAS -2525');
+    if ($renglon == '030') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PRESTACIONES EXTRALEGALES -2530'); 
+    if ($renglon == '035') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PENSIONES POR PAGAR -2532');
+    if ($renglon == '040') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CUOTAS PARTES PENSIONES DE JUBILACION -2535');
+    if ($renglon == '045') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'INDEMNIZACIONES LABORALES -2540');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUB-TOTAL OBLIGACIONES LABORALES');
+  }
+  if ($unidad_captura == '06') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PARA COSTOS Y GASTOS -2605'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PARA OBLIGACIONES LABORALES -2610');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PARA OBLIGACIONES FISCALES -2615');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PENSIONES DE JUBILACION -2620');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PARA OBRAS DE URBANISMO -2625');
+    if ($renglon == '030') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PARA MANTENIMIENTO Y REPARACIONES -2630'); 
+    if ($renglon == '035') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PARA CONTINGENCIAS -2635');
+    if ($renglon == '040') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PARA OBLIGACIONES DE GARANTIA -2640');
+    if ($renglon == '045') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PROVISIONES DIVERSAS- 2695');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUB-TOTAL PASIVOS ESTIMADOS Y PROVISIONES');
+  }
+  if ($unidad_captura == '07') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'INGRESOS RECIBIDOS POR ANTICIPADO -2705'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'ABONOS DIFERIDOS -2710');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'UTILIDAD DIFERIDA EN VENTAS A PLAZOS -2715');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CREDITO POR CORRECCION MONETARIA DIFERIDA -2720');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'IMPUESTOS DIFERIDOS -2725');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUB-TOTAL DIFERIDOS');
+  }
+  if ($unidad_captura == '08') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'ANTICIPOS Y AVANCES RECIIBIDOS -2805'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DEPOSITOS RECIBIDOS -2810');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'INGRESOS RECIBIDOS PARA TERCEROS -2815');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS DE OPERACIÓN CONJUNTA -2820');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'RETENCIONES A TERCEROS SOBRE CONTRATOS -2825');
+    if ($renglon == '030') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'EMBARGOS JUDICIALES -2830'); 
+    if ($renglon == '035') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'ACREEDORES DEL SISTEMA -2835');
+    if ($renglon == '040') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS EN PARTICIPACION - 2840');
+    if ($renglon == '045') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'DIVERSOS -2895');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUB-TOTAL OTROS PASIVOS');
+  }
+  if ($unidad_captura == '09') {
+    if ($renglon == '005') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'BONOS EN CIRCULACION -2905'); 
+    if ($renglon == '010') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'BONOS OBLIGATORIAMENTE CONVERT. EN ACCIONES -2910');
+    if ($renglon == '015') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'PAPELES COMERCIALES -2915');
+    if ($renglon == '020') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'BONOS PENSIONALES -2920');
+    if ($renglon == '025') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'TITULOS PENSIONALES -2925');
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUB-TOTAL BONOS EN CIRCULACION');
+  }
+  if ($unidad_captura == '10') {
+    if ($renglon == '999') 
+      $cuentas_x_pagar[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'TOTAL PASIVO');
+  }
+}
+
+/**
+ *  Lectura formato 142
+ */
+function valorem_upload_file_formato142($line) {
+  if ((strlen($line) == 34 && substr($line, 6,3) == '142') || (strlen($line) == 18 && substr($line, 6,3) == '142')) {
+    $columna = substr($line, 9,2);//columna archivo 140
+    $unidad_captura = substr($line, 11,2);
+    $renglon = substr($line, 13,3);
+    $valor = str_replace(",","", number_format(substr($line, 17,17), 2));
+    if ($columna == '01') {
+      valorem_arreglo_formato_142 ('TOTAL', $renglon, $columna, $valor, $unidad_captura);
+    }
+  }
+}
+function valorem_arreglo_formato_142 ($key, $renglon, $columna, $valor, $unidad_captura) {
+  global $app142;
+  if ($unidad_captura == '01') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Acciones');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuotas o partes de interés social');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Bonos');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cédulas');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Certificados');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Papeles comerciales');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Títulos');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Aceptaciones bancarias o financieras');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Derechos fiduciarios');
+    if ($renglon == '100') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Derechos de recompra de inversiones negociadas');
+    if ($renglon == '110') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Obligatorias');
+    if ($renglon == '120') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas en participación');
+    if ($renglon == '130') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Otras inversiones');
+    if ($renglon == '140') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Provisiones');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL INVERSIONES A CORTO PLAZO');
+  }
+  if ($unidad_captura == '02') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Clientes');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas corrientes comerciales');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas por cobrar a casa matriz');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas por cobrar a vinculados económicos');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas por cobrar a directores');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas por cobrar a socios y accionistas');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Aportes por cobrar');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Anticipos y avances');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas de operación conjunta');
+    if ($renglon == '100') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Depósitos');
+    if ($renglon == '110') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Promesas de compra venta');
+    if ($renglon == '120') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Ingresos por cobrar');
+    if ($renglon == '130') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Retención sobre contratos');
+    if ($renglon == '140') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Anticipo de impuestos y contribuciones o saldos a favor');
+    if ($renglon == '150') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Reclamaciones');
+    if ($renglon == '160') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas por cobrar a trabajadores');
+    if ($renglon == '170') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Préstamos a particulares');
+    if ($renglon == '180') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Deudores varios');
+    if ($renglon == '190') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Derechos de recompra de cartera negociada');
+    if ($renglon == '200') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Deudas de difícil cobro');
+    if ($renglon == '210') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Provisiones');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL DEUDORES A CORTO PLAZO');
+  }
+  if ($unidad_captura == '03') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Gastos pagados por anticipado');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cargos diferidos');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Costos de exploración por amortizar');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Costos de explotación y desarrollo');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cargos por corrección monetaria diferida');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Amortización acumulada');
+    if ($renglon == '999') 
+     $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL DIFERIDOS A CORTO PLAZO');
+  }
+  if ($unidad_captura == '04') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Bienes de arte y cultura');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Diversos');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Provisiones');
+    if ($renglon == '091') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Inventarios');
+    if ($renglon == '092') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Propiedad planta y equipo');
+    if ($renglon == '093') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Intangibles');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL OTROS ACTIVOS');
+  }
+  if ($unidad_captura == '05') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Bancos nacionales');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Bancos del exterior');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Corporaciones financieras');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Compañias de financiamiento comercial');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Corporaciones de ahorro y vivienda');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Entidades financieras del exterior');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Compromisos de recompra de inversiones negociadas');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Compromisos de recompra de cartera negociada ');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Obligaciones gubernamentales');
+    if ($renglon == '100') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Otras obligaciones');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL OBLIGACIONES FINANCIERAS A CORTO PLAZO');
+  }
+  if ($unidad_captura == '06') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Nacionales');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Del exterior');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas corrientes comerciales');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Casa matriz');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Compañías vinculadas');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL PROVEEDORES A CORTO PLAZO');
+  }
+  if ($unidad_captura == '07') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas corrientes comerciales');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A casa matriz');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A compañías vinculadas');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A contratistas');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Ordenes de compra por utilizar');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Costos y gastos por pagar');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Instalamentos por pagar');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Acreedores oficiales');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Regalías por pagar');
+    if ($renglon == '100') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Deudas con accionistas o socios');
+    if ($renglon == '110') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Deudas con directores');
+    if ($renglon == '120') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Dividendos y participaciones por pagar');
+    if ($renglon == '130') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Retención en la fuente');
+    if ($renglon == '140') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Impuesto a las ventas retenido');
+    if ($renglon == '150') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Impuesto de industria y comercio retenido');
+    if ($renglon == '160') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Retenciones y aportes de nómina');
+    if ($renglon == '170') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuotas por devolver');
+    if ($renglon == '180') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Acreedores varios');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL CUENTAS POR PAGAR A CORTO PLAZO');
+  }
+  if ($unidad_captura == '08') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Impuestos gravamenes y tasas');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Impuesto sobre las ventas por pagar');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Impuesto de industria y comercio');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Derechos sobre instrumentos públicos');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'De valorización ');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'De turismo');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Tasa por utilización de puertos');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'De vehículos');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'De espectáculos públicos');
+    if ($renglon == '100') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'De hidrocarburos y minas');
+    if ($renglon == '110') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Regalías e impuestos a mediana y pequeña minería');
+    if ($renglon == '120') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A las exportaciones cafeteras');
+    if ($renglon == '130') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'A las importaciones ');
+    if ($renglon == '140') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Anticipo de impuestos y contribuciones o saldos a favor');
+    if ($renglon == '150') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuotas de fomento');
+    if ($renglon == '155') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'De licores, cervezas y cigarrillos');
+    if ($renglon == '160') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Al sacrificio de ganado');
+    if ($renglon == '170') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Al azar y juegos');
+    if ($renglon == '180') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Gravámenes y regalías por utiliz. del suelo');
+    if ($renglon == '190') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Otros');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL IMPUESTOS GRAVAMENES Y TASAS CORTO PLAZO');
+  }
+  if ($unidad_captura == '09') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Salarios por pagar');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cesantías consolidadas');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Intereses sobre cesantías');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Prima de servicios');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Vacaciones consolidades');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Prestaciones extralegales');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Pensiones por pagar');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuotas partes pensiones de jubilación');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Indemnizaciones laborales');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL OBLIGACIONES LABORALES A CORTO PLAZO');
+  }
+  if ($unidad_captura == '10') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Para costos y gastos');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Para obligaciones laborales');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Para obligaciones fiscales');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Pensiones de jubilación');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Para obras de urbanismo');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Para mantenimiento y reparaciones');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Para contingencias');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Para obligaciones de garantías');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Provisiones diversas');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL PAS. ESTIMADOS Y PROV. A CORTO PLAZO');
+  }
+  if ($unidad_captura == '11') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Ingresos recibidos por anticipado');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Abonos diferidos');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Utilidad diferida en ventas a plazos');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Credito por corrección monetaria diferida');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Impuestos diferidos');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL DIFERIDOS A CORTO PLAZO');
+  }
+  if ($unidad_captura == '12') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Anticipos y avances recibidos');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Depósitos recibidos');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Ingresos recibidos para terceros');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas de operación conjunta');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Retenciones a terceros sobre contratos');
+    if ($renglon == '060') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Embargos judiciales');
+    if ($renglon == '070') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Acreedores del sistema');
+    if ($renglon == '080') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Cuentas en participación');
+    if ($renglon == '090') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Diversos');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL OTROS PASIVOS A CORTO PLAZO');
+  }
+  if ($unidad_captura == '13') {
+    if ($renglon == '010') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Bonos en circulación');
+    if ($renglon == '020') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Bonos obligatoriamente convertibles en acciones');
+    if ($renglon == '030') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Papeles comerciales');
+    if ($renglon == '040') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Bonos pensionales');
+    if ($renglon == '050') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'Titulos pensionales');
+    if ($renglon == '999') 
+      $app142[$key][$unidad_captura][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL BONOS Y PAP. COMERCIALES A CORTO PLAZO');
+  }
+}  
+
+/**
+ *  Lectura formato 030
+ */
+function valorem_upload_file_formato030($line) {
+  if ((strlen($line) == 34 && substr($line, 6,3) == '030') || (strlen($line) == 18 && substr($line, 6,3) == '030')) {
+    $columna = substr($line, 9,2);//columna archivo 140
+    $unidad_captura = substr($line, 11,2);
+    $renglon = substr($line, 13,3);
+    $valor = str_replace(",","",number_format(substr($line, 17,17), 2));
+    if ($unidad_captura == '01') {
+      if ($columna == '01') {
+        valorem_arreglo_formato_030 ('VIGENTE', $renglon, $valor);
+      }
+      if ($columna == '02') {
+        valorem_arreglo_formato_030 ('VENCIDA HASTA 30 DIAS', $renglon, $valor);
+      }
+      if ($columna == '03') {
+        valorem_arreglo_formato_030 ('VENCIDA DESDE 31 HASTA 360 DIAS', $renglon, $valor);
+      }
+      if ($columna == '04') {
+        valorem_arreglo_formato_030 ('VENCIDA MAS DE 360 DIAS', $renglon, $valor);
+      }
+    }
+  }
+}
+
+function valorem_arreglo_formato_030 ($key, $renglon, $valor) {
+  global $deudores030;
+  if ($renglon == '005')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CLIENTES - 1305');
+  if ($renglon == '010')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS CORRIENTES COMERCIALES - 1310');
+  if ($renglon == '015')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS POR COBRAR A CASA MATRIZ - 1315');
+  if ($renglon == '020')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS POR COBRAR A VINCULADOS ECONOMICOS - 1320');
+  if ($renglon == '021')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS POR COBRAR A DIRECTORES 1323');
+  if ($renglon == '025')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS POR COBRAR A SOCIOS Y ACCIONISTAS - 1325');
+  if ($renglon == '030')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'APORTES POR COBRAR - 1328');
+  if ($renglon == '035')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'ANTICIPOS Y AVANCES - 1330');
+  if ($renglon == '040')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS DE OPERACION CONJUNTA - 1332');
+  if ($renglon == '045')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'DEPOSITOS - 1335');
+  if ($renglon == '050')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'PROMESAS DE COMPRAVENTA - 1340');
+  if ($renglon == '055')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'INGRESOS POR COBRAR - 1345');
+  if ($renglon == '060')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'RETENCION SOBRE CONTRATOS - 1350');
+  if ($renglon == '065')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'ANT. DE IMP. Y CONT. O SALDOS A FAVOR - 1355');
+  if ($renglon == '070')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'RECLAMACIONES - 1360');
+  if ($renglon == '075')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'CUENTAS POR COBRAR A TRABAJADORES - 1365');
+  if ($renglon == '080')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'PRESTAMOS A PARTICULARES - 1370');
+  if ($renglon == '085')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'DEUDORES VARIOS - 1380');
+  if ($renglon == '090')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'DERECHOS DE RECOMPRA DE CARTERA NEGOCIADA - 1385');
+  if ($renglon == '095')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'DEUDAS DE DIFICIL COBRO - 1390');
+  if ($renglon == '100')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'PROVISIONES - 1399');
+  if ($renglon == '999')
+  $deudores030[$key][$renglon] = array('valor' => $valor, 'name' => 'SUBTOTAL');
+
+
+}
+
+  /**
+ * Lectura formato 036
+ */
+function valorem_upload_file_formato140($line) {
+  if ((strlen($line) == 34 && substr($line, 6,3) == '140') || (strlen($line) == 18 && substr($line, 6,3) == '140')) {
+    //dpm($line);
+    $columna = substr($line, 9,2);//columna archivo 140
+    $unidad_captura = substr($line, 11,2);
+    $renglon = substr($line, 13,3);
+    $valor = number_format(substr($line, 17,17), 2);
+    if ($unidad_captura == '01') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'ACCIONES ORDINARIAS', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'ACCIONES PRIVILEGIADAS', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'ACCIONES CON DIVIDENDO PREFERENCIAL SIN VOTO', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'TOTAL', $valor);
+      }
+      if ($columna == '02') {
+        if ($renglon == '005')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'ACCIONES ORDINARIAS', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'ACCIONES PRIVILEGIADAS', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'ACCIONES CON DIVIDENDO PREFERENCIAL SIN VOTO', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'TOTAL', $valor); 
+      }
+    }
+    if ($unidad_captura == '02') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '% QUE REPRESENTAN PERSONAS NATURALES', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '% QUE REPRESENTAN PERSONAS JURIDICAS', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'TOTAL', $valor);
+      }
+      if ($columna == '02') {
+        if ($renglon == '005')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '% QUE REPRESENTAN PERSONAS NATURALES', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '% QUE REPRESENTAN PERSONAS JURIDICAS', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'TOTAL', $valor); 
+      } 
+    }
+    if ($unidad_captura == '03') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '% QUE REPRESENTAN INVERSIONISTAS EXTRANJEROS', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '% QUE REPRESENTAN INVERSIONISTAS NACIONALES', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'TOTAL', $valor);
+      }
+      if ($columna == '02') {
+        if ($renglon == '005')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '% QUE REPRESENTAN INVERSIONISTAS EXTRANJEROS', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '% QUE REPRESENTAN INVERSIONISTAS NACIONALES', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'TOTAL', $valor); 
+      }
+    }
+    if ($unidad_captura == '04') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '% QUE REPRESENTA INVERSION ENTIDADES PUBLICAS', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '% QUE REPRESENTA INVERSION ENTIDADES PRIVADAS', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '% QUE REPRESENTA INVERSION ENTIDADES MIXTAS', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'TOTAL', $valor);
+      }
+      if ($columna == '02') {
+        if ($renglon == '005')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '% QUE REPRESENTA INVERSION ENTIDADES PUBLICAS', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '% QUE REPRESENTA INVERSION ENTIDADES PRIVADAS', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '% QUE REPRESENTA INVERSION ENTIDADES MIXTAS', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'TOTAL', $valor); 
+      }
+    }
+    if ($unidad_captura == '05') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'HASTA - 3.00%', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '3.01 % - 10.00 %', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '10.01% - 20.00 %', $valor);
+        if ($renglon == '020')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '20.01 % - 30.00 %', $valor);
+        if ($renglon == '025')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '30.01 % - 40.00%', $valor);
+        if ($renglon == '030')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, '40.01 % - 50.00 %', $valor);
+        if ($renglon == '035')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'MAS DEL 50.00 %', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'TOTAL', $valor);
+      }
+      if ($columna == '02') {
+        if ($renglon == '005')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'HASTA - 3.00%', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '3.01 % - 10.00 %', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '10.01% - 20.00 %', $valor);
+        if ($renglon == '020')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '20.01 % - 30.00 %', $valor);
+        if ($renglon == '025')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '30.01 % - 40.00%', $valor);
+        if ($renglon == '030')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, '40.01 % - 50.00 %', $valor);
+        if ($renglon == '035')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'MAS DEL 50.00 %', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'TOTAL', $valor); 
+      }
+    }
+    if ($unidad_captura == '06') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 1-1000', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 1001-5000', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 5001-10000', $valor);
+        if ($renglon == '020')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 10001-50000', $valor);
+        if ($renglon == '025')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 50001-100000', $valor);
+        if ($renglon == '030')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 100001-500000', $valor);
+        if ($renglon == '035')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'NUMERO DE ACCIONES MAS DE 500000', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas140($unidad_captura, $renglon, 'TOTAL', $valor);
+      }
+      if ($columna == '02') {
+        if ($renglon == '005')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 1-1000', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 1001-5000', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 5001-10000', $valor);
+        if ($renglon == '020')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 10001-50000', $valor);
+        if ($renglon == '025')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 50001-100000', $valor);
+        if ($renglon == '030')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'NUMERO DE ACCIONES 100001-500000', $valor);
+        if ($renglon == '035')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'NUMERO DE ACCIONES MAS DE 500000', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_acciones140($unidad_captura, $renglon, 'TOTAL', $valor); 
+      }
+    }
+  }  
+}
+
+function valorem_upload_file_accionistas140($unidad_captura, $renglon, $name, $valor) {
+  global $accionistas140;
+  $accionistas140[$unidad_captura.'-'.$renglon] = array(
+    'name' => $name,
+    'valor' => $valor,
+  );
+}
+
+function valorem_upload_file_acciones140($unidad_captura, $renglon, $name, $valor) {
+  global $acciones140;
+  $acciones140[$unidad_captura.'-'.$renglon] = array(
+    'name' => $name,
+    'valor' => $valor,
+  );
+
+}
+
+  /**
+ * Lectura formato 036
+ */
+function valorem_upload_file_formato141($line) {
+  if ((strlen($line) == 34 && substr($line, 6,3) == '141') || (strlen($line) == 18 && substr($line, 6,3) == '141')) {
+    $columna = substr($line, 9,2);//columna archivo 140
+    $unidad_captura = substr($line, 11,2);
+    $renglon = substr($line, 13,3);
+    $valor = number_format(substr($line, 17,17), 2);
+    if ($unidad_captura == '01') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR NOMINAL DE LA ACCION', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR PATRIMONIAL POR ACCION CON VALORIZACION', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR PATRIMONIAL POR ACCION SIN VALORIZACION', $valor);
+        if ($renglon == '020')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'UTILIDAD POR ACCION', $valor);
+            if ($renglon == '025')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'PERDIDA POR ACCION', $valor);
+        if ($renglon == '030')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR DEL CAPITAL AUTORIZADO', $valor);
+        if ($renglon == '040')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'NUMERO DE ACCIONES EN RESERVA', $valor);
+        if ($renglon == '045')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR DEL CAPITAL SUSCRITO Y PAGADO CONFORMADO CON REV. PATRIMONIO', $valor);
+        if ($renglon == '050')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, '% DEL CAPITAL SUSCRITO Y PAGADO CONFORMADO POR LA REVALORIZACION DEL PATRIMONIO', $valor);
+        if ($renglon == '055')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR DE LA MORTIZACION ACUMULADA DEL PASIVO PENSIONAL', $valor);
+        if ($renglon == '060')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, '% DE LA AMORTIZACION ACUMULADA DEL PASIVO PENSIONAL', $valor);
+      }
+    }
+    if ($unidad_captura == '02') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR TOTAL DIVIDENDOS DECRETADOS ACCIONES ORDINARIAS', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR DIVIDENDO POR ACCION ORDINARIA EN EFECTIVO', $valor);
+        if ($renglon == '040')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VALOR DIVIDENDO EXTRAORDINARIO EN ACCIONES', $valor);
+      }
+    }
+    if ($unidad_captura == '03') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'PERIODO DE UTILIDADES A DISTRIBUIR', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'PERIODICIDAD DE PAGO DIVIDENDO POR ACCION ORDINARIA (1)', $valor);
+        if ($renglon == '030')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'NUMERO DE PAGOS DIVIDENDO POR ACCION ORDINARIA', $valor);
+      }
+    }
+    if ($unidad_captura == '04') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'NUMERO TOTAL DE EMPLEADOS', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, '% EMPLEADOS PERMANENTES', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, '% EMPLEADOS TEMPORALES', $valor);
+      }
+    }
+    if ($unidad_captura == '05') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'NUMERO DE PERSONAS NATURALES O JURIDICAS A LAS CUALES SE LES COMPRO MAS DEL 20 % DE LAS COMPRAS TOTALES EN EL TRIMESTRE', $valor);
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, '% DE PERSONAS NATURALES O JURIDICAS A LAS CUALES SE LES COMPRO MAS DEL 20% DE LAS COMPRAS TOTALES EN EL BIMESTRE', $valor);
+      }
+    }
+    if ($unidad_captura == '06') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'GASTOS POR DEPRECIACION ACUMULADO', $valor);
+      }
+    }
+    if ($unidad_captura == '07') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, '% UTILIZACION CAPACIDAD INSTALADA', $valor);
+      }
+    }
+    if ($unidad_captura == '08') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'COMPRAS DE CONTADO NACIONALES', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'COMPRAS DE CONTADO DEL EXTERIOR', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'COMPRAS A CREDITO NACIONALES', $valor);
+        if ($renglon == '020')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'COMPRAS A CREDITO DEL EXTERIOR', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'TOTAL COMPRAS', $valor);
+      }
+    }
+    if ($unidad_captura == '09') {
+      if ($columna == '01') {
+        if ($renglon == '005')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VENTAS Y/O PRESTACION DE SERVICIOS DE CONTADO NACIONALES', $valor);
+        if ($renglon == '010')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VENTAS Y/O PRESTACION DE SERVICIOS DE CONTADO AL EXTERIOR', $valor);
+        if ($renglon == '015')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VENTAS Y/O PRESTACION DE SERVICIOS A CREDITO NACIONALES', $valor);
+        if ($renglon == '020')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'VENTAS Y/O PRESTACION DE SERVICIOS A CREDITO AL EXTERIOR', $valor);
+        if ($renglon == '999')
+          valorem_upload_file_accionistas141($unidad_captura, $renglon, 'TOTAL INGRESOS POR VENTAS Y/O PRESTACION DE SERVICIOS', $valor);
+      }
+    }
+  }  
+}
+
+function valorem_upload_file_accionistas141($unidad_captura, $renglon, $name, $valor) {
+  global $accionistas141;
+  $accionistas141[$unidad_captura.'-'.$renglon] = array(
+    'name' => $name,
+    'valor' => $valor,
+  );
+}
+
+  /**
+ * Lectura formato 036
+ */
+function valorem_upload_file_formato036($line) {
+  
+  global  $dis_fecha, $dis_identificacion, $dis_acciones_ordinarias, $dis_acciones_dividendo, $dis_acciones_privilegiadas , $dis_acciones_participacion, $dis_acciones_total, $dis_cuotas, $dis_cuotas_participacion, $numero_renglones1, $numero_renglones2, $column_ant, $column_act;
+  
+  if ((strlen($line) == 34 && substr($line, 6,3) == '036') || (strlen($line) == 18 && substr($line, 6,3) == '036')) {
+    $columna = substr($line, 9,2);//columna archivo 036
+    $unidad_captura = substr($line, 11,2);
+    $renglon = substr($line, 13,3);
+    $numero_renglones1[] = $renglon;
+
+    if ($columna != $column_ant) {
+      $numero_renglones1 = array();
+      $numero_renglones1[] = $renglon;
+      $column_ant = $columna;
+    }
+
+    if ($unidad_captura == '01') {
+      // Nacionalidad
+      /*if ($columna == '01') {
+        $tipo_identificacion[$renglon] = number_format(substr($line, 17,17));
+      }*/
+      if ($columna == '02') {
+        $dis_identificacion[$renglon] = str_replace(",","",number_format(substr($line, 17,17)));
+      }
+      // Tipo de relacion
+      /*if ($columna == '03') {
+        $identificacion[$renglon] = str_replace(",","",number_format(substr($line, 17,17)));
+      }*/
+      if ($columna == '04') {
+        $dis_acciones_ordinarias[$renglon] = number_format(substr($line, 17,17), 2);
+      }
+      if ($columna == '05') {
+        $dis_acciones_dividendo[$renglon] = number_format(substr($line, 17,17), 2);
+      }
+      if ($columna == '06') {
+        $dis_acciones_privilegiadas[$renglon] = number_format(substr($line, 17,17), 2);
+      }
+      if ($columna == '07') {
+        $dis_acciones_total[$renglon] = number_format(substr($line, 17,17), 2);
+      }
+      if ($columna == '08') {
+        $dis_acciones_participacion[$renglon] = number_format(substr($line, 17,17), 2);
+      }
+      if ($columna == '09') {
+        $dis_cuotas[$renglon] = number_format(substr($line, 17,17), 2);
+      }
+      if ($columna == '10') {
+        $dis_cuotas_participacion[$renglon] = number_format(substr($line, 17,17), 2);
+      }
+      if (count($numero_renglones1) >= count($numero_renglones2)) {
+        $numero_renglones2 = $numero_renglones1;
+      }
+    }
+  }
+}
+
+
+/**
+ * Suprime los ceros correpondientes - ejemplo  100500  es  1005
+ */
+function valorem_upload_file_suprimir_cero($line) {
+  $puc = '';
+  if (substr($line, 7,5) == 00000) {
+    $puc = substr($line, 6,1); 
+  }
+  if (substr($line, 8,4) == 0000 && substr($line, 7,1) != 0) {
+    $puc = substr($line, 6,2); 
+  }
+  if ((substr($line, 8,1) != 0 || substr($line, 9,1) != 0) && substr($line, 10,2) == 0) {
+    $puc = substr($line, 6,4);
+  }
+  if (substr($line, 10,1) != 0 || substr($line, 11,1) != 0) {
+    $puc = substr($line, 6,6);
+  }
+  return $puc;
+}
+
+/**
+ * informacion para la evolucion Actvos - Pasivos - patimonio
+ */
+function valorem_upload_file_evolucion_app($line) { 
+  global $activos, $pasivos, $patrimonio;
+  if (substr($line, 6,6) == '100000') {
+    $activos = str_replace(",","",number_format(substr($line, 13,17), 2));
+  }
+  if (substr($line, 6,6) == '200000') {
+    $pasivos = str_replace(",","",number_format(substr($line, 13,17), 2));
+  }
+  if (substr($line, 6,6) == '300000') {
+    $patrimonio = str_replace(",","",number_format(substr($line, 13,17), 2));
+  }
+}
+
+/**
+ * Helper function to convert each line item to UTF-8.
+ */
+function _valorem_upload_file_import_line_to_utf8($value) {
+  $enc = mb_detect_encoding($value, "UTF-8, ISO-8859-1, ISO-8859-15", TRUE);
+  if ($enc != "UTF-8") {
+    $value = drupal_convert_to_utf8($value, $enc);
+  }
+  return $value;
+}

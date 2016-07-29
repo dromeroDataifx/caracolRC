@@ -1,0 +1,104 @@
+<?php
+ /**
+  * @file
+  * Custom PDF Formatter.
+  */
+
+ /**
+  * Implements hook_field_formatter_info().
+  */
+
+ function pdf_formatter_field_formatter_info(){
+  return array(
+    'pdf_formatter_viewer' => array(
+      'label' => t('Google Viewer'),
+      'field types' => array('file'),
+      'description' => t('Display Embedded PDF Viewer'),
+      'settings' => array(
+        'width' => 560,
+        'height' => 600,
+        ),
+      ),
+    );
+ }
+
+ /* 
+  * Implements hook_field_formatter_settings_form().
+  */
+ function pdf_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state){
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = array();
+
+  if ($display['type'] == 'pdf_formatter_viewer'){
+  	$element['width'] = array(
+  		'#title' => t('Width of viewer'),
+  		'#type' => 'textfield',
+  		'#size' => 3,
+  		'#maxlength' => 3,
+  		'#description' => t('Write the width of the viewer'),
+  		'#default_value' => $settings['width'],
+  		);
+  	$element['height'] = array(
+  		'#title' => t('Height of the viewer'),
+  		'#type' => 'textfield',
+  		'#size' => 3,
+  		'#maxlength' => 3,
+  		'#description' => t('Write the height of the viewer'),
+  		'#default_value' => $settings['height'],
+  		);
+  }
+  return $element;
+ }
+
+ /**
+  * Implements hook_field_formatter_settings_summary().
+  */
+ function pdf_formatter_field_formatter_settings_summary($field, $instance, $view_mode){
+ 	$display = $instance['display'][$view_mode];
+ 	$settings = $display['settings'];
+
+ 	$summary = '';
+
+ 	if ($display['type'] == 'pdf_formatter_viewer') {
+ 		$summary = t('Width: @value', array('@value' => $settings
+ 			['width'])) . '<br /><br />';
+ 		$summary .= t('Height: @value', array('@value' => $settings['height']));
+ 	}
+ 	return $summary;
+ }
+
+ /*
+  * Implements hook_field_formatter_view().
+  */
+
+ function pdf_formatter_field_formatter_view($entity_type, $entity, 
+ 	$field, $instance, $landcode, $items, $display){
+ 	$element = array();
+ 	$settings = $display['settings'];
+ 	switch ($display['type']) {
+ 		case 'pdf_formatter_viewer':
+ 			if(empty($items)){
+ 				return $element;
+ 			}
+ 			foreach ($items as $delta => $item) {
+ 				$file_url = file_create_url($item['uri']);
+ 				$element[$delta] = array(
+ 					'#type' => 'html_tag',
+ 					'#tag' => 'iframe',
+ 					'#value' => t('Your browser does not support iframes. 
+ 						Please update'),
+ 					'#attributes' => array(
+ 						'src' => 'http://docs.google.com/viewer?url=' . urlencode($file_url). '&embedded=true',
+ 						'width' => $settings['width'],
+ 						'height' => $settings['height'],
+ 						'style' => 'border:none;',
+ 						'class' => array(drupal_html_class('im-pdf-viewer')),
+ 						),
+ 					);
+ 			};
+ 			break;	
+ 	}
+ 	return $element;
+ }

@@ -1,0 +1,5 @@
+; $Id$
+name = Grafico de la Composición accionaria de Valorem
+description = Grafico Composición accionaria de VALOREM
+package = Valorem
+core = "7.x"

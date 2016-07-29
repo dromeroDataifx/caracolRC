@@ -1,0 +1,340 @@
+<?php
+
+function circle_links_init() {
+    drupal_add_css(drupal_get_path('module', 'circle_links') . '/css/circle_links.css');
+}
+
+function circle_links_admin($form, &$form_state) {
+
+  $form_auxiliar = array();
+    $types_node = node_type_get_types();
+    $machine_name_types_node = array_keys(node_type_get_types());
+    $options = array();
+    foreach ($machine_name_types_node as $key => $value) {
+        $options[$value] = $types_node[$value]->name;
+    }
+
+    $form['circle_links']['one'] = array(
+      '#markup' => "<h1>".t('Configuration of the first section')."</h1>",
+      '#weight' => 1,
+    );
+
+    $one_text = variable_get('circle_links_one_title', 0);
+
+    $form['circle_links']['circle_links_one_title'] = array(
+        '#title' => t('Message'),
+        '#type' => 'text_format',
+        '#format' => 'full_html',
+        '#default_value' => $one_text['value'],
+        '#maxlength' => 2000,
+        '#attributes' => array(
+            'class' => array('field_info'),
+            'rows' => '5',
+            'cols' => '100',
+        ),
+        '#wysiwyg' => TRUE,
+        '#weight' => 2,
+    );  
+
+ 
+
+$form['circle_links']['two'] = array(
+      '#markup' => "<br><h1>".t('Configuration of the second section')."</h1>",
+      '#weight' => 3,
+    );
+
+  $two_text = variable_get('circle_links_two_title', 0);
+  $form['circle_links']['circle_links_two_title'] = array(
+        '#title' => t('Message'),
+        '#type' => 'text_format',
+        '#format' => 'full_html',
+        '#default_value' => $two_text['value'],
+        '#maxlength' => 2000,
+        '#attributes' => array(
+            'class' => array('field_info'),
+            'rows' => '5',
+            'cols' => '200',
+        ),
+        '#wysiwyg' => TRUE,
+        '#weight' => 4,
+    ); 
+
+ 
+
+  $form['circle_links']['three'] = array(
+      '#markup' => "<h1>".t('Configuration of the Third section')."</h1>",
+      '#weight' => 5,
+    );
+
+  $three_text = variable_get('circle_links_three_title', 0);
+
+   $form['circle_links']['circle_links_three_title'] = array(
+        '#title' => t('Message'),
+        '#type' => 'text_format',
+        '#format' => 'full_html',
+        '#default_value' => $three_text['value'],
+        '#maxlength' => 2000,
+        '#attributes' => array(
+            'class' => array('field_info'),
+            'rows' => '5',
+            'cols' => '200',
+        ),
+        '#wysiwyg' => TRUE,
+        '#weight' => 6,
+    ); 
+
+
+$form['circle_links']['four'] = array(
+      '#markup' => "<br><h1>".t('Configuration of the fourth section')."</h1>",
+      '#weight' => 7,
+    );
+
+$four_text = variable_get('circle_links_four_title', 0);
+
+$form['circle_links']['circle_links_four_title'] = array(
+        '#title' => t('Message'),
+        '#type' => 'text_format',
+        '#format' => 'full_html',
+        '#default_value' => $four_text['value'],
+        '#maxlength' => 2000,
+        '#attributes' => array(
+            'class' => array('field_info'),
+            'rows' => '5',
+            'cols' => '200',
+        ),
+        '#wysiwyg' => TRUE,
+        '#weight' => 8,
+    ); 
+  
+
+
+  
+$form['circle_links']['five'] = array(
+      '#markup' => "<br><h1>".t('Configuration of the fifth section')."</h1>",
+      '#weight' => 9,
+    );
+
+$five_text = variable_get('circle_links_five_title', 0);
+
+$form['circle_links']['circle_links_five_title']  = array(
+        '#title' => t('Message'),
+        '#type' => 'text_format',
+        '#format' => 'full_html',
+        '#default_value' => $five_text['value'],
+        '#maxlength' => 2000,
+        '#attributes' => array(
+            'class' => array('field_info'),
+            'rows' => '5',
+            'cols' => '200',
+        ),
+        '#wysiwyg' => TRUE,
+        '#weight' => 10,
+    ); 
+  
+    $form['circle_links']['six'] = array(
+      '#markup' => "<br><h1>".t('Configuration section Medio')."</h1>",
+      '#weight' => 11,
+    );
+
+    $six1_text = variable_get('circle_links_six1_title', 0);
+
+    $form['circle_links']['circle_links_six1_title']  = array(
+            '#title' => t('Message'),
+            '#type' => 'text_format',
+            '#format' => 'full_html',
+            '#default_value' => $six1_text['value'],
+            '#maxlength' => 2000,
+            '#attributes' => array(
+                'class' => array('field_info'),
+                'rows' => '5',
+                'cols' => '200',
+            ),
+            '#wysiwyg' => TRUE,
+            '#weight' => 12,
+        ); 
+
+    
+
+
+      $form['circle_links']['seven'] = array(
+      '#markup' => "<br><h1>".t('Configuration section Empresa')."</h1>",
+      '#weight' => 16,
+    );
+
+$seven1_text = variable_get('circle_links_seven1_title', 0);
+
+$form['circle_links']['circle_links_seven1_title']  = array(
+        '#title' => t('Message'),
+        '#type' => 'text_format',
+        '#format' => 'full_html',
+        '#default_value' => $seven1_text['value'],
+        '#maxlength' => 2000,
+        '#attributes' => array(
+            'class' => array('field_info'),
+            'rows' => '5',
+            'cols' => '200',
+        ),
+        '#wysiwyg' => TRUE,
+        '#weight' => 17,
+    ); 
+
+
+   $eight_text = variable_get('circle_links_eight_title', 0);
+
+   $form['circle_links']['eight'] = array(
+      '#markup' => "<br><h1>".t('Configuration of the eighth section')."</h1>",
+      '#weight' => 21,
+    );
+
+   $form['circle_links']['circle_links_eight_title']  = array(
+        '#title' => t('Message'),
+        '#type' => 'text_format',
+        '#format' => 'full_html',
+        '#default_value' => $eight_text['value'],
+        '#maxlength' => 2000,
+        '#attributes' => array(
+            'class' => array('field_info'),
+            'rows' => '5',
+            'cols' => '200',
+        ),
+        '#wysiwyg' => TRUE,
+        '#weight' => 22,
+    );
+
+  return system_settings_form($form);
+}
+
+function circle_links_menu() {
+
+  $items = array();
+
+  $items['admin/config/circle_links'] = array(
+    'title' => 'Admin Links Circle',
+    'description' => 'Admin Links Circle',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('circle_links_admin'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+   );
+
+  return $items;
+}
+
+
+function circle_links_block_info() {
+    $blocks = array();
+    $blocks['circle_links']['info'] = t('Circle width links');
+    $blocks['circle_links']['cache'] = DRUPAL_NO_CACHE;
+
+    return $blocks;
+}
+
+function circle_links_block_view($delta = '') {
+    switch ($delta) {
+        case 'circle_links':
+            //$block['subject'] = t("");
+            $block['content'] = theme('circle_links_block');
+            break;
+        
+    }
+
+    return $block;
+}
+
+
+
+
+function circle_links_theme() {
+    $path = drupal_get_path('module', 'circle_links');
+    return array(
+        
+        'circle_links_block' => array(
+            'path' => "{$path}/theme",
+            'variables' => array('data' => NULL),
+            'file' => 'circle_links.theme.inc',
+            'template' => "block_circle_links",
+        )
+
+    );
+}
+
+
+
+/*
+ * agrupa ciertas view por sub tags q tenga asociados los nodos (padre:filtra - hijo:agrupa)
+ */
+
+/*
+function _custom_works_banco_de_recursos_interna_filtro_process_view(&$view) {
+    $tmpTree = taxonomy_get_tree(16);
+    $parents = array();
+    $tree = array();
+    foreach ($tmpTree as $term) {
+        $tree[$term->tid] = $term;
+        if ($term->depth != 0 && $term->parents[0] == $view->args[1])
+            $parents[$term->parents[0]] = $term->parents[0];
+    }
+
+    if (!empty($parents)) {
+        $result = array();
+        foreach ($view->result as $row)
+            foreach ($row->field_field_filter_tags as $tags) {
+                $tags['raw']['taxonomy_term'] = $tree[$tags['raw']['taxonomy_term']->tid];
+                if ($view->args[1] == $tags['raw']['tid'])
+                    continue;
+                elseif (isset($parents[$tags['raw']['taxonomy_term']->parents[0]]))
+                    $result[$tags['raw']['taxonomy_term']->tid][$row->nid] = $row;
+            }
+        unset($view->result);
+        foreach ($result as $tid => $row) {
+            $r = array_pop($row);
+            $r->isGallery = true;
+            $r->group = $tid;
+            $view->result[] = $r;
+        }
+    }
+}
+
+function custom_works_entity_view($entity, $type, $view_mode, $langcode) {
+    if ($type == 'node' && $view_mode = 'full')
+    
+        switch ($entity->type) {
+            case 'iniciativa':
+                $entity->linkToSection = l('iniciativas', 'compania/iniciativas');
+                break;
+            case 'avance_programacion':
+                $entity->linkToSection = l('Avance de Programación', "node/{$entity->nid}");
+                break;
+            case 'proyecto':
+                $entity->linkToSection = l('Proyectos', 'responsabilidad-social/proyectos');
+                break;
+            case 'noticia':
+                $entity->linkToSection = l('Noticias', 'prensa/agencia-de-noticias');
+                break;
+            case 'responsabilidad_social_contenido':
+                $entity->linkToSection = l('Responsabilidad Corporativa', 'responsabilidad-social');
+                break;
+            default:
+                $type = str_replace('-', ' ', $entity->type);
+                $type = str_replace('_', ' ', $entity->type);
+                $entity->linkToSection = l($type, "node/{$entity->nid}");
+                break;
+        }
+}
+
+function custom_works_mail($key, &$message, $params) {
+    drupal_set_message('mensaje indeterminado de invitacion para ' . $params['target'], 'warning');
+}*/
+
+/* funciones internas */
+/*
+function _custom_works_normalice_path(&$path) {
+    $replace = array('á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u', 'ñ' => 'n',
+        'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U', 'Ñ' => 'N');
+    $path = str_replace(array_keys($replace), $replace, $path);
+    $path = preg_replace('([^a-zA-Z0-9/])', '-', strtolower($path));
+}
+*/
+
+  
+

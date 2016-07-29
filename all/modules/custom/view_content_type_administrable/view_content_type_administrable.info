@@ -1,0 +1,8 @@
+name = View Content Type Administrable
+description = to customize the content type to display view without technical knowledge of views
+dependencies[]=field_ui
+dependencies[] = filter
+package = Caracol
+core = 7.x
+
+files[] = inc/view_content_type_administrable_handler_filter_admin_content.inc

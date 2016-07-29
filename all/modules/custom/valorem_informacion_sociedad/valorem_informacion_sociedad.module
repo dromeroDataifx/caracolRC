@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * Implements hook_block_info
+ */
+
+function valorem_informacion_sociedad_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Informacion sociedad')
+  );
+  return $blocks;
+}
+
+/**
+ *  Implements hook_block_view
+ */
+function valorem_informacion_sociedad_block_view($delta = '') {
+  $block = array();
+  $block['subject'] = t('INFORMACIÓN SOCIEDAD');
+  $block['content'] = informacion_sociedad_page();
+  return $block;
+}
+
+/**
+ *  function compania_page
+ */
+ function informacion_sociedad_page() {
+ 
+	$posicionIngles = strpos(request_uri(),'en-gb');
+	$idioma = 'es';
+    if ($posicionIngles>=0 && is_numeric($posicionIngles) ) {
+      $idioma = 'en-gb';
+    } else {
+	  $idioma = 'es';
+    }
+	
+	
+	if($idioma == 'es') {
+		$node = node_load(53);  
+		$node->title = '';
+		return node_view($node);
+	} else if($idioma == 'en-gb') {
+		$node = node_load(222);  
+		$node->title = '';
+		return node_view($node);
+	}
+ 
+ 
+   
+ }
+
+
+
+

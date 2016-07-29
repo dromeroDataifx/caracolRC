@@ -1,0 +1,5 @@
+; $Id$
+name = Lista de Usuarios
+description = Importa csv con informacion de los usuario - not working
+package = Valorem
+core = "7.x"

@@ -1,0 +1,5 @@
+; $Id$
+name = CSV Uploads
+description = Enable content creation via CSV import
+package = Valorem
+core = "7.x"

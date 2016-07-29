@@ -1,0 +1,178 @@
+.dataifx-gallery {
+    background-color: #383838;
+    border: 1px solid #797576;
+   @ margin: 10px;
+    padding-bottom: 0;
+    padding-top: 5px;
+    position: inherit;
+    z-index: 9999;
+    width: 620px!important;
+}
+.dataifx_gallery-container {
+    position: absolute;
+    width: 620px;
+}
+.dataifx-gallery .dataifx_gallery-control-icon {
+    background-image: url("../images/sprite.png");
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    font-size: 3em;
+    line-height: 0.9em;
+    margin-top: -24px;
+    position: relative;
+    top: 50%;
+}
+.dataifx-gallery .dataifx_gallery-main-area {
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image {
+    float: left;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content {
+    display: block;
+    margin: 0;
+    position: relative;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content .dataifx_gallery-main-image-title {
+    background-image: url("../images/bg-negro-opacity.png");
+    color: #FFFFFF;
+    display: block;
+    font-weight: bold;
+    height: 33px;
+    line-height: 2.5em;
+    position: absolute;
+    top: 0;
+    width: inherit;
+    
+}
+
+.dataifx_gallery-main-image-title{
+	display: none!important;
+}
+
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content .dataifx_gallery-main-image-title .field-content {
+    padding-left: 15px;
+    position: inherit;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content .dataifx_gallery-main-image-picture {
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content .dataifx_gallery-main-image-picture img {
+    vertical-align: middle;
+    width: auto;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content .dataifx_gallery-main-image-description .field-content {
+    padding-left: 15px;
+    padding-right: 5px;
+    padding-top: 5px;
+    position: inherit;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content .dataifx_gallery-main-image-description {
+    background-image: url("../images/bg-negro-opacity.png");
+    color: #FFFFFF;
+    display: block;
+    font-size: 0.85em;
+    height: 50px;
+    margin-top: -50px;
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    width: inherit;
+    z-index: 9999;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-image .dataifx_gallery-main-image-content .dataifx_gallery-main-image-download {
+    background-image: url("../images/sprite.png");
+    background-position: 0 -207px;
+    cursor: pointer;
+    display: block;
+    font-size: 1.3em;
+    height: 37px;
+    left: 100%;
+    line-height: 2em;
+    margin-left: -128px;
+    margin-top: -41px;
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    width: 128px;
+    z-index: 9999;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-control-previous {
+    background-position: -38px -63px;
+    float: left;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    left: 10px;
+    z-index: 10;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-control-previous:hover {
+    background-position: 0 -159px;
+    height: 48px;
+    width: 48px;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-control-next {
+    background-position: -38px -111px;
+    float: right;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    left: 558px;
+    z-index: 10;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-control-next:hover {
+    background-position: -48px -159px;
+    height: 48px;
+    width: 48px;
+}
+.dataifx-gallery .dataifx_gallery-main-area .dataifx_gallery-main-chached {
+    display: none;
+}
+.dataifx-gallery .dataifx_gallery-thumb-area {
+    background-color: #2A2829;
+    display: block;
+    height: 110px;
+    margin-top: 5px;
+}
+.dataifx-gallery .dataifx_gallery-thumb-area .dataifx_gallery-thumb-images {
+    display: block;
+    float: left;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 530px!important;
+}
+.dataifx-gallery .dataifx_gallery-thumb-area .dataifx_gallery-thumb-images img {
+    margin: 5px;
+    vertical-align: middle;
+}
+.dataifx-gallery .dataifx_gallery-thumb-area .dataifx_gallery-thumb-images .dataifx_gallery-thumb-images-content {
+    position: relative;
+}
+.dataifx-gallery .dataifx_gallery-thumb-control-previous {
+    background-position: 0 -63px;
+    float: left;
+    height: 63px;
+    margin-top: -31px;
+    width: 38px;
+}
+.dataifx-gallery .dataifx_gallery-thumb-control-previous:hover {
+    background-position: 0 0;
+    height: 63px;
+    width: 38px;
+}
+.dataifx-gallery .dataifx_gallery-thumb-control-next {
+    background-position: -38px 0;
+    float: right;
+    height: 63px;
+    margin-top: -31px;
+    width: 38px;
+}
+.dataifx-gallery .dataifx_gallery-thumb-control-next:hover {
+    background-position: -76px 0;
+    height: 63px;
+    width: 38px;
+}
+
+.field-name-field-imagenes-de-galeria{
+    margin-bottom: 20px;
+
+}

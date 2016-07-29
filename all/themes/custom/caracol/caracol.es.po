@@ -1,0 +1,197 @@
+# $Id$
+#
+# Spanish translation of Caracol (general)
+# Copyright Javier Rojas<jrojas@dataifx.com>
+# Generated from files:
+#  template.php: n/a
+#  caracol.info: n/a
+#  js/caracol.js: n/a
+#  templates/node.tpl.php: n/a
+#  views/banco-de-recursos/views-view-field--prensa--bloque-carrusel2--view-node.tpl.php: n/a
+#  views/banco-de-recursos/views-view-field--prensa--bloque-carrusel2-aux--view-node.tpl.php: n/a
+#  views/field-type/views-view-field--type.tpl.php: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2013-08-02 11:07-0500\n"
+"PO-Revision-Date: 2013-09-06 15:04-0500\n"
+"Last-Translator: Javier Rojas<jrojas@dataifx.com>\n"
+"Language-Team: Spanish <jrojas@dataifx.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: template.php:94
+msgid "Registered Users"
+msgstr "Usuarios Registrados"
+
+#: template.php:98
+msgid "Forgot your password?, enter your email address and we'll send a new password"
+msgstr "Olvidó su contraseña?, ingrese su correo electrónico y le enviaremos una nueva contraseña"
+
+#: template.php:101
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: template.php:109
+msgid "New Users"
+msgstr "Nuevos Usuarios"
+
+#: template.php:121
+msgid "not valid email address"
+msgstr "dirección de correo electrónico invalida"
+
+#: template.php:128
+msgid "sorry we don't know you, please correct you email"
+msgstr "lo sentimos, no le conocemos, por favor corrija su correo electrónico"
+
+#: template.php:169
+msgid "All Productions"
+msgstr "Todas las Producciones"
+
+#: template.php:171
+msgid "Search"
+msgstr "Buscar"
+
+#: template.php:193
+msgid "You are here"
+msgstr "Se encuentra usted aquí"
+
+#: caracol.info:0
+msgid "Caracol"
+msgstr "Caracol"
+
+#: caracol.info:0
+msgid "Default starterkit for <a href=\"http://drupal.org/project/omega\">Omega</a>. You should not directly edit this starterkit, but make your own copy. Information on this can be found in the <a href=\"http://himer.us/omega-docs\">Omega Documentation</a>"
+msgstr ""
+
+#: caracol.info:0
+msgid "Page Top"
+msgstr ""
+
+#: caracol.info:0
+msgid "Page Bottom"
+msgstr ""
+
+#: caracol.info:0
+msgid "Content"
+msgstr "Contenido"
+
+#: caracol.info:0
+msgid "User Bar First"
+msgstr ""
+
+#: caracol.info:0
+msgid "User Bar Second"
+msgstr ""
+
+#: caracol.info:0
+msgid "Branding First"
+msgstr ""
+
+#: caracol.info:0
+msgid "Branding Last"
+msgstr ""
+
+#: caracol.info:0
+msgid "Menu"
+msgstr "Menú"
+
+#: caracol.info:0
+msgid "Sidebar First"
+msgstr "Primera barra lateral"
+
+#: caracol.info:0
+msgid "Sidebar Second"
+msgstr "Segunda barra lateral"
+
+#: caracol.info:0
+msgid "Sidebar Third"
+msgstr ""
+
+#: caracol.info:0
+msgid "Upper header"
+msgstr ""
+
+#: caracol.info:0
+msgid "Header First"
+msgstr "Primer encabezado"
+
+#: caracol.info:0
+msgid "Header Second"
+msgstr "Segundo encabezado"
+
+#: caracol.info:0
+msgid "Preface First"
+msgstr ""
+
+#: caracol.info:0
+msgid "Preface Second"
+msgstr ""
+
+#: caracol.info:0
+msgid "Preface Third"
+msgstr ""
+
+#: caracol.info:0
+msgid "Postscript First"
+msgstr ""
+
+#: caracol.info:0
+msgid "Postscript Second"
+msgstr ""
+
+#: caracol.info:0
+msgid "Postscript Third"
+msgstr ""
+
+#: caracol.info:0
+msgid "Postscript Fourth"
+msgstr ""
+
+#: caracol.info:0
+msgid "Footer First"
+msgstr "Primer pie"
+
+#: caracol.info:0
+msgid "Footer Second"
+msgstr "Segundo pie"
+
+#: caracol.info:0
+msgid "Footer Third"
+msgstr ""
+
+#: caracol.info:0
+msgid "Content Second"
+msgstr ""
+
+#: caracol.info:0
+msgid "Content Third"
+msgstr ""
+
+#: js/caracol.js:0;0
+msgid "Close"
+msgstr "Cerrar"
+
+#: templates/node.tpl.php:19;30
+msgid "Tags"
+msgstr "Tags"
+
+#: views/banco-de-recursos/views-view-field--prensa--bloque-carrusel2--view-node.tpl.php:25 views/banco-de-recursos/views-view-field--prensa--bloque-carrusel2-aux--view-node.tpl.php:25
+msgid "Download"
+msgstr "Descargar"
+
+#: views/field-type/views-view-field--type.tpl.php:29
+msgid "Corporate responsibility @type"
+msgstr "Responsabilidad Corporativa @type"
+
+#: views/field-type/views-view-field--type.tpl.php:29
+msgid "Corporate responsibility"
+msgstr "Responsabilidad Corporativa"
+
+#: views/field-type/views-view-field--type.tpl.php:37
+msgid "News"
+msgstr "Noticias"

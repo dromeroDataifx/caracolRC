@@ -1,0 +1,94 @@
+.pyg-toy {
+	position: relative;
+	overflow: hidden;
+	height:500px;
+	width:500px;
+}
+.pyg-toy .controls,
+.pyg-toy .pygbox,
+.pyg-toy .pygtitle {
+	overflow: hidden;
+	-webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.pyg-toy .pygbox.opened .pygtitle {
+	display: block;
+	text-align: center;
+	font-size: 18px;
+	color:red;
+}
+.pyg-toy .pygbox.opened .content {
+	display: block;
+}
+.pyg-toy .pygbox.closed .pygtitle {
+	text-align: center;
+	font-size: 12px;
+	color:black;
+}
+.pyg-toy .pygbox.hasmore.closed > .pygtitle {
+	cursor: pointer;
+}
+.pyg-toy .pygbox.closed .content {
+	display: none;
+}
+.pyg-toy .pygbox.level1.closed {
+	z-index: 1200;
+}
+.pyg-toy .pygbox.level1.opened {
+	z-index: 1300;
+}
+.pyg-toy .pygbox.p1.closed {
+	position: absolute;
+	top:0px;
+	left:0px;
+	width:50%;
+	height: 100%;				
+	border:1px solid #444;
+}
+.pyg-toy .pygbox.p2.closed {
+	position: absolute;
+	top:0;
+	left:50%;
+	width:50%;
+	height: 50%;				
+	background: #999;
+	border:1px solid #444;
+	
+}
+.pyg-toy .pygbox.p2 {
+	margin-bottom: 6px;
+}
+.pyg-toy .pygbox.p3.closed {
+	position: absolute;
+	top:50%;
+	left:50%;
+	width:50%;
+	height: 50%;		
+	background: #aaa;
+	border:1px solid #444;
+}
+.pyg-toy .pygbox.p1, .pyg-toy .pygbox.p1 .pygbox {
+	background: #666;
+}
+.pyg-toy .pygbox.opened {
+	top:0px !important;
+	left:0px;
+	width:100%;
+	height: 100% !important;
+	z-index: 1000;
+	position: absolute;
+}
+.pyg-toy.allclosed .controls {
+	height: 0px;
+}
+.pyg-toy .controls {
+	z-index: 2000;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	height: 30px;
+	background: yellow;
+}

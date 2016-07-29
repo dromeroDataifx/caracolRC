@@ -1,0 +1,16 @@
+<?php
+require_once 'user_export.ajax.inc';
+require_once 'user_export.inc';
+function user_export_form_alter(&$form, &$form_state, $form_id) {
+	
+}
+
+function user_export_form_user_admin_account_alter(&$form, &$form_state, $form_id) {
+	drupal_add_js(drupal_get_path('module', 'user_export') . '/js/user_export.js', 'file');
+	$form['options']['operation']['#weight'] = 0;
+
+	$form['options']['export_users']['#markup'] = l('Export to Excel', 'ajax_ui/export-users/xls', array('attributes' => array('target' => '_blank', 'data-format' => 'xls', 'class' => array('button', 'button-user-export'))));
+	
+	$form['options']['operation']['#weight'] = 0;
+	$form['options']['export_users']['#weight'] = 1;
+}

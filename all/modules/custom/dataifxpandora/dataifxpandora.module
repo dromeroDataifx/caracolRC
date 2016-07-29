@@ -1,0 +1,223 @@
+<?php
+
+function dataifxpandora_menu() {
+    $items['admin/config/pandora'] = array(
+        'title' => t('Pandora'),
+        'description' => t('Pandora'),
+        'page callback' => 'drupal_get_form',
+        'access arguments' => array('access administration pages'),
+        'page arguments' => array('pandora_configuration_form'),
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['pandora/pucupdate'] = array(
+        'title' => t('Pandora PUC update'),
+        'description' => t('Update list puc for this application'),
+        'page callback' => 'pandora_pucupdate',
+        'access arguments' => array('view content'),
+        'type' => MENU_LOCAL_TASK,
+    );
+    return $items;
+}
+
+function pandora_configuration_form($context) {
+
+    $form = array();
+
+    $form['pandora config'] = array(
+        '#type' => 'fieldset',
+    );
+
+    $form['pandora config']['pandora_application_id'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Application ID'),
+        '#size' => 100,
+        '#maxlengh' => 60,
+        '#default_value' => variable_get('pandora_application_id', ''),
+    );
+
+    $form['pandora config']['pandora_company_name'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Company name'),
+        '#size' => 100,
+        '#maxlengh' => 50,
+        '#default_value' => variable_get('pandora_company_name', ''),
+    );
+
+    $form['pandora config']['report_type'] = array(
+        '#type' => 'select',
+        '#title' => t('Reports type'),
+        '#options' => array(
+            0 => t('Not defined'),
+            1 => t('Single'),
+            2 => t('Consolidated'),
+        ),
+        '#default_value' => variable_get('report_type', 1),
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Guardar'),
+    );
+
+    return $form;
+}
+
+function pandora_configuration_form_submit($form, &$form_state) {
+
+    $values = $form_state['values'];
+    variable_set('pandora_application_id', $values['pandora_application_id']);
+    variable_set('pandora_company_name', $values['pandora_company_name']);
+    variable_set('report_type', $values['report_type']);
+}
+
+function _pandora_pucupdate() {
+
+    $query = array(
+        'reportslist' => array('type' => 'CPLS', 'company' => variable_get('pandora_company_name', '')),
+        //'currentpuc'=>array('type'=>'recentpuc','company'=>variable_get('pandora_company_name','')),
+        'pucnames' => array('type' => 'pucnames'),
+    );
+
+    $datos_pandora = consultar_pandora_company($query, true);
+    $query_dates_reports = array();$query_dates_annex = array();
+    foreach ($datos_pandora->reportslist->result as $date) {
+        $query_dates_reports[$date->date] = array(
+            'type' => 'PUC',
+            'company' => variable_get('pandora_company_name', ''),
+            'date' => $date->date,
+            'reporttype' => variable_get('report_type', 1),
+        );        
+        $query_dates_annex[$date->date] = array(
+            'type' => 'ANNEX',
+            'company' => variable_get('pandora_company_name', ''),
+            'date' => $date->date,
+            'reporttype' => variable_get('report_type', 1),
+        );
+        
+    }
+
+    $pandora_fechas = consultar_pandora_company($query_dates_reports, false);
+    $pandora_fechasAnnex = consultar_pandora_company($query_dates_annex, false);
+    $datos_pandora->reports = $pandora_fechas;
+    $datos_pandora->reportsAnnex = $pandora_fechasAnnex;
+
+    cache_set('fullpuc', $datos_pandora, 'cache');
+
+    $balance = consultar_pandora_balance('v1');
+    cache_set('balanceconfig', $balance, 'cache');
+
+    /* para procesar los datos obtenidos del servidor desde cualquier modulo*/
+    module_invoke_all('pucupdate_posprocess', $datos_pandora);
+    //return $datos_pandora;
+}
+
+function pandora_pucupdate() {
+
+    _pandora_pucupdate();
+    print 'cache done';
+    exit();
+}
+
+function pandora_getfullpuc() {
+
+    $data = cache_get('fullpuc');
+    if (!$data) {
+        _pandora_pucupdate();
+        $data = cache_get('fullpuc');
+    } else {
+        $data = $data->data;
+    }
+
+    return $data;
+}
+
+function pandora_getbalanceconfig() {
+
+    $data = cache_get('balanceconfig');
+    if (!$data) {
+        $data = _pandora_pucupdate();
+    } else {
+        $data = $data->data;
+    }
+
+    return cache_get('balanceconfig');
+}
+
+function consultar_pandora($query) {
+
+    $data = array(
+        'app_id' => variable_get('pandora_application_id', ''),
+        'query' => json_encode($query)
+    );
+
+    return http_post('http://50.57.36.147:8080/query/data', $data);
+}
+
+function consultar_pandora_company($query, $debug = false) {
+
+    $data = array(
+        'app_id' => variable_get('pandora_application_id', ''),
+        'query' => json_encode($query)
+    );
+
+    require_once( drupal_get_path('module', 'dataifxpandora') . '/curl.php' );
+
+    $requester = new Curl();
+    $data = $requester->post('http://50.57.36.147:8080/query/companydata', $data);
+    $data = gzinflate(substr($data, 10, -8));
+    $data = json_decode($data);
+
+    return $data;
+}
+
+function consultar_pandora_balance($version) {
+
+    $sector = 'real';
+
+    $data = array(
+        'app_id' => variable_get('pandora_application_id', ''),
+        'sector' => $real
+    );
+
+    require_once( drupal_get_path('module', 'dataifxpandora') . '/curl.php' );
+
+    $requester = new Curl();
+    $data = $requester->post('http://50.57.36.147:8080/query/balance', $data);
+    $data = gzinflate(substr($data, 10, -8));
+    $data = json_decode($data);
+
+    return $data;
+}
+
+function http_post($url, $data, $debug = false) {
+    $data_url = http_build_query($data);
+    $data_len = strlen($data_url);
+
+    $query = str_replace('%7B', '{', $data_url);
+    $query = str_replace('%22', '"', $query);
+    $query = str_replace('%3A', ':', $query);
+    $query = str_replace('%7D', '}', $query);
+    $query = str_replace('%2C', ',', $query);
+
+    if ($debug) {
+        print $url . '?' . $query;
+        exit();
+    }
+
+    $salida = array(
+        'content' => file_get_contents($url, false, stream_context_create(array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => "Connection: close\r\nContent-type: application/x-www-form-urlencoded\r\nContent-Length: $data_len\r\n",
+                'content' => $data_url
+            )
+                        )
+                )
+        ), 'headers' => $http_response_header
+    );
+
+    var_dump($salida);
+
+
+    return $salida;
+}

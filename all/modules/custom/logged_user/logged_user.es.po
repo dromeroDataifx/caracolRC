@@ -1,0 +1,127 @@
+# $Id$
+#
+# Spanish translation of Drupal (general)
+# Copyright 2013 Javier Rojas <jrojas@dataifx.com>
+# Generated from files:
+#  logged_user.module: n/a
+#  logged_user.info: n/a
+#  theme/cambio-contrasena-exitoso.tpl.php: n/a
+#  theme/hello-block.tpl.php: n/a
+#  theme/logged_user.theme.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.3dev\n"
+"POT-Creation-Date: 2013-05-08 11:52-0500\n"
+"PO-Revision-Date: 2013-09-11 08:15-0500\n"
+"Last-Translator: Javier Rojas <jrojas@dataifx.com>\n"
+"Language-Team: Spanish <jrojas@dataifx.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: logged_user.module:15 logged_user.info:0
+msgid "Logged User"
+msgstr ""
+
+#: logged_user.module:16
+msgid "Shows link for logged users"
+msgstr ""
+
+#: logged_user.module:28
+msgid "Loggin Action"
+msgstr "Evento de Logeo"
+
+#: logged_user.module:45
+msgid "Main Logged User Links"
+msgstr ""
+
+#: logged_user.module:48
+msgid "Logged User Links"
+msgstr ""
+
+#: logged_user.module:51
+msgid "Logged User Hello"
+msgstr ""
+
+#: logged_user.module:62
+msgid "Logged user: Main Links"
+msgstr ""
+
+#: logged_user.module:68
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#: logged_user.module:89;89
+msgid "Request new password"
+msgstr "¿Olvidó su contraseña?"
+
+#: logged_user.module:90;90
+msgid "Request access"
+msgstr "Solicitar acceso"
+
+#: logged_user.module:108
+msgid "<h2>Periodist</h2>"
+msgstr "<h2>Periodista</h2>"
+
+#: logged_user.module:112;122
+msgid "Medio"
+msgstr "Medio"
+
+#: logged_user.module:157
+msgid "Password Change"
+msgstr "Cambio de contraseña"
+
+#: logged_user.module:164
+msgid "Personal ID"
+msgstr ""
+
+#: logged_user.module:171
+msgid "Old Password"
+msgstr "Contraseña anterior"
+
+#: logged_user.module:178
+msgid "New Password"
+msgstr "Nueva Contraseña"
+
+#: logged_user.module:186
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: logged_user.module:193
+msgid "submit"
+msgstr "Enviar"
+
+#: logged_user.info:0
+msgid "Show some blocks for logged users"
+msgstr ""
+
+#: logged_user.info:0
+msgid "Data iFX"
+msgstr "Data iFX"
+
+#: theme/cambio-contrasena-exitoso.tpl.php:6
+msgid "Acept"
+msgstr "Aceptar"
+
+#: theme/hello-block.tpl.php:1
+msgid "Welcome: :username ID: :id"
+msgstr "Bienvenido: :username ID: :id"
+
+#: theme/logged_user.theme.inc:19
+msgid "Welcome :username"
+msgstr "Beinvenido: :username"
+
+#: theme/logged_user.theme.inc:19
+msgid "My Name"
+msgstr "Mi nombre"
+
+#: theme/logged_user.theme.inc:20;20
+msgid "My Account"
+msgstr "Mi cuenta"
+
+#: theme/logged_user.theme.inc:21;21
+msgid "log out"
+msgstr "Salir"

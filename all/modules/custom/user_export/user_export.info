@@ -1,0 +1,11 @@
+name = User Profile Excel Export
+description = export users profile to excel
+dependencies[] = user
+dependencies[] = profile2
+dependencies[] = ajax_ui
+package = Data iFX
+core = 7.x
+
+version = "7.x-1.0dev"
+core = "7.x"
+project = "Data iFX"

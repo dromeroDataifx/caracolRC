@@ -1,0 +1,92 @@
+<?php
+/**
+ * @file
+ * Contest manage.
+ */
+
+function forward_email_new_users_user_operations() {
+  $operations = array(
+    'forward_mail_update_data_first_time' => array(
+      'label' => t('Forward mail to users to update data for the first time'),
+      'callback' => 'forward_mail_update_data_first_time',
+    ),    
+  );
+
+  $operations += array(
+    'forward_mail_completing_profile_new_users' => array(
+      'label' => t('Forward mail to new users for completing profile'),
+      'callback' => 'forward_mail_completing_profile_new_users',
+    ),    
+  );
+
+  $operations += array(
+    'forward_mail_accept_terms_and_conditions' => array(
+      'label' => t('Send Mail For Accept Terms and Conditions'),
+      'callback' => 'forward_mail_accept_terms_and_conditions',
+    ),    
+  );
+
+  return $operations;
+}
+
+
+/**
+ * Action function for MY_ACTION_NAME.
+ */
+
+
+function forward_mail_update_data_first_time($accounts) {
+  foreach ($accounts as $key => $value) {
+   $user = user_load($value);
+   $profile = profile2_load_by_user($user->uid); // Load profile2 data 
+   $profile['periodista']->field_tipo_notificacion_usuario['und'][0]['value'] = "actualizacion";
+   profile2_save($profile['periodista']);
+    _user_mail_notify('register_admin_created', $user, 'es');
+  } 
+ 
+
+}
+
+function forward_mail_completing_profile_new_users($accounts) {
+
+ foreach ($accounts as $key => $value) {
+   $user = user_load($value);
+   $profile = profile2_load_by_user($user->uid); // Load profile2 data 
+   $profile['periodista']->field_tipo_notificacion_usuario['und'][0]['value'] = "registro";
+   profile2_save($profile['periodista']);
+    _user_mail_notify('register_admin_created', $user, 'es');
+  } 
+
+}
+
+
+function forward_mail_accept_terms_and_conditions($accounts){
+ foreach ($accounts as $key => $value) {
+   $user = user_load($value);
+   $profile = profile2_load_by_user($user->uid); // Load profile2 data 
+   $auto_login_url = auto_login_url_create($user->uid, drupal_get_path_alias('prensa'), $absolute = TRUE);
+   dpm($user);
+   $params = array();
+   $params['email'] = $user->mail;
+  $params['url'] = $auto_login_url;
+   drupal_mail('forward_email_new_users', 'terms_and_conditions', $params['email'], 'es', $params);
+   //$profile['periodista']->field_tipo_notificacion_usuario['und'][0]['value'] = "registro";
+   //profile2_save($profile['periodista']);
+    //_user_mail_notify('register_admin_created', $user, $language);
+  } 
+
+}
+
+  function forward_email_new_users_mail($key, &$message, $params) {
+    $data['user'] = $params;
+    $options['language'] = $message['language'];
+    user_mail_tokens($variables, $data, $options);
+    switch($key) {
+      case 'terms_and_conditions':
+        $message['subject'] = t("Autorización Términos y Condiciones");
+        $message['body'][] = t("terms_and_conditions");
+        break;
+    }
+  }
+
+

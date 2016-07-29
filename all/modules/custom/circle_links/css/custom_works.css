@@ -1,0 +1,82 @@
+img.audio-default-image{
+	display:block;
+	width: 190px;
+	height: 145px;
+}
+.view-glass{
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    z-index: 10;
+}
+.hover-glass{
+    display: block;
+    height: 100%;
+	opacity: 0;
+    position: relative;
+    width: 100%;
+}
+a.custom-trigger{
+	display:none;
+	height: 100%;
+	position: absolute;
+    width: 100%;
+}
+
+a.custom-trigger.download-trigger.icon_image{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-img-prensa.png");
+    background-repeat: no-repeat;
+	height: 145px;
+    width: 189px;
+}
+a.custom-trigger.download-trigger.icon_image:hover{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-hover-img-prensa.png");
+    background-repeat: no-repeat;
+	height: 145px;
+    width: 189px;
+}
+.view-banco-de-recursos-interna-filtro .views-field-field-archivo a,
+.view-banco-de-recursos-interna .views-field-field-archivo a{
+    display: block;
+    font-size: 0;
+    height: 145px;
+    text-indent: -9999pc;
+    width: 190px;
+}
+.view-banco-de-recursos-interna-filtro .views-field-field-archivo a,
+.view-banco-de-recursos-interna .views-field-field-archivo a,
+a.custom-trigger.download-trigger.icon_article{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-txt-prensa.png");
+    background-repeat: no-repeat;
+	height: 145px;
+    width: 189px;
+}
+.view-banco-de-recursos-interna-filtro .views-field-field-archivo a:hover,
+.view-banco-de-recursos-interna .views-field-field-archivo a:hover,
+a.custom-trigger.download-trigger.icon_article:hover{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-hover-txt-prensa.png");
+    background-repeat: no-repeat;
+	height: 145px;
+    width: 189px;
+}
+a.custom-trigger.download-trigger.icon_video{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-hover-sonido-prensa.png");
+    background-repeat: no-repeat;
+	height: 145px;
+    width: 189px;
+}
+a.custom-trigger.download-trigger.icon_video:hover{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-hover-sonido-prensa.png");
+    background-repeat: no-repeat;
+	height: 145px;
+    width: 189px;
+}
+a.custom-trigger.download-trigger.icon_audio{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-hover-sonido-prensa.png");
+    background-repeat: no-repeat;
+	height: 145px;
+    width: 189px;
+}
+/*a.custom-trigger.download-trigger.icon_audio:hover{
+	background-image: url("/sites/all/themes/custom/caracol/images/icon-sonido-prensa.png");
+}*/

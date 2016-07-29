@@ -1,0 +1,5 @@
+; $Id$
+name = Link bloque menu
+description = Link bloque menu
+package = Valorem
+core = "7.x"

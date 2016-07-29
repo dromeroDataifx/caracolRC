@@ -1,0 +1,5 @@
+; $Id$
+name = Funciones Globales
+description = Funciones Globales
+package = Valorem
+core = "7.x"

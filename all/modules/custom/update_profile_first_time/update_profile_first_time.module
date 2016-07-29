@@ -1,0 +1,155 @@
+<?php
+ /**
+  * @file
+  * Custom PDF Formatter.
+  */
+
+
+/* function update_profile_first_time_menu(){
+    $items['avances-de-la-semana'] = array(
+        'title' => 'Avances',
+        'page callback' => 'update_info',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM
+
+    );
+   
+   
+    return $items;
+}
+
+
+function update_info(){
+  return theme('my_custom_template');
+}
+
+function update_profile_first_time_theme(){
+    return array(
+        'my_custom_template' => array(
+            // file name will be custom-page.tpl.php
+            'template' => 'custom-page',
+        ),
+    );
+
+}*/
+
+
+/**
+* Implementation of hook_form_alter
+*/ 
+/*
+ 
+function update_profile_first_time_form_alter(&$form, &$form_state, $form_id){
+ global $user;
+
+  $type = $_GET["type"];
+  //print_r($type);
+  //print_r($form_id);
+  //print_r($form['#user_category']);
+  //print_r($form['#user']->uid);
+  //print_r($user->uid);
+
+  if($type == 'update' || $type == 'register'){
+    //print_r('$type');
+    if($form_id == 'user_profile_form' && $form['#user_category']=='periodista'){
+    	if($form['#user']->uid == $user->uid){
+        //print_r('ccc');
+        $form['#submit'][]  = '_send_mail_when_user_save_profile';   
+      }
+    }
+  }    
+}   
+
+*/
+/**
+* send mail when user save profile first time
+*/
+/*
+function _send_mail_when_user_save_profile(&$form, &$form_state){
+	global $user;
+
+  $query_id_user = db_select('field_data_field_correo_bienvenida', 'cb')
+        ->fields('cb', array('entity_id', 'field_correo_bienvenida_value' ));
+    $query_id_user->condition('entity_id', $user->uid, '=' );
+    $result = $query_id_user->execute();
+    $data_user = $result->fetchAssoc();
+    
+   
+    if($data_user == '') {
+      drupal_set_message($data_user);
+      $account = user_load($user->uid);
+      $params = $account;
+
+       drupal_mail('update_profile_first_time', 'welcome', $account->mail, 'es', $params);
+
+      	$save = db_insert('field_data_field_correo_bienvenida') // Table name no longer needs {}
+            ->fields(array(
+                'entity_type' => 'profile2', 'bundle'=> 'periodista', 'deleted'=>0, 'entity_id'=>$user->uid, 'revision_id' => $user->uid, 'language' => 'und', 'delta'=>0, 'field_correo_bienvenida_value'=> 1,
+        ))->execute();  
+
+        $save2 = db_insert('field_revision_field_correo_bienvenida') // Table name no longer needs {}
+            ->fields(array(
+                'entity_type' => 'profile2', 'bundle'=> 'periodista', 'deleted'=>0, 'entity_id'=>$user->uid, 'revision_id' => $user->uid, 'language' => 'und', 'delta'=>0, 'field_correo_bienvenida_value'=> 1,
+        ))->execute();            
+
+    }else{
+
+    if($data_user['field_correo_bienvenida_value'] == 0){
+ 
+      $account = user_load($user->uid);
+      $params = $account;
+      
+       drupal_mail('update_profile_first_time', 'welcome', $account->mail, 'es', $params);
+
+        db_update('field_data_field_correo_bienvenida')
+            ->fields(array(
+              'field_correo_bienvenida_value'=> 1, 
+            ))
+            ->condition('entity_id', $user->uid, '=')
+            ->execute();
+
+    }
+  }
+
+}  
+
+
+function update_profile_first_time_mail($key, &$message, $params) {
+    $data['user'] = $params;
+    $options['language'] = $message['language'];
+    user_mail_tokens($variables, $data, $options);
+    switch($key) {
+      case 'welcome':
+        // If the recipient can receive such notices by instant-message, do
+        // not send by email.
+         $langcode = $message['language']->language;
+        $message['subject'] = t('Welcome to the corporate website Caracol');
+        $message['body'][] = t("your account is created with the following data");
+        break;
+    }
+  }*/
+
+
+function update_profile_first_time_mail_alter(&$message) {
+ 
+  if($message['key'] == 'register_admin_created'){
+    if($message['params']['account']->roles[4] == 'Periodista'){
+      $uid = $message['params']['account']->uid;
+      $account = user_load($uid);
+      $profile = profile2_load_by_user($account);
+     
+      if($profile['periodista']->field_tipo_notificacion_usuario['und'][0]['value'] == 'actualizacion'){
+        $message['key'] = 'update_profile';
+        $message['subject'] = 'Actualizacion de Datos Portal Corporativo Caracol TV'; 
+      }
+      if($profile['periodista']->field_tipo_notificacion_usuario['und'][0]['value'] == 'registro'){
+        $message['key'] = 'register_profile';
+        $message['subject'] = 'Invitación Portal Corporativo Caracol TV'; 
+        
+      }
+
+    }
+  }
+
+
+}

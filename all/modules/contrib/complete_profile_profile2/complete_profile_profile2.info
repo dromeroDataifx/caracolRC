@@ -1,0 +1,7 @@
+name = Complete profile: Profile 2 integration
+description = Adds Profile 2 support to Complete Profile.
+core = 7.x
+dependencies[] = complete_profile
+dependencies[] = profile2
+
+files[] = includes/Profile2CompleteProfileController.php

@@ -1,0 +1,59 @@
+<?php
+
+function token_invite_generator_enable() { 
+
+  $current = variable_get('mail_system', array('default-system' => 'DefaultMailSystem')); 
+  $addition = array('token_invite_generator' => 'token_invite_generatorMailSystem'); variable_set('mail_system', array_merge($current, $addition)); 
+
+} 
+function token_invite_generator_disable() { 
+  $mail_system = variable_get('mail_system', array('default-system' => 'DefaultMailSystem')); 
+
+  unset($mail_system['token_invite_generator']); variable_set('mail_system', $mail_system); 
+} 
+
+/**
+ * Implements hook_schema().
+ */
+function token_invite_generator_schema() {
+	require_once 'token.inc';
+	$schema['token_invite_generator_tokens'] = array(
+		'description' => 'Stores all generated tokens',
+		'fields' => array(
+			'hash' => array(
+				'type' => 'varchar',
+				'not null' => TRUE,
+				'length' => 40,
+				'description' => 'Primary Key: Unique token ID.',
+			),
+			'state' => array(
+				'type' => 'int',
+				'not null' => TRUE,
+				'default' => Token::ESTADO_NO_USADO,
+				'size' => 'tiny',
+				'description' => 'token state',
+			),
+			'data' => array(
+				'type' => 'text',
+				'not null' => FALSE,
+				'size' => 'medium',
+				'description' => "data asociated",
+			),
+			'created' => array(
+				'description' => 'The Unix timestamp when the token was created.',
+				'type' => 'int',
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			'updated' => array(
+				'description' => 'The Unix timestamp when the token was most recently saved.',
+				'type' => 'int',
+				'not null' => TRUE,
+				'default' => 0,
+			),
+		),
+		'indexes' => array('hash' => array('hash')),
+		'primary key' => array('hash'),
+	);
+	return $schema;
+}

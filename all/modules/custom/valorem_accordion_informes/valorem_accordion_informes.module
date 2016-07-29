@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_accordion_informes_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Accordion informes')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+ function valorem_accordion_informes_block_view($delta = '') {
+   $block = array();
+   $block['content'] =  accordion_informes_page();
+   return $block;
+ }
+ 
+ /**
+  * Funtion tickers
+  */
+ function accordion_informes_page() {
+   //$block_ficha_tecnica = module_invoke('valorem_ficha_tecnica', 'block_view');
+   $block_informe_anual = views_embed_view('informes_pdf', 'block');
+	 $block_informe_timestral = views_embed_view('informes_pdf', 'block_1');
+   $block_cifras = views_embed_view('principales_cifras_financieras', 'block');
+   drupal_add_js(drupal_get_path('module', 'valorem_accordion_informes') . '/js/valorem_accordion_informes.js');
+   drupal_add_js(drupal_get_path('module', 'valorem_accordion_informes') . '/js/jquery.accordion.js');
+	/*
+	 <a><h2 class="block-title"><p>' . t('PRINCIPALES CIFRAS FINANCIERAS') . '</p></h2></a>
+      <div class="acordion_content">
+  ' . $block_cifras . '
+      </div>
+*/
+   return '
+  <div id="accordion" class="basic accordion" style="float:left;">
+    <a><h2 class="block-title"><p>' . t('INFORME ANUAL') . '</p></h2></a>
+      <div class="acordion_content">
+  ' . $block_informe_anual . '
+      </div>
+      <a><h2 class="block-title"><p>' . t('INFORME TRIMESTRAL') . '<p></h2></a>
+      <div class="acordion_content">
+  ' . $block_informe_timestral . '
+      </div>
+  </div>';
+ }

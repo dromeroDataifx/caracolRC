@@ -1,0 +1,4 @@
+name = Select City Widget
+description = Dependent Select City Widget
+package = Caracol
+core = 7.x

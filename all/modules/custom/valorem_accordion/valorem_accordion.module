@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * Implements hook_block_info
+ */
+function valorem_accordion_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Accordion')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+ function valorem_accordion_block_view($delta = '') {
+   $block = array();
+   //$block['subject'] = t('Accordion');
+   $block['content'] =  accordion_page();
+   return $block;
+ }
+ 
+ /**
+  * Funtion tickers
+  */
+ function accordion_page() {
+   $block_ficha_tecnica = module_invoke('valorem_ficha_tecnica', 'block_view');
+   //$block_proyectos = views_embed_view('proyectos_aprobados', 'block');
+   $block_cifras = views_embed_view('principales_cifras_financieras', 'block');
+	 $block_avisos = views_embed_view('informes_pdf', 'block_2');
+   drupal_add_js(drupal_get_path('module', 'valorem_accordion') . '/js/valorem_accordion.js');
+   drupal_add_js(drupal_get_path('module', 'valorem_accordion') . '/js/jquery.accordion.js');
+	/*
+	<a><h2 class="block-title"><p>' . t($block_ficha_tecnica['subject']) . '</p></h2></a>
+      <div class="acordion_content">
+  ' . $block_ficha_tecnica['content'] . '
+      </div> 
+  */
+/*
+ <a><h2 class="block-title"><p>' . t('PRINCIPALES CIFRAS FINANCIERAS') . '</p></h2></a>
+      <div class="acordion_content">
+  ' . $block_cifras . '
+      </div>
+*/
+   return '
+  <div id="accordion" class="basic" style="float:left;">
+      <a><h2 class="block-title"><p>' . t('AVISOS') . '</p></h2></a>
+      <div class="acordion_content">
+  ' . $block_avisos . '
+      </div>
+  </div>';
+ }

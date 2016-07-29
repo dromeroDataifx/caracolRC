@@ -1,0 +1,335 @@
+<?php
+
+require_once 'custom_works.ajax.inc';
+require_once 'custom_works.inc';
+
+function custom_works_init() {
+    drupal_add_css(drupal_get_path('module', 'custom_works') . '/css/custom_works.css');
+}
+
+function custom_works_cron() {
+    $toCreateAlias = array(
+        14 => array('sistema' => 'prensa/agencia-de-noticias/[tid]', 'alias' => 'prensa/agencia-de-noticias/[name]'),
+        15 => array('sistema' => 'prensa/banco-de-recursos/[tid]', 'alias' => 'prensa/banco-de-recursos/[name]')
+    );
+    foreach ($toCreateAlias as $vid => $patron) {
+        $tree = taxonomy_get_tree($vid);
+
+        /* se transforma de objeto a un arreglo con [] en las llaves */
+        $newTree = array();
+        foreach ($tree as $leaf)
+            foreach ($leaf as $key => $value)
+                $newTree[$leaf->tid]["[{$key}]"] = $value;
+
+        /* se usan los patrones para transformar las url */
+        foreach ($newTree as $nleaf) {
+            $path = array('language' => 'es');
+            $path['source'] = str_replace(array_keys($nleaf), $nleaf, $patron['sistema']);
+            $path['alias'] = str_replace(array_keys($nleaf), $nleaf, $patron['alias']);
+
+            /* se normalizan las url */
+            _custom_works_normalice_path($path['source']);
+            _custom_works_normalice_path($path['alias']);
+
+            /* se almacena el nuevo alias si no existe */
+            if ($path['alias'] != drupal_get_path_alias($path['source']))
+                path_save($path);
+        }
+    }
+}
+
+function custom_works_views_pre_build(&$view) {
+
+    if ($view->name == 'especiales' && $view->current_display == 'bloque_especiales') {
+        global $flashVariables;
+        $flashVariables['view']['especiales']['isShowing'] = true;
+    
+    }
+
+    
+}
+
+
+function custom_works_views_pre_view(&$view, &$display_id, &$args) {
+    global $flashVariables;
+    
+    if ($view->name == 'blog' && $display_id == 'block')
+        if (isset($flashVariables['view']['especiales']['isShowing']) && $flashVariables['view']['especiales']['isShowing'])
+            $view->executed = true;
+}
+
+
+function custom_works_form_alter(&$form, &$form_state, $form_id) {
+    switch ($form_id) {
+        case 'webform_client_form_1083':
+            $form['#action'] = url(drupal_get_path_alias($_GET["q"]));
+            break;
+        case 'user-login-form':
+            break;
+        case 'recurso_node_form':
+            $form['#submit'][] = 'custom_work_recurso_node_form_submit';
+            break;
+        case 'views_exposed_form':
+            switch ($form_state['view']->name) {
+                case 'buscador':
+                    if ($form_state['view']->current_display == 'prensa_resultados_busqueda')
+                        _custom_works_exposed_filter_buscador_prensa_form($form, $form_state);
+                    elseif ($form_state['view']->current_display == 'resultados_busqueda_general')
+                        _custom_works_alter_exposed_filter_buscador_general_form($form, $form_state);
+                    break;
+                case 'historia':
+                    if ($form['#id'] == 'views-exposed-form-historia-timeline-box') {
+                        $tid_select = $_GET['field_tipo_de_timeline_tid'];   
+                        $links = $form['field_tipo_de_timeline_tid']['#options'];
+                        $vars = array();
+                       
+                        foreach ($links as $tid => $term_name) {
+                            if ($tid_select == $tid ) {
+                                $class = array( 'active' );
+                            }else{
+                                $class = array( 'inactive');
+                            }
+                            $options = array(
+                                'attributes' => array(
+                                    'class' => array( 'MYM-filter-tab'),
+                                    'id' => $tid,
+                                ),
+                                'query' => array(
+                                    'field_tipo_de_timeline_tid' => $tid,
+                                ),
+                            );
+                            
+                            
+                          $term_name = str_replace("- Cualquiera -", "Todo", $term_name);
+                          if($tid_select == NULL && $tid == "All"){
+                            $class = array("active");
+                          }
+                          $vars['items'][] = array('data'=>l($term_name,  "compania/historia", $options), 'class' => $class) ;
+                          //$vars['items']['class'] = $class;
+                          }
+
+                          $vars['type'] = 'ul';
+                          $vars['attributes']['class'] = 'MYM-tabbed-filter';
+                                               
+                          $prefix = theme('item_list', $vars); 
+                          $form['links'] = array(
+                            '#markup' => $prefix,
+                          );
+                       
+                    }                
+                    break;
+                }
+        }
+}
+
+function custom_work_recurso_node_form_submit($form, &$form_state) {
+    $newTree = array();
+    $tree = taxonomy_get_tree(16);
+    foreach ($tree as $term)
+        $newTree[$term->tid] = $term;
+
+    foreach ($form_state['input']['field_filter_tags']['und'] as $tid)
+        if ($newTree[$tid]->parents[0] > 0) {
+            /* es un hijo */
+            $form_state['input']['field_filter_tags']['und'][] = $newTree[$tid]->parents[0];
+            $form_state['values']['field_filter_tags']['und'][] = array('tid' => $newTree[$tid]->parents[0]);
+        }
+}
+
+function custom_works_block_info() {
+    $blocks = array();
+    $blocks['banco-recursos-filter']['info'] = t('Filter');
+    $blocks['banco-recursos-filter']['cache'] = DRUPAL_NO_CACHE;
+
+    $blocks['buscador-general-filter']['info'] = t('Filter by resource type');
+    $blocks['buscador-general-filter']['cache'] = DRUPAL_NO_CACHE;
+
+    $blocks['buscador-prensa-filter']['info'] = t('Filter by resource type');
+    $blocks['buscador-prensa-filter']['cache'] = DRUPAL_NO_CACHE;
+
+    $blocks['group_resports']['info'] = t('Group resports');
+    $blocks['info_relevante']['info'] = t('Información relevante');
+    
+
+    return $blocks;
+}
+
+function custom_works_block_view($delta = '') {
+    switch ($delta) {
+        case 'banco-recursos-filter':
+            $block['subject'] = t("Filter");
+            $block['content'] = theme('banco_recursos_filter');
+            break;
+        case 'buscador-general-filter':
+            $block['subject'] = t("Filter by resource type");
+            $block['content'] = theme('buscador_general_filter', array('type' => 'general'));
+            break;
+        case 'buscador-prensa-filter':
+            $block['subject'] = t("Filter by resource type");
+            $block['content'] = theme('buscador_general_filter', array('type' => 'prensa'));
+            break;
+
+         case 'group_resports':
+            $block['subject'] = t("Group resports");
+            $block['content'] = custom_works_group_reports();
+            break;
+
+        case 'info_relevante':
+            $block['subject'] = t("Relevant information");
+            $block['content'] = custom_works_relevant_information();
+            break;
+    }
+
+    return $block;
+}
+
+function custom_works_group_reports(){
+    $block = custom_works_relevant_information();
+
+    $html = "<div id='group_resports'>".views_embed_view('documentos_corporativos','bloque_informe_gestion', ""). views_embed_view('documentos_corporativos','block_1', "").views_embed_view('balance_general','block_4', "").$block."</div>";
+
+    return $html;
+
+}
+
+function custom_works_relevant_information(){
+    $query = db_select('node', 'n');
+    $query->fields('n', array('nid', 'created', 'type'));
+    $query->condition('n.type', "reporte");
+    $result = $query->execute();
+    $rows = $result->fetchAll();
+    $years = array();
+    foreach ($rows as $i => $row) {
+        $year = date("Y", $row->created); 
+        $years[$year] = $year;
+                
+    }   
+
+    arsort($years);
+    $j = 0;
+    $last_two_years = array();
+
+    foreach ($years as $i => $year) {
+        if ($j < 2) {
+            $last_two_years[$j] = "<div class='relevant_item'> <p class='year'>$year</p><a  class='btn-ver-mas dialog-inline-custom' data-target='#block-views-reportes-bloque-modal' href='/inversionistas/bolsa-de-valores?data=$year'>".t("See more")."</a></div>"; 
+            $j = $j + 1;  
+        }else{
+            break;
+        }                       
+    }
+
+    $html = "<div id= 'relevant'>
+        <h2 class='block-title'>".t("Relevant information")."</h2><p>".t("Art. 5.2.4.1.5 del Decreto 2555 de 2010")."</p>".$last_two_years[0] .$last_two_years[1]."</div>";
+
+    return $html;
+
+}
+
+function custom_works_theme() {
+    $path = drupal_get_path('module', 'custom_works');
+    return array(
+        'buscador_general_filter' => array(
+            'path' => "{$path}/theme",
+            'variables' => array('data' => NULL),
+            'file' => 'custom_works.theme.inc',
+            'template' => "block-busqueda-general-filter",
+        ),
+        'banco_recursos_filter' => array(
+            'path' => "{$path}/theme",
+            'variables' => array('data' => NULL),
+            'file' => 'custom_works.theme.inc',
+            'template' => "block-banco-recursos-filter",
+        ),
+        'prensa_render' => array(
+            'path' => "{$path}/theme",
+            'variables' => array('node' => NULL),
+            'file' => 'custom_works.theme.inc',
+            'template' => "prensa-render",
+        )
+
+    );
+}
+
+function custom_works_views_pre_render(&$view) {
+    if ($view->name == 'banco_de_recursos_interna_filtro' && $view->current_display != 'juice_imagenes')
+        _custom_works_banco_de_recursos_interna_filtro_process_view($view);
+}
+
+/*
+ * agrupa ciertas view por sub tags q tenga asociados los nodos (padre:filtra - hijo:agrupa)
+ */
+
+function _custom_works_banco_de_recursos_interna_filtro_process_view(&$view) {
+    $tmpTree = taxonomy_get_tree(16);
+    $parents = array();
+    $tree = array();
+    foreach ($tmpTree as $term) {
+        $tree[$term->tid] = $term;
+        if ($term->depth != 0 && $term->parents[0] == $view->args[1])
+            $parents[$term->parents[0]] = $term->parents[0];
+    }
+
+    if (!empty($parents)) {
+        $result = array();
+        foreach ($view->result as $row)
+            foreach ($row->field_field_filter_tags as $tags) {
+                $tags['raw']['taxonomy_term'] = $tree[$tags['raw']['taxonomy_term']->tid];
+                if ($view->args[1] == $tags['raw']['tid'])
+                    continue;
+                elseif (isset($parents[$tags['raw']['taxonomy_term']->parents[0]]))
+                    $result[$tags['raw']['taxonomy_term']->tid][$row->nid] = $row;
+            }
+        unset($view->result);
+        foreach ($result as $tid => $row) {
+            $r = array_pop($row);
+            $r->isGallery = true;
+            $r->group = $tid;
+            $view->result[] = $r;
+        }
+    }
+}
+
+function custom_works_entity_view($entity, $type, $view_mode, $langcode) {
+    
+    if ($type == 'node' && $view_mode = 'full')
+    
+        switch ($entity->type) {
+            case 'iniciativa':
+                $entity->linkToSection = l('iniciativas', 'compania/iniciativas');
+                break;
+            case 'avance_programacion':
+                $entity->linkToSection = l('Avance de Programación', "node/{$entity->nid}");
+                break;
+            case 'proyecto':
+                $entity->linkToSection = l('Proyectos', 'responsabilidad-social/proyectos');
+                break;
+            case 'noticia':
+                $entity->linkToSection = l('Noticias', 'prensa/agencia-de-noticias');
+                break;
+            case 'responsabilidad_social_contenido':
+                $entity->linkToSection = l('Responsabilidad Corporativa', 'responsabilidad-social');
+                break;
+            default:
+                $type = str_replace('-', ' ', $entity->type);
+                $type = str_replace('_', ' ', $entity->type);
+                $entity->linkToSection = l($type, "node/{$entity->nid}");
+                break;
+        }
+}
+
+function custom_works_mail($key, &$message, $params) {
+    drupal_set_message('mensaje indeterminado de invitacion para ' . $params['target'], 'warning');
+}
+
+/* funciones internas */
+
+function _custom_works_normalice_path(&$path) {
+    $replace = array('á' => 'a', 'é' => 'e', 'í' => 'i', 'ó' => 'o', 'ú' => 'u', 'ñ' => 'n',
+        'Á' => 'A', 'É' => 'E', 'Í' => 'I', 'Ó' => 'O', 'Ú' => 'U', 'Ñ' => 'N');
+    $path = str_replace(array_keys($replace), $replace, $path);
+    $path = preg_replace('([^a-zA-Z0-9/])', '-', strtolower($path));
+}
+
+
+  
+

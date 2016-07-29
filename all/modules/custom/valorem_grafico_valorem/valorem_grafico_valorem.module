@@ -1,0 +1,283 @@
+<?php
+
+$tprecio = '';
+$tvalumen = '';
+/**
+ * Implements hook_block_info
+ */
+function valorem_grafico_valorem_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Grafico Valorem')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_grafico_valorem_block_view($delta = '') {
+  $block = array();
+  $block['subject'] = t('GRAFICO DIARIO - VALOREM');
+  $block['content'] =  grafico_valorem_page();
+  return $block;
+}
+ 
+function grafico_valorem_page() {
+  $res = cierre_conexion();
+  $i = 0;
+  $fecha = '';
+  $antvalor = '';
+  $values_valorem = array();
+
+  $cache_grafico_valorem = cache_get('grafico_valorem_id-cache', 'cache');
+  if ($cache_grafico_valorem) {
+    $values_valorem = $cache_grafico_valorem->data;
+  }
+  else {
+    $values_valorem = grafico_conexion();
+    cache_set('grafico_valorem_id-cache', $values_valorem, 'cache', time() + 1800);
+  }
+  $res2 = '';
+  foreach ($values_valorem as $key => $value) {
+    list($yy, $mm, $dd) = explode('-', $value['fecha']);
+    list($hh, $mt, $ss) = explode(':', $value['hora']);
+    //if ($mt == '00' || $mt == '30') { //cada media hora
+    if ($mt == '00') { //cada hora
+      $res2 .= 'data.setValue(' . $i . ', 0, new Date(' . $yy . ', ' . $mm . ', ' . $dd . ', ' . $hh . ', ' . $mt . ', ' . $ss . '));';
+      $res2 .= 'data.setValue(' . $i . ', 1, ' . $value['cierre'] . ');';
+      $i++;  
+    }
+  }
+  if ($mt == '59' && $hh == '15') { //cuando el ultimo cierre se da antes de las 4 ejemplo-(15:59)
+      $res2 .= 'data.setValue(' . $i . ', 0, new Date(' . $yy . ', ' . $mm . ', ' . $dd . ', 16, 00, ' . $ss . '));';
+      $res2 .= 'data.setValue(' . $i . ', 1, ' . $value['cierre'] . ');';
+      $i++; 
+    }  
+  $res .= generar_grafica($res2, $i);
+   
+  global $tprecio, $tvalumen;
+  $res .= '
+    <div class="grafico">
+      <div id="grafico_diario">
+        <table class="views-table cols-2"><tbody>
+          <tr class="odd views-row-first">
+            <td class="views-field views-field-title">
+              <span class = "title"></span><span class = "value">' . date("j M, Y, g:i") . '</span>
+            </td>
+	          <td class="views-field views-field-title">
+              <span class = "title">' . t('Precio') . ': </span><span class = "value">' . $tprecio . '</span>
+            </td>
+            <td class="views-field views-field-body">
+              <span class = "title">' . t('Volumen') . ': </span><span class = "value">' . $tvalumen . '</span>
+            </td>
+          </tr></tbody>
+        </table>
+      </div>
+    <div id="chart_div"></div></div>';
+    return '<div class = "tendencia_alza tendencia_baja tendencia_igual">' . $res . '</div>';
+  }
+
+  function generar_grafica($res2, $i) {
+    drupal_add_js('http://www.google.com/jsapi', 'external');
+    return '
+    <script type="text/javascript">
+      google.setOnLoadCallback(drawChart);    
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("datetime", "Date");
+        data.addColumn("number", "Cierre");
+ 
+        data.addRows('.$i.');
+        '.$res2.'
+
+        var date_formatter = new google.visualization.DateFormat({pattern: "HH:mm"});
+        date_formatter.format(data,0); // Apply format to first column of table
+ 
+        var chart = new google.visualization.AreaChart(document.getElementById("chart_div"));
+        chart.draw(data, 
+          {width: 400, height: 180, dateFormat:"HH:mm:ss", legend :"none", 
+          chartArea:{left:20, top:0, width:"96%", height:"90%"},
+          lineWidth:1, isStacked:true, areaOpacity:0.05, pointSize:1, 
+          vAxis: {textStyle: {color:"#FFFFFF"}, gridlineColor:"#E6E6E6"}, 
+          hAxis :{baselineColor:"#EEDFAE",textStyle:{color: "#C29A16"}}, 
+          series: {0:{color: "blue"}, visibleInLegend: true}
+        });
+      }
+    </script>';
+  }
+
+  function grafico_conexion() {
+    require_once('sites/all/libraries/nusoap/lib/nusoap.php');
+    $wsdl_path = 'http://byracciones.dataifx.com/GraficaEmisores/Service1.asmx?Wsdl';
+    $soap_client = new nusoap_client($wsdl_path, array(
+      "trace"      => 1,
+      "exceptions" => 1,
+      "soap_version" => SOAP_1_2
+    ));
+    $error = $soap_client->getError();
+    if ($error) {
+      return 'error conexion';
+    }
+    else {
+      $yy = date('Y');
+      $mm = date('m');
+      $dd = date('d');
+
+      $args = array(
+        'fecha' => ''.$yy.'-'.$mm.'-'.$dd.'',//CAMBIAR A HORA SISTEMA
+        'nemotecnico' => 'VALOREM',
+        'token' => 'xAefep3egfbyp9WEwtdwsQTvdwh7TQLczJp9XW4MUwHFWErUzkzHbJkgzdFLmmVgV'
+      );
+      $result = $soap_client->Call('ObtenerGraficaEmisores', $args, 'http://tempuri.org', 'http://tempuri.org/ObtenerGraficaEmisores');
+      $fecha =array();
+      $hora =array();
+      $cierre =array();
+      $fecha_hora=array();
+      foreach ($result['ObtenerGraficaEmisoresResult']['InformacionGrafica']['Punto']['Punto'] as $key => $value) {
+        $fh = explode('T', $value['FechaHora']);
+        $f = $fh[0];
+        $h = $fh[1];
+        $c = $value['Cierre'];
+        $fecha_hora[$key] = array(
+          'fecha' => $f,
+          'hora' => $h,
+          'cierre' => $c
+        );
+      }
+      foreach ($fecha_hora as $key => $value) {
+        $fecha[$key] = $value['fecha'];
+        $hora[$key] = $value['hora'];
+        $cierre[$key] = $value['cierre'];
+      }
+      array_multisort($fecha, SORT_ASC, $hora, SORT_ASC, $cierre, SORT_ASC, $fecha_hora);
+      $final = array();
+      foreach ($fecha as $key => $value) {
+        $final[$key] = array(
+          'fecha' => $fecha[$key],
+          'hora' => $hora[$key],
+          'cierre' => $cierre[$key] 
+        );
+      }
+      return $final;
+    }
+  }
+
+ function cierre_conexion() {
+  $values_valorem = array();
+  $cache_valores_valorem = cache_get('valores_valorem_id-cache', 'cache');
+  if ($cache_valores_valorem) {
+    $values_valorem = $cache_valores_valorem->data;
+  }
+  else {
+    // include nu_soap library
+    require_once('sites/all/libraries/nusoap/lib/nusoap.php');
+    // define wsdl path
+    $wsdl_path = 'http://byracciones.dataifx.com/BolsaYRentaAccionesWeb/WebServices/plataformaweb.asmx?Wsdl';
+    // create new soap client instance
+    $soap_client = new nusoap_client($wsdl_path);
+    // check for error
+    $error = $soap_client->getError();
+    if ($error) {
+      return 'error conexion';
+    }
+    else {
+      $result = $soap_client->call('Acciones', array(), 'http://tempuri.org/Acciones', 'http://tempuri.org/Acciones');
+      $valorem = '';
+      foreach (reset($result) as $key => $value) {
+        if (substr($value, 19, 7) == 'VALOREM') {
+          $values = explode('|', $value);
+          $valorem = $values; 
+        }
+      }
+      if ($valorem != '') {
+        $values_valorem = $valorem;
+        cache_set('valores_valorem_id-cache', $values_valorem, 'cache', time() + 1800);    
+      }
+    }
+  }
+  return '<div id = "acciones_valorem">' . construccion_block($values_valorem) . '</div>';
+}
+
+function construccion_block($valorem) {
+  
+  $table = '
+  <div class="grafico_diario">
+    <table class="views-table cols-2">';
+      foreach ($valorem as $key => $value2) {
+        $values = explode('@', $value2);
+        switch ($key) {
+          case '2':
+            global $tprecio;
+            $tprecio = $values[1];
+            $table .= '
+            <tr class="odd views-row-first">
+              <td class ="title odd">' . t('Precio') . ':
+              </td>
+              <td class="valor">' . $values[1] . '
+              </td>
+            </tr>';
+            break;
+          case '3':
+            $table .= '
+            <tr class="even">
+              <td class ="title">' . t('Cantidad') . ':
+              </td>
+              <td class="valor">' . $values[1] . '
+              </td>
+            </tr>';
+            break;
+          case '4':
+            $table .= '
+            <tr class="odd">
+              <td class ="title">' . t('Variación') . ':
+              </td>
+              <td class="valor">' . $values[1] . '
+              </td>
+            </tr>';
+            break;
+          case '5':
+            $table .= '
+            <tr class="even">
+              <td class ="title">' . t('Minimo') . ':
+              </td>
+              <td class="valor">' . $values[1] . '
+              </td>
+            </tr>';
+            break;
+          case '6':
+            $table .= '
+            <tr class="odd">
+              <td class ="title">' . t('Maximo') . ':
+              </td>
+              <td class="valor">' . $values[1] . '
+              </td>
+            </tr>';
+            break;
+          case '7':
+            $table .= '
+            <tr class="even">
+              <td class ="title">' . t('Promedio') . ':
+              </td>
+              <td class="valor">' . $values[1] . '
+              </td>
+            </tr>';
+            break;
+          case '8':
+            global $tvalumen;
+            $tvalumen = $values[1];
+            $table .= '
+            <tr class="views-row-last odd">
+              <td class ="title odd">' . t('Total Negociado') . ':
+              </td>
+              <td class="valor">' . $values[1] . '
+              </td>
+            </tr>';
+            break;
+        }
+      }
+      $table .= '
+    </table>
+  </div>';
+  return $table;
+}

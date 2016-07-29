@@ -1,0 +1,80 @@
+<?php
+/**
+ * Implements hook_block_info
+ */
+function valorem_page_noticias_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Pagina de Noticias')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_page_noticias_block_view($delta = '') {
+	$block = array();
+	//$block['subject'] = t('NOTICIAS');
+	$block['content'] =  valorem_page_noticias_page();
+  return $block;
+}
+ 
+/**
+* Funtion noticias page
+*/
+function valorem_page_noticias_page() {
+ 	$xml = simplexml_load_file('http://dataifx.com/xml/noticias/valorem/feed');
+   $noticia = array();
+  $cache_noticia = cache_get('pagina_noticias', 'cache');
+  if ($cache_noticia && false) {
+  	//tiene la variable en cache 
+    $res = $cache_noticia->data;
+  }
+  else {
+  	//sin cache
+    $res = '
+      <div class = "noticia">
+        <table><tr>';
+        //var_dump($xml->channel->item);
+          $i = 1;
+					$cont = 1;
+          foreach ($xml->channel->item as $noticia) {
+          	$res .= '<td>';
+              //$res .= tipo_noticias($noticia->link[0]);
+              $res .= '
+              	<span class = "fecha">' . substr(substr($noticia->pubDate[0], 0, -9), 5) . ' - <strong class = "Dataifx">DATAiFX</strong></span><hr width=99%"/>' .
+                l($noticia->title[0], $noticia->link[0], array('attributes' => array(
+               	'target'=>'_blank'))) . '<div class = "description">' . 
+               	substr(strip_tags($noticia->description[0], '<p>'), 0, 180). l(' ver mas', $noticia->link[0], array('attributes' => array(
+               	'target'=>'_blank'))) .'</div>';
+             	$res .='
+					  	</td>';		
+						if ($cont == 2) {
+							$cont= 1;
+							$res .= '
+    						</tr>
+ 								<tr>';
+						} else {
+							$cont++;
+						}
+            $i++;
+          }
+          $res .= '
+        </tr></table>
+      </div>';
+    //cache_set('pagina_noticias', $res, 'cache', time() + 1800);
+  }
+    return $res;
+  }
+
+  function tipo_noticias($noticia) {
+    $res = '';
+    if (substr($noticia, 0, 26) == 'http://dataifx.com/videos/') {
+      $res = '<img src="http://50.57.36.147/desarrollo/sites/all/themes/theme_valorem/images/Icon_video.png"></img>';
+    }
+    else {
+      $res = '<img src="http://50.57.36.147/desarrollo/sites/all/themes/theme_valorem/images/Icon_noticias.png"></img>';
+    }
+    return $res;
+  }

@@ -1,0 +1,9 @@
+name = Token Invite Generator
+description = Token generator for invites Data iFX
+package = Data iFX
+core = 7.x
+configure = admin/config/people/token-invite
+
+version = "7.x-1.0dev"
+core = "7.x"
+project = "Data iFX"

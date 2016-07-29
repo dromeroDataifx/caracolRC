@@ -1,0 +1,32 @@
+<?php
+
+function ajax_ui_init() {
+    drupal_add_js(array('ajax_ui' => array('path' => url('ajax_ui'))), 'setting');
+}
+
+/**
+ * implementation of hook_menu
+ */
+function ajax_ui_menu() {
+    $items['ajax_ui'] = array(//url:ajax_ui/<arg>/<arg>/<arg>/...
+        'title' => t('Ajax Menu'),
+        'description' => t('atiende peticiones ajax del portal'),
+        'type' => MENU_LOCAL_TASK,
+        'page callback' => 'ajax_ui_ajaxAdmin',
+        'access arguments' => array('access content'),
+        'weight' => 1,
+        'file' => 'ajax_ui.ajax.inc'
+    );
+    $items['admin/config/ajax_ui'] = array(
+        'title' => t('Ajax UI'),
+        'description' => t('Configuración de la interfaz de integración'),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('ajax_ui_admin'),
+        'access arguments' => array('administer ajax_ui'),
+        'file' => 'ajax_ui.admin.inc',
+        'type' => MENU_LOCAL_TASK
+    );
+    return $items;
+}
+
+?>

@@ -1,0 +1,5 @@
+; $Id$
+name = Valorem Menu Multiidioma
+description = Valorem Menu Multiidioma
+package = Valorem
+core = "7.x"

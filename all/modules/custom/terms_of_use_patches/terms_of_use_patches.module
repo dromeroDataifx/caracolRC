@@ -1,0 +1,7 @@
+<?php
+
+require_once 'terms_of_use_patches.ajax.inc';
+
+function terms_of_use_patches_init() {
+	drupal_add_js(drupal_get_path('module', 'terms_of_use_patches') . '/js/terms_of_use_patches.js', 'file');
+}

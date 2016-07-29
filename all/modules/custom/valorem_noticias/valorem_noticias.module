@@ -1,0 +1,105 @@
+<?php
+/**
+ * Implements hook_block_info
+ */
+function valorem_noticias_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Noticias')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+ function valorem_noticias_block_view($delta = '') {
+   $block = array();
+   $block['subject'] = t('NOTICIAS');
+   $block['content'] =  noticias_page();
+   return $block;
+ }
+ 
+ /**
+  * Funtion noticias page
+  */
+ function noticias_page() {
+   $xml = simplexml_load_file('http://75.101.161.210/xml/noticias/valorem/feed');
+   $noticia = array();
+	 $cache_noticia = cache_get('bloque_noticias', 'cache');
+   if ($cache_noticia) {
+  	 //tiene la variable en cache 
+     $res = $cache_noticia->data;
+   }
+   else {
+	   $res = '
+	      <div class = "noticia">
+	        <table>';
+	        //var_dump($xml->channel->item);
+	          $i = 1;
+	          foreach ($xml->channel->item as $noticia) {
+	            // formatear fecha
+	            // $fecha = date(''.$noticia->pubDate[0]);
+	            if ($i < 5) {
+	              if ($i == 1) {
+	                $res .= '
+	                <tr class = "views-row-first">
+	                  <td class = "noticia_imagen imagen">
+	                  ';
+	                  $res .= tipo_noticia($noticia->link[0]);
+	                  $res .= '</td>
+	                  <td>
+	                    <span class = "fecha">' . substr(substr($noticia->pubDate[0], 0, -9), 5) . ' - <strong class = "Dataifx">Dataifx</strong></span>' .
+	                    l($noticia->title[0], $noticia->link[0], array('attributes' => array(
+	                      'target'=>'_blank'))) . '
+	                  </td>
+	                </tr>';  
+	              }
+	              if ($i != 1 && $i != 4) {
+	                $res .= '
+	                <tr>
+	                  <td class = "noticia_imagen imagen">
+	                    ';
+	                  $res .= tipo_noticia($noticia->link[0]);
+	                  $res .= '</td>
+	                    <td><span class = "fecha">' . substr(substr($noticia->pubDate[0], 0, -9), 5) . ' - <strong class = "Dataifx">Dataifx</strong></span>' .
+	                    l($noticia->title[0], $noticia->link[0], array('attributes' => array(
+	                      'target'=>'_blank'))) . '
+	                  </td>
+	                </tr>';
+	              }
+	              if ($i == 4) {
+	                $res .= '
+	                <tr class = "views-row-last">
+	                  <td class = "noticia_imagen imagen">
+	                    ';
+	                  $res .= tipo_noticia($noticia->link[0]);
+	                  $res .= '</td>
+	                  <td><span class = "fecha">' . substr(substr($noticia->pubDate[0], 0, -9), 5) . ' - <strong class = "Dataifx">Dataifx</strong></span>' .
+	                    l($noticia->title[0], $noticia->link[0], array('attributes' => array(
+	                      'target'=>'_blank'))) . '
+	                  </td>
+	                </tr>';
+	              }
+	              
+	            }
+	            $i++;
+	          }
+	          $res .= '
+	        </table>
+	      </div>';
+	      cache_set('bloque_noticias', $res, 'cache', time() + 1800);
+	    }  
+    return $res;
+  }
+
+  function tipo_noticia($noticia) {
+    $res = '';
+    if (substr($noticia, 0, 26) == 'http://75.101.161.210/videos/') {
+      $res = '<img src="http://50.57.36.147/desarrollo/sites/all/themes/theme_valorem/images/Icon_video.png"></img>';
+    }
+    else {
+      $res = '<img src="http://50.57.36.147/desarrollo/sites/all/themes/theme_valorem/images/Icon_noticias.png"></img>';
+    }
+    return $res;
+  }

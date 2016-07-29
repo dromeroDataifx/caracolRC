@@ -1,0 +1,245 @@
+<?php
+
+require_once 'logged_user.ajax.inc';
+
+function logged_user_init() {
+	drupal_add_js(drupal_get_path('module', 'logged_user') . '/js/logged_user.js', 'file');
+	drupal_add_js(array('logged_user' => array('chagePassword' => url('ajax_ui/change-password'))), 'setting');
+
+	drupal_add_css('misc/ui/jquery.ui.autocomplete.css');
+	drupal_add_library('system', 'ui.autocomplete');
+}
+
+function logged_user_menu() {
+	$items['admin/config/user-interface/logged_user'] = array(
+		'title' => t('Logged User'),
+		'description' => t('Shows link for logged users'),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('logged_user_admin_settings'),
+		'access arguments' => array('administer site configuration'),
+		'type' => MENU_NORMAL_ITEM,
+	);
+	return $items;
+}
+
+function logged_user_rules_action_info() {
+	return array(
+		'logged_user_loggin_action' => array(
+			'label' => t('Loggin Action'),
+			'module' => 'logged_user',
+		),
+	);
+}
+
+function logged_user_loggin_action() {
+	global $user;
+	$_GET['destination'] = "user/{$user->uid}";
+}
+
+function logged_user_admin_settings($form, &$form_state) {
+	drupal_set_message('no settings form for a while..');
+}
+
+function logged_user_block_info() {
+	$blocks = array();
+	$blocks['main_logged_user_links']['info'] = t('Main Logged User Links');
+	$blocks['main_logged_user_links']['cache'] = DRUPAL_NO_CACHE;
+
+	$blocks['logged_user_links']['info'] = t('Logged User Links');
+	$blocks['logged_user_links']['cache'] = DRUPAL_NO_CACHE;
+
+	$blocks['logged_user_hello']['info'] = t('Logged User Hello');
+	$blocks['logged_user_hello']['cache'] = DRUPAL_NO_CACHE;
+	return $blocks;
+}
+
+function logged_user_block_view($delta = '') {
+	global $user;
+	$block = array();
+	switch ($delta) {
+		case 'main_logged_user_links':
+			if ($user->uid > 0) {
+				$block['subject'] = t("Logged user: Main Links");
+				$block['content'] = theme('main_logged_user_links');
+			}
+			break;
+		case 'logged_user_links':
+			if ($user->uid > 0) {
+				$block['subject'] = t("Welcome");
+				$block['content'] = theme('logged_user_links');
+			}
+			break;
+		case 'logged_user_hello':
+			if ($user->uid > 1) {
+				$block['subject'] = '';
+				$block['content'] = theme('logged_user_hello');
+			}
+			break;
+	}
+
+	return $block;
+}
+
+/**
+ * implementation hook_form_alter
+ */
+function logged_user_form_alter(&$form, &$form_state, $form_id) {
+	switch ($form_id) {
+	
+		case 'user_login_block':
+			$form['links']['#markup'] = l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password'), 'class' => 'cambio-contrasena')))
+			.l(t('Request access'), 'user/password', array('attributes' => array('title' => t('Request access'), 'class' => 'solicitar-acceso')))
+			.l(t('X'), '#', array('attributes' => array('title' => t('X'), 'class' => 'cerrar')));
+			break;
+		case 'field_ui_field_edit_form':
+		$form['instance']['label']['#type'] = "textarea";
+		$form['instance']['label']['#format'] = "full_html";
+		//$form['#validate'][] = 'validate_custom_form_validate';
+
+		case 'user_register_form':
+			logged_user_alter_user_profile_form($form, $form_state);
+			break;
+	}
+}
+
+
+function logged_user_alter_user_profile_form(&$form, &$form_state) {
+	global $user;
+	
+	$form['#validate'][] = 'logged_user_alter_user_profile_form_validate';
+	$form['#submit'][] = 'logged_user_alter_user_profile_form_submit';
+	$form['account']['titulo']['#markup'] = t('<h2>Periodist</h2>');
+	$form['account']['titulo']['#weight'] = $form['account']['#weight'] - 100;
+	/*$form['fake_medio'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Medio'),
+		'#size' => 60,
+		'#maxlength' => 128,
+		'#weight' => 32.5,
+	);*/
+
+	$isLogged = $user->uid > 0;
+	if (!$isLogged) {
+		/*$form['fake_medio'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Medio'),
+			'#size' => 60,
+			'#maxlength' => 128,
+			'#weight' => 32.5,
+		);*/
+	}
+	$form['account']['pass'] = array(
+		'#type' => 'password_confirm',
+		'#size' => 25,
+		'#description' => 'Proporcione una contraseña para la cuenta nueva en ambos campos.',
+		'#required' => TRUE
+	);
+}
+
+function logged_user_alter_user_profile_form_validate() {
+	
+}
+
+function logged_user_alter_user_profile_form_submit() {
+	
+}
+
+/**
+ * alter for password recovery form
+ */
+/*function logged_user_user_pass_form($form, &$form_state) {
+	global $user;
+	$isLogged = $user->uid > 0;
+	if (isset($_SESSION['passwordchange_flag']) && $_SESSION['passwordchange_flag']) {
+		drupal_set_message("cambio_contrasena_exitoso");
+		$form['message'] = array(
+			'#markup' => theme('cambio_contrasena_exitoso', array('mail' => $user->mail))
+		);
+		unset($_SESSION['passwordchange_flag']);
+	} else {
+		$form['title'] = array(
+			'#markup' => '<h2 class=title>' . t('Password Change') . '</h2>',
+			'#weight' => -1,
+		);
+
+		if (!$isLogged) {
+			$form['nip'] = array(
+				'#type' => 'textfield',
+				'#title' => t('Personal ID'),
+				'#weight' => 0,
+				'#required' => TRUE,
+			);
+		} else {
+			$form['old-password'] = array(
+				'#type' => 'password',
+				'#title' => t('Old Password'),
+				'#maxlength' => 64,
+				'#weight' => 2,
+				'#size' => 15,
+			);
+			$form['new-password'] = array(
+				'#type' => 'password_confirm',
+				'#title' => t('New Password'),
+				'#weight' => 2.5,
+				'#size' => 25,
+			);
+		}
+
+		$form['email'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Email dddddd'),
+			'#weight' => 1,
+			'#required' => TRUE,
+		);
+		$form['cambiar'] = array(
+			'#type' => 'submit',
+			'#weight' => 10,
+			'#value' => t('submit')
+		);
+	}
+	return $form;
+}*/
+
+function logged_user_theme() {
+	$path = drupal_get_path('module', 'logged_user');
+	return array(
+		'main_logged_user_links' => array(
+			'path' => "{$path}/theme",
+			'variables' => array('data' => NULL),
+			'file' => 'logged_user.theme.inc',
+			'template' => "main-links-rendering",
+		),
+		'logged_user_links' => array(
+			'path' => "{$path}/theme",
+			'variables' => array('data' => NULL),
+			'file' => 'logged_user.theme.inc',
+			'template' => "user-links-rendering",
+		),
+		'cambio_contrasena_exitoso' => array(
+			'path' => "{$path}/theme",
+			'variables' => array('data' => NULL),
+			'file' => 'logged_user.theme.inc',
+			'template' => "cambio-contrasena-exitoso",
+		),
+		'logged_user_hello' => array(
+			'path' => "{$path}/theme",
+			'variables' => array('data' => NULL),
+			'file' => 'logged_user.theme.inc',
+			'template' => "hello-block",
+		),
+	);
+}
+
+/**
+ * mails
+ */
+function logged_user_mail($key, &$message, $params) {
+	switch ($key) {
+		case 'cambio_contrasena':
+			$message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+			$message['subject'] = 'Nueva Contraseña Caracol';
+			$message['body'][] = theme('caracol_cambio_contrasena', array('profile' => $params));
+			drupal_set_message("Se ha enviado un correo electrónico con la nueva contraseña");
+			break;
+	}
+}

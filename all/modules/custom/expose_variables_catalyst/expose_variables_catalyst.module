@@ -1,0 +1,208 @@
+<?php
+ /**
+  * @file
+  * 
+  */
+
+function expose_variables_catalyst_init(&$items = "http://www.caracoltvcorporativo.com/") {
+
+    global $base_url;
+
+    $url = url($_GET['q'], array('absolute' => true));
+
+    $link_path = str_replace($base_url."/", "", $url);   
+
+   $query = db_select('menu_links', 'm')
+     ->fields('m', array('mlid', 'plid', 'link_path', 'menu_name', 'link_title'));
+    //$query->innerJoin('url_alias', 'u', 'u.source = m.link_path');
+    $query->condition('m.link_path',$link_path, '=');
+    $query->condition('m.menu_name','main-menu', '=');
+    $query->orderBy('m.mlid', 'ASC');
+    $result = $query->execute();
+    $i = 0;
+    $item = array();
+    
+    while ($aux = $result->fetchAssoc()) {
+        $item[] = $aux['link_title'];
+        $plid = $aux['plid']; 
+
+    }
+
+    
+
+    if (!isset($plid)){
+      $query = db_select('menu_links', 'm')
+       ->fields('m', array('mlid', 'plid', 'link_path', 'menu_name', 'link_title'));
+      $query->innerJoin('url_alias', 'u', 'u.source = m.link_path');
+      $query->condition('u.alias',$link_path, '=');
+      $query->orderBy('m.mlid', 'ASC');
+      $result = $query->execute();
+      $i = 0;
+      $item = array();
+      while ($aux = $result->fetchAssoc()) {
+          $item[] = $aux['link_title'];
+          $plid = $aux['plid']; 
+      }
+
+    }
+
+    if (!isset($plid)){
+
+      $parts_url = explode("/", $link_path);
+      $last_element = array_pop($parts_url);
+      $url_parent = implode("/", $parts_url);
+
+      $query = db_select('menu_links', 'm')
+       ->fields('m', array('mlid', 'plid', 'link_path', 'menu_name', 'link_title'));
+      //$query->innerJoin('url_alias', 'u', 'u.source = m.link_path');
+      $query->condition('m.link_path',$url_parent, '=');
+      $query->orderBy('m.mlid', 'ASC');
+      $result = $query->execute();
+      $i = 0;
+      $item = array();
+      if (drupal_get_title() != "") {
+        $item[] = drupal_get_title();
+      }
+
+      if ($url_parent == 'prensa/banco-de-recursos') {
+          $tree = taxonomy_get_tree(15);
+          $x = array();
+          foreach ($tree as $key => $value) {
+            $name = $value->name;
+            $n= strtolower($name);
+            $n = str_replace(" ", "-", $n);
+            $n = trim($n);
+
+            $n = str_replace(
+                array('á', 'é', 'í', 'ó', 'ú', 'ñ', 'Ñ', 'Á', 'É', 'Í', 'Ó', 'Ú'),
+                array('a', 'e', 'i', 'o', 'u', 'ñ', 'ñ', 'a', 'e', 'i', 'o', 'u' ),
+                $n
+            );
+            
+
+             $n = str_replace(
+                array('.', ':', ';', ',', '"', '"', '&', '/'),
+                array('-', '-', '-', '-', '-', '-', '-', '-'),
+                $n
+            );
+
+            $x[] = $n;
+            if($n == $last_element){
+              $item[] = $name ;
+              break;
+
+            }
+          }
+          
+        }
+      
+      while ($aux = $result->fetchAssoc()) {
+          $item[] = $aux['link_title'];
+          $plid = $aux['plid']; 
+      }
+
+      if (!isset($plid)){
+        $query = db_select('menu_links', 'm')
+         ->fields('m', array('mlid', 'plid', 'link_path', 'menu_name', 'link_title'));
+        $query->innerJoin('url_alias', 'u', 'u.source = m.link_path');
+        $query->condition('u.alias',$url_parent, '=');
+        $query->orderBy('m.mlid', 'ASC');
+        $result = $query->execute();
+        $i = 0;
+        $item = array();
+         if (drupal_get_title() != "") {
+        $item[] = drupal_get_title();
+      }
+
+      if ($url_parent == 'prensa/banco-de-recursos') {
+          $tree = taxonomy_get_tree(15);
+
+          foreach ($tree as $key => $value) {
+           $name = $value->name;
+            $n= strtolower($name);
+            $n = str_replace(" ", "-", $n);
+            $n = trim($n);
+
+             $n = str_replace(
+                array('á', 'é', 'í', 'ó', 'ú', 'ñ', 'Ñ', 'Á', 'É', 'Í', 'Ó', 'Ú'),
+                array('a', 'e', 'i', 'o', 'u', 'ñ', 'ñ', 'a', 'e', 'i', 'o', 'u' ),
+                $n
+            );
+
+             $n = str_replace(
+                array('.', ':', ';', ',', '"', '"', '&', '/'),
+                array('-', '-', '-', '-', '-', '-', '-', '-'),
+                $n
+            );
+
+           if($n == $last_element){
+              $item[] = $name ;
+              break;
+
+            }
+          }
+          
+      }
+        while ($aux = $result->fetchAssoc()) {
+            $item[] = $aux['link_title'];
+            $plid = $aux['plid']; 
+        }
+
+      }
+
+
+
+    }
+
+
+
+
+    if(isset($plid)){
+      while($plid != 0){
+
+        $query2 = db_select('menu_links', 'm')
+           ->fields('m', array('mlid', 'plid', 'link_path', 'menu_name', 'link_title'));
+          $query2->condition('m.mlid',$plid, '=');
+          $result2 = $query2->execute();
+          $id = $result2->fetchAssoc();
+          $plid = $id['plid'];
+          $item[] = $id['link_title'];
+
+      }
+  }
+
+    $item_order = array_reverse($item);
+    $pagename = "caracolcorp"; 
+    foreach ($item_order as $key => $value) {
+      $pagename = $pagename.":".$value;
+    }
+   /*end($menu_trail);
+      if (count($menu_trail) > 3) {
+        prev($menu_trail);
+      }
+      $current_page_parent = prev($menu_trail);
+      $main_menu = menu_tree_page_data('main-menu');
+      $desired_menu = array();
+      
+      foreach ($main_menu as $menu_item) {
+        if ($menu_item['link']['mlid'] == $current_page_parent['mlid']) {
+          $desired_menu = $menu_item['below'];
+          break;
+        }
+      }
+
+    $items = menu_tree_output($desired_menu);
+
+ //end($menu_trail);
+ $parent = prev($menu_trail);
+
+   foreach ($menu_trail as $key => $value) {
+
+   		
+
+   		$items = $items.":".$parent;   		
+   }*/
+
+   drupal_add_js(array('expose_variables_catalyst' => array('information' =>  $pagename)), 'setting');
+
+}

@@ -1,0 +1,88 @@
+<?php
+
+/**
+* Implementation of hook_schema().
+*/
+function update_profile_first_time_schema() {
+ $schema = array();
+  $schema['update_profile_first_time'] = array(
+    'description' => t('id of users that have been sent the welcome email'),
+    'fields' => array(
+      'uid' => array(
+        'description' => t('The primary identifier'),
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+
+      'mail_sent' => array(
+        'description' => t('date of sending email'),
+        'mysql_type' => 'datetime',
+        'not null' => TRUE,
+      ),
+
+      
+    ),
+    'primary key' => array('uid'),
+  );
+
+ 
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+
+function scheduling_appointments_install() {
+  // Make real foreign keys.
+
+   db_query('
+    ALTER TABLE {update_profile_first_time}
+    ADD CONSTRAINT {update_profile_first_time}
+    FOREIGN KEY (uid) REFERENCES {users} (uid)
+  ');
+
+  /*db_query('
+    ALTER TABLE {scheduling_appointments}
+    ADD CONSTRAINT {users}
+    FOREIGN KEY (uid) REFERENCES {users} (uid)
+  ');
+
+  db_query('
+    ALTER TABLE {scheduling_appointments}
+    ADD CONSTRAINT {appointment_department}
+    FOREIGN KEY (tid_department) REFERENCES {taxonomy_term_data} (tid)
+  ');
+
+  db_query('
+    ALTER TABLE {scheduling_appointments}
+    ADD CONSTRAINT {appointment_city}
+    FOREIGN KEY (tid_city) REFERENCES {taxonomy_term_data} (tid)
+  ');
+
+  db_query('
+    ALTER TABLE {scheduling_appointments}
+    ADD CONSTRAINT {appointment_services}
+    FOREIGN KEY (tid_type_services) REFERENCES {taxonomy_term_data} (tid)
+  ');
+
+  db_query('
+    ALTER TABLE {scheduling_appointments}
+    ADD CONSTRAINT {appointment_center}
+    FOREIGN KEY (id_center_services) REFERENCES {node} (nid)
+  ');*/
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+
+function scheduling_appointments_uninstall() {
+  // Make real foreign keys.
+ db_query('
+    ALTER TABLE {update_profile_first_time}
+    DROP CONSTRAINT IF EXISTS {update_profile_first_time}
+  ');
+  
+}

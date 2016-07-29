@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * Implements hook_permission().
+ */
+function valorem_oferta_demanda_permission() {
+  return array(
+    'oferta_demanda' => array(
+      'title' => t('Oferta demanda'),
+      'description' => t('Perform Oferta demanda'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function valorem_oferta_demanda_menu() {
+  $items = array();
+  $items['oferta_demanda'] = array(
+    'title' => 'valorem oferta demanda', 
+    'page callback' => 'oferta_demanda_page',
+    'access arguments' => array('oferta_demanda'),
+  );
+  return $items;
+}
+/**
+ * Implements hook_block_info
+ */
+function valorem_oferta_demanda_block_info() {
+  $blocks = array();
+  $blocks['info'] = array(
+    'info' => t('Oferta / Demanda')
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view
+ */
+function valorem_oferta_demanda_block_view($delta = '') {
+  switch ($delta) {
+   case 'info':
+     $block = array();
+     $block['subject'] = 'OFERTA / DEMANDA';
+     $block['content'] =  '<iframe src = "oferta_demanda" class= "oferta_demanda" Frameborder=0 height="100%" width="100%" scrolling="no"></iframe>';
+     break;
+   default:
+     break;
+  }
+  return $block;
+}
+
+function oferta_demanda_page() {
+  $url = drupal_http_request('http://etrading.asesoresenvalores.com/AsesoresWeb/servlet/TempServicioEmisoresValorem');
+  $xml = simplexml_load_string($url->data);
+  if (isset($xml->puntasCompra->punta->precio)) {
+    $compra = substr($xml->puntasCompra->punta->precio, 1);
+    $venta = substr($xml->puntasVenta->punta->precio, 1);
+  }
+  else {
+    $compra = '';
+    $venta = '';
+  }
+    $res2 = str_replace(',', '', '' . $compra);
+    $res = '
+    <div id="oferta_demanda">
+      <table class="views-table cols-2">
+        <tr class="odd views-row-first">
+	        <td class="oferta">
+            <span class = "title">Oferta: </span><span class = "value">$' . $compra . '</span>
+          </td>
+          <td class="demanda">
+            <span class = "title">Venta: </span><span class = "value">$' . $venta . '</span>
+          </td>
+        </tr>
+      </table>
+    </div>';
+    drupal_add_js('http://www.google.com/jsapi', 'external');
+   /*
+   <script type="text/javascript">
+      google.load("visualization", "1", {packages: ["columnchart"]});
+    </script>
+    */
+   $res .= '
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages: ["columnchart"]});
+    </script>
+     <script type="text/javascript">   
+     google.setOnLoadCallback(drawVisualization);     
+     function drawVisualization() {
+        var data = new google.visualization.DataTable();
+        data.addColumn("string", "valor");
+        data.addColumn("number", "Oferta");
+        data.addColumn("number", "Demanda");
+        data.addRows(1);
+        data.setValue(0, 0, "");
+        data.setValue(0, 1, ' . str_replace(',', '', '' . $compra) . ');
+        data.setValue(0, 2, ' . str_replace(',', '', '' . $venta) . ');
+        
+        new google.visualization.ColumnChart(document.getElementById("chart2")).
+        draw(data, {
+          width:296, height:172, is3D:true, legend:"none",
+          hAxis: {textStyle: {color:"#FFFFFF"}},
+          backgroundColor:"#E6E6E6",
+          chartArea:{left:50,top:15,width:"70%",height:"80%"}
+        });
+      }
+      </script>';
+   
+   $res .= '<div id="chart2"></div>';
+   return $res;
+ }

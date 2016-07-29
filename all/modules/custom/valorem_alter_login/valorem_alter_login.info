@@ -1,0 +1,5 @@
+; $Id$
+name = Alterar formulario de usuario
+description = Modulo para altererar algunas d elas variables de usuario
+package = Valorem
+core = "7.x"

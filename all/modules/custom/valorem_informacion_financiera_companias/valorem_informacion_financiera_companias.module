@@ -1,0 +1,54 @@
+<?php
+
+/**
+ *	Implements hook_init 
+ */
+	function valorem_informacion_financiera_companias_init() {
+		if ($_GET['q'] == 'node/add/informacion-financiera-compania') {
+			drupal_add_js(drupal_get_path(
+				'module', 'valorem_informacion_financiera_companias') . '/js/valorem_informacion_financiera_companias.js');
+		}
+	}
+
+/**
+ *	Implements hook_form_alter 
+ */
+ 	function valorem_informacion_financiera_companias_form_alter(&$form, &$form_state, $form_id) {
+		if ($form_id == 'informacion_financiera_compania_node_form') {
+			//dpm($form);
+			$form['title']['#disabled'] = TRUE;
+			$form['title']['#required'] = TRUE;
+		}	
+ 	}
+
+
+/**
+ *	Implements hook_node_submit 
+ */
+ 	function valorem_informacion_financiera_companias_node_validate($node, $form, &$form_state) {
+ 		if (current_path() == 'node/add/informacion-financiera-compania') {
+ 			$name = $form_state['complete form']['field_compania']['und']['#options'][$form_state['values']['field_compania']['und'][0]['target_id']];
+	 		$ano = $form_state['complete form']['field_ano']['und']['#options'][$form_state['values']['field_ano']['und'][0]['tid']];
+			$res = db_select('node', 'n')
+	    ->fields('n')
+	    ->condition('type', 'informacion_financiera_compania','=')
+	    ->condition('title', $name.'-'.$ano,'=')
+	    ->execute()
+	    ->fetchAssoc();
+			if ($res != NULL) {
+				form_set_error('title','el nodo '.$name.'-'.$ano.' Información Financiera Compania ya EXISTE');
+			} 
+ 		}		
+	}
+	
+	/**
+ *	Implements hook_node_submit 
+ */
+ 	function valorem_informacion_financiera_companias_node_submit($node, $form, &$form_state) {
+ 		if (current_path() == 'node/add/informacion-financiera-compania') {
+ 			$name = $form_state['complete form']['field_compania']['und']['#options'][$form_state['values']['field_compania']['und'][0]['target_id']];
+	 		$ano = $form_state['complete form']['field_ano']['und']['#options'][$form_state['values']['field_ano']['und'][0]['tid']];
+			$node->title = $name.'-'.$ano;
+			node_save($node);
+ 		}
+	}

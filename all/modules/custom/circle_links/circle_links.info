@@ -1,0 +1,8 @@
+name = Circle Links
+description = some works to help the theming
+package = Data iFX
+core = 7.x
+
+version = "7.x-1.0Dev"
+core = "7.x"
+project = "Data iFX"

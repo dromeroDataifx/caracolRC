@@ -1,0 +1,341 @@
+<?php
+
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+function valorem_upload_file_schema() { 
+  $schema = array();
+  /** Tabla estados financieros PUC **/
+  $schema ['estados_financieros'] = array(
+    'fields' => array(
+      'est_id_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'est_entity_id' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'est_valor_reportado' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'not null' => TRUE
+      ),                       
+    ),      
+  );
+  /** Tabla fecha para manejo de los trimestres**/
+  $schema ['fecha'] = array(
+    'fields' => array(
+      'fec_id_fecha' => array(
+        'type' => 'serial', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'fec_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'fec_tipo_informe' => array(
+        'type' => 'int',
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),    
+    ),
+    'primary key' => array('fec_id_fecha'),
+  );
+  /** Principales accionistas **/
+  $schema ['pri_acciones'] = array(
+    'fields' => array(
+      'pri_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'pri_renglon' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'pri_tipo_identificacion' => array(
+        'type' => 'int',
+        'unsigned' => TRUE, 
+      ),
+      'pri_identificacion' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'unsigned' => TRUE, 
+      ),
+      'pri_accion' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'not null' => TRUE
+      ),    
+    ),
+  );
+  /** informacion de las personas naturales o juridicas **/
+  $schema ['accionistas'] = array(
+    'fields' => array(
+      'acc_identificacion' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'acc_tipo_identificacion' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'acc_nacionalidad' => array(
+        'type' => 'int',
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'acc_accionista' => array(
+        'type' => 'varchar', 
+        'length' => 75, 
+        'not null' => TRUE, 
+      ), 
+    ),
+    'primary key' => array('acc_identificacion'),
+  );
+  //** Evolución Activos - Pasivos - Patrimonio **//
+  $schema ['evolucion'] = array(
+    'fields' => array(
+      'evo_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'evo_activos' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'not null' => TRUE
+      ),
+      'evo_pasivos' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'not null' => TRUE
+      ),
+      'evo_patrimonio' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'not null' => TRUE
+      ),
+    ),
+    'primary key' => array('evo_fecha'),
+  );
+  //** Informacion Acciones y accionistas **//
+  $schema ['info_acciones_accionistas'] = array(
+    'fields' => array(
+      'inf_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'inf_orden' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'inf_descripcion' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+        'not null' => TRUE
+      ),
+      'inf_accionistas' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+        //'not null' => TRUE
+      ),
+      'inf_acciones' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+        //'not null' => TRUE
+      ),
+    ),
+  );
+//** Informacion Economica General **//
+  $schema ['info_economica_general'] = array(
+    'fields' => array(
+      'info_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'info_orden' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'info_descripcion' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+        'not null' => TRUE
+      ),
+      'info_valor' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+        //'type' => 'float',
+        //'size' => 'big',
+        //'not null' => TRUE
+      ),
+    ),
+  );
+  //** Informacion Deudores por EdadesDiscriminacion **//
+  $schema ['deudores_por_edades'] = array(
+    'fields' => array(
+      'deu_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+      ),
+      'deu_orden' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+      ),
+      'deu_descripcion' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+      ),
+      'deu_01' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'deu_02' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'deu_03' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'deu_04' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+    ),
+  );
+  //** Informacion Deudores por EdadesDiscriminacion **//
+  $schema ['cuentas_por_pagar'] = array(
+    'fields' => array(
+      'cue_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+      ),
+      'cue_orden' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+      ),
+      'cue_descripcion' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+      ),
+      'cue_01' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'cue_02' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'cue_03' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'cue_04' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'cue_05' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+    ),
+  );
+  //** Informacion activos pasivos y patrimonios de corto plazo **//
+  $schema ['activos_pasivos_patrimonio'] = array(
+    'fields' => array(
+      'app_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+      ),
+      'app_orden' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+      ),
+      'app_descripcion' => array(
+        'type' => 'varchar', 
+        'length' => 100,
+      ),
+      'app_01' => array(
+        'type' => 'float',
+        'size' => 'big',
+      ),
+      'app_renglon' => array(
+        'type' => 'varchar', 
+        'length' => 30,
+      ),
+    ),
+  );
+//**  **// de inversiones en accion Formato 036 **//
+  $schema ['discriminacion_inversiones'] = array(
+    'fields' => array(
+      'dis_fecha' => array(
+        'type' => 'int', 
+        'unsigned' => TRUE, 
+        'not null' => TRUE
+      ),
+      'dis_identificacion' => array(
+        'type' => 'float',
+        'size' => 'big',
+        'unsigned' => TRUE, 
+      ),
+      'dis_acciones_ordinarias' => array(
+        'type' => 'varchar', 
+        'length' => 20, 
+      ),
+      'dis_acciones_dividendo' => array(
+        'type' => 'varchar', 
+        'length' => 20, 
+      ),
+      'dis_acciones_privilegiadas' => array(
+        'type' => 'varchar', 
+        'length' => 20,
+      ),
+      'dis_acciones_total' => array(
+        'type' => 'varchar', 
+        'length' => 20,
+      ),
+      'dis_acciones_participacion' => array(
+        'type' => 'varchar', 
+        'length' => 20,
+      ),
+      'dis_cuotas' => array(
+        'type' => 'varchar', 
+        'length' => 20,
+      ),
+      'dis_cuotas_participacion' => array(
+        'type' => 'varchar', 
+        'length' => 20,
+      ),
+      'dis_renglon' => array(
+        'type' => 'varchar', 
+        'length' => 20, 
+        'not null' => TRUE, 
+      ), 
+    ),
+  );
+  /**---------------**/
+  return $schema;
+}
+function valorem_upload_file_install() {
+
+}
+function valorem_upload_file_uninstall() {
+  drupal_uninstall_schema('valorem_upload_file');
+}
