@@ -1,5 +1,0 @@
-; $Id$
-name = Administracion de modulos de Analisis
-description = Administracion de links
-package = Valorem
-core = "7.x"

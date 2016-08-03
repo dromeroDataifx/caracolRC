@@ -1,5 +1,0 @@
-; $Id$
-name = Grafico diario Valorem
-description = Grafico diario VALOREM
-package = Valorem
-core = "7.x"

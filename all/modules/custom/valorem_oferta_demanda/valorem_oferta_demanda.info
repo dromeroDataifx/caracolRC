@@ -1,5 +1,0 @@
-;$Id$
-name = Oferta / Demanda - Valorem
-description = Oferta / Demanda VALOREM
-package = Valorem
-core = "7.x"

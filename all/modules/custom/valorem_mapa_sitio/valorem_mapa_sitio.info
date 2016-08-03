@@ -1,5 +1,0 @@
-; $Id$
-name = Valorem Mapa del Sitio
-description = mapa del sitio VALOREM
-package = Valorem
-core = "7.x"

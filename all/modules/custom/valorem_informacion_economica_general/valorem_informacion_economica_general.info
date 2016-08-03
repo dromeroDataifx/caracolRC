@@ -1,5 +1,0 @@
-; $Id$
-name = Informacion Economica General
-description = Informacion Economica General VALOREM
-package = Valorem
-core = "7.x"

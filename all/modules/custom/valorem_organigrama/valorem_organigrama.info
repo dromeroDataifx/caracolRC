@@ -1,5 +1,0 @@
-; $Id$
-name = Organigrama
-description = Valorem organigrama
-package = Valorem
-core = "7.x"

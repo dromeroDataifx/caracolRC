@@ -1,5 +1,0 @@
-; $Id$
-name = Active Menu
-description = Add class active
-package = Valorem
-core = "7.x"

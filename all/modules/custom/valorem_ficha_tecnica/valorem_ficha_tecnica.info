@@ -1,5 +1,0 @@
-; $Id$
-name = Ficha tecnica Valorem
-description = ficha tecnica VALOREM
-package = Valorem
-core = "7.x"

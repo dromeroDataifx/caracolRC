@@ -1,5 +1,0 @@
-; $Id$
-name = Tickers valorem
-description = tickers Valorem
-package = Valorem
-core = "7.x"

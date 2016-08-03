@@ -1,5 +1,0 @@
-; $Id$
-name = Dividendos
-description = Dividendos
-package = Valorem
-core = "7.x"

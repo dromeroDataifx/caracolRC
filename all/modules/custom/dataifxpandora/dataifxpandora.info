@@ -1,9 +1,0 @@
-name = Pandora
-description = "Retrieve information from Pandora"
-dependencies[] = block
-package = Data iFX
-core = 7.x
-
-version = "7.x-1.0"
-core = "7.x"
-project = "Data iFX"

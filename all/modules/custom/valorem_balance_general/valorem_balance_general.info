@@ -1,5 +1,0 @@
-; $Id$
-name = Balance General
-description = Balance General valorem
-package = Valorem
-core = "7.x"

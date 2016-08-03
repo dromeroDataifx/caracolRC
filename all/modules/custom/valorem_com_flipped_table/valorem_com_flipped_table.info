@@ -1,6 +1,0 @@
-; $Id$
-name = Flipped Table Valorem
-description = Table style with rows and columns flipped.
-package = Valorem
-core = 7.x
-dependencies[] = views

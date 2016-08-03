@@ -1,5 +1,0 @@
-; $Id$
-name = Estado de Resultados
-description = Estado de Resultados valorem
-package = Valorem
-core = "7.x"

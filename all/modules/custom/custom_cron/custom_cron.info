@@ -1,4 +1,0 @@
-name = Custom Cron PEI
-description = Tareas periodicas cron
-package = Pei
-core = "7.x"

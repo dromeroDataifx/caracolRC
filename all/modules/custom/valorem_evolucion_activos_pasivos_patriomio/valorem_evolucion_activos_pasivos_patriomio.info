@@ -1,5 +1,0 @@
-;$Id$
-name = Evolución Activos - Pasivos - Patrimonio Valorem
-description = Evolución Activos - Pasivos - Patrimonio de VALOREM
-package = Valorem
-core = "7.x"

@@ -1,5 +1,0 @@
-; $Id$
-name = Formulalio de contacto
-description = formulario contacto con imagen
-package = Valorem
-core = "7.x"

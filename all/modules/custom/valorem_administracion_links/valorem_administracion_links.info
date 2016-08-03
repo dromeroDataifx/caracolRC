@@ -1,5 +1,0 @@
-; $Id$
-name = Administracion de Links 
-description = Administracion de links
-package = Valorem
-core = "7.x"

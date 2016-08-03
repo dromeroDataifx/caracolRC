@@ -1,5 +1,0 @@
-; $Id$
-name = Links Falsos valorem
-description = Links falsos de los menus de Drupal
-package = Valorem
-core = "7.x"

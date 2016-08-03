@@ -1,5 +1,0 @@
-; $Id$
-name = Live Streaming
-description = Modulo para Live Streaming
-package = Valorem
-core = "7.x"

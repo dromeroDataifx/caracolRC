@@ -1,5 +1,0 @@
-; $Id$
-name = Noticias
-description = Bloque de noticias
-package = Valorem
-core = "7.x"

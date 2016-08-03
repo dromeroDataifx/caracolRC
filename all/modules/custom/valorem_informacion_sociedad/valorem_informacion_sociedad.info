@@ -1,5 +1,0 @@
-; $Id$
-name = Informacion Sociedad 
-description = Informacion de la Sociedad
-package = Valorem
-core = "7.x"
